@@ -4,7 +4,9 @@ It's a full stack E-SPP Application made using Laravel v.10
 
 # ⚡Features
 
- ##### ~~~~~~~~~~~~ Is Under Development ~~~~~~~~~~~~
+ ```
+ Is Under Development
+ ```
 
 # 💻 Tools & Stacks
 - Backend Stacks :
