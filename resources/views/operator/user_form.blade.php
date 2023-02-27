@@ -7,6 +7,19 @@
                 <h5 class="card-header">Form User</h5>
                 <div class="col-md-8 offset-2">
                     <div class="card-body">
+                        @if ($message = Session::get('success'))
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <strong>{{ $message }}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
+                        @if ($message = Session::get('error'))
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <strong>{{ $message }}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
                         {!! Form::model($model, ['route' => $route, 'method' => $method]) !!}
                         <div class="form-group mb-3">
                             <label for="name">Name</label>
@@ -44,6 +57,7 @@
                             <span class="text-danger">{{ $errors->first('akses') }}</span>
                         </div>
                         {!! Form::submit($button, ['class' => 'btn btn-success']) !!}
+                        {!! link_to(URL::previous(), 'BACK', ['class' => 'btn btn-secondary']) !!}
                         {!! Form::close() !!}
                     </div>
                 </div>

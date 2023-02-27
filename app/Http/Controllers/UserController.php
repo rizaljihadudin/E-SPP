@@ -7,6 +7,11 @@ use \App\Models\User as Model;
 
 class UserController extends Controller
 {
+    private $viewIndex      = 'user_index';
+    private $viewCreate     = 'user_form';
+    private $viewEdit       = 'user_form';
+    private $viewShow       = 'user_show';
+    private $routePrefix    = 'user';
     /**
      * Display a listing of the resource.
      */
@@ -14,7 +19,7 @@ class UserController extends Controller
     {
         $models = Model::where('akses', '<>', 'wali')->latest()->paginate(50);
         $data['models'] = $models;
-        return view('operator.user_index', $data);
+        return view('operator.' . $this->viewIndex, $data);
     }
 
     /**
@@ -29,7 +34,7 @@ class UserController extends Controller
             'button'    => 'SIMPAN'
         ];
 
-        return view('operator.user_form', $data);
+        return view('operator.' . $this->viewCreate, $data);
     }
 
     /**
@@ -72,7 +77,14 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data = [
+            'model'     => \App\Models\User::findOrFail($id),
+            'method'    => 'PUT',
+            'route'     => ['user.update', $id],
+            'button'    => 'UPDATE'
+        ];
+
+        return view('operator.' . $this->viewEdit, $data);
     }
 
     /**
@@ -80,7 +92,27 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $requestData = $request->validate([
+            'name'      => 'required',
+            'email'     => 'required|unique:users,email,' . $id,
+            'no_hp'     => 'required|unique:users, no_hp,' . $id,
+            'no_hp'     => 'numeric|min:11',
+            'akses'     => 'required|in:operator,admin'
+        ], [
+            'name.required'     => 'Nama wajib diisi!',
+            'email.required'    => 'Email wajib diisi!',
+            'email.unique'      => 'Email sudah terdaftar!',
+            'no_hp.required'    => 'No. HP wajib diisi',
+            'no_hp.unique'      => 'No. HP sudah terdaftar',
+            'no_hp.numeric'     => 'No. HP harus menggunakan format angka',
+            'no_hp.min'         => 'No. HP minimal 11 angka',
+            'akses.required'    => 'Akses wajib diisi!'
+        ]);
+
+        $model = Model::findOrFail($id);
+        $model->fill($requestData);
+        $model->save();
+        return redirect()->route('user.' . $this->viewIndex)->with('success', 'Data berhasil di update.');
     }
 
     /**
@@ -88,6 +120,13 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $model = Model::findOrFail($id);
+
+        if ($model->id == 1 || $model->email == 'admin@e-spp.id') {
+            return redirect()->route('user.' . $this->viewIndex)->with('error', 'Data tidak boleh di hapus.');
+        }
+
+        $model->delete();
+        return redirect()->route('user.' . $this->viewIndex)->with('success', 'Data berhasil di hapus.');
     }
 }

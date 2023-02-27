@@ -7,6 +7,18 @@
                 <h5 class="card-header">Data User</h5>
 
                 <div class="card-body">
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            <strong>{{ $message }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    @if ($message = Session::get('error'))
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <strong>{{ $message }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
                     <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm mb-2">Tambah Data</a>
                     <div class="table-responsive">
                         <table class="table table-striped">
@@ -17,16 +29,31 @@
                                     <th>No. Hp</th>
                                     <th>Email</th>
                                     <th>Akses</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($models as $item)
                                     <tr>
-                                        <th>{{ $loop->iteration }}</th>
-                                        <th>{{ $item->name }}</th>
-                                        <th>{{ $item->no_hp }}</th>
-                                        <th>{{ $item->email }}</th>
-                                        <th>{{ $item->akses }}</th>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->no_hp }}</td>
+                                        <td>{{ $item->email }}</td>
+                                        <td>{{ $item->akses }}</td>
+                                        <td>
+
+                                            {!! Form::open([
+                                                'route' => ['user.destroy', $item->id],
+                                                'method' => 'DELETE',
+                                                'onsubmit' => 'return confirm("Apakah anda yakin, ingin menghapus data ini?")',
+                                            ]) !!}
+                                            <a href="{{ route('user.edit', $item->id) }}"
+                                                class="btn btn-icon btn-primary btn-sm"><span
+                                                    class="tf-icons bx bx-edit"></span></a>
+                                            {!! Form::submit('Del', ['class' => 'btn btn-icon btn-danger btn-sm']) !!}
+                                            {!! Form::close() !!}
+
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
