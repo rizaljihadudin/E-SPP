@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <h5 class="card-header">Data User</h5>
+                <h5 class="card-header">{{ $title }}</h5>
 
                 <div class="card-body">
                     @if ($message = Session::get('success'))
@@ -19,7 +19,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
-                    <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm mb-2">Tambah Data</a>
+                    <a href="{{ route($routePrefix . '.create') }}" class="btn btn-primary btn-sm mb-2">Tambah Data</a>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
@@ -43,14 +43,15 @@
                                         <td>
 
                                             {!! Form::open([
-                                                'route' => ['user.destroy', $item->id],
+                                                'route' => [$routePrefix . '.destroy', $item->id],
                                                 'method' => 'DELETE',
                                                 'onsubmit' => 'return confirm("Apakah anda yakin, ingin menghapus data ini?")',
                                             ]) !!}
-                                            <a href="{{ route('user.edit', $item->id) }}"
-                                                class="btn btn-icon btn-primary btn-sm"><span
-                                                    class="tf-icons bx bx-edit"></span></a>
-                                            {!! Form::submit('Del', ['class' => 'btn btn-icon btn-danger btn-sm']) !!}
+                                            <a href="{{ route($routePrefix . '.edit', $item->id) }}"
+                                                class="btn btn-icon btn-primary btn-sm"><i class="fa fa-edit"></i></a>
+                                            <button class="btn btn-icon btn-danger btn-sm">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
                                             {!! Form::close() !!}
 
                                         </td>

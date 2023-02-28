@@ -15,11 +15,8 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('sneat/assets/img/favicon/favicon.ico') }}" />
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-        rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('font/css/all.min.css') }}">
+
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/fonts/boxicons.css') }}" />
@@ -37,6 +34,7 @@
     <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/apex-charts/apex-charts.css') }}" />
 
     <!-- Page CSS -->
+
 
     <!-- Helpers -->
     <script src="{{ asset('sneat/assets/vendor/js/helpers.js') }}"></script>
@@ -118,11 +116,18 @@
                             <div data-i18n="Analytics">Dashboard</div>
                         </a>
                     </li>
-                    <!-- Cards -->
-                    <li class="menu-item {{ Request::segment(2) == 'user' ? 'active' : '' }}">
+                    <!-- Data Users -->
+                    <li class="menu-item {{ \Route::is('user.*') == 'user' ? 'active' : '' }}">
                         <a href="{{ route('user.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-user"></i>
                             <div data-i18n="Basic">Data User</div>
+                        </a>
+                    </li>
+                    <!-- Data Wali Murid -->
+                    <li class="menu-item {{ \Route::is('wali.*') == 'user' ? 'active' : '' }}">
+                        <a href="{{ route('wali.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-user"></i>
+                            <div data-i18n="Basic">Data Wali Murid</div>
                         </a>
                     </li>
                     <li class="menu-item">

@@ -18,7 +18,11 @@ class UserController extends Controller
     public function index()
     {
         $models = Model::where('akses', '<>', 'wali')->latest()->paginate(50);
-        $data['models'] = $models;
+        $data = [
+            'models'        => $models,
+            'title'         => 'Data User',
+            'routePrefix'   => $this->routePrefix
+        ];
         return view('operator.' . $this->viewIndex, $data);
     }
 
@@ -28,10 +32,11 @@ class UserController extends Controller
     public function create()
     {
         $data = [
-            'model'     => new \App\Models\User(),
+            'model'     => new Model(),
             'method'    => 'POST',
-            'route'     => 'user.store',
-            'button'    => 'SIMPAN'
+            'route'     => $this->routePrefix . '.store',
+            'button'    => 'SIMPAN',
+            'title'     => 'Tambah User'
         ];
 
         return view('operator.' . $this->viewCreate, $data);
@@ -78,10 +83,11 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $data = [
-            'model'     => \App\Models\User::findOrFail($id),
+            'model'     => Model::findOrFail($id),
             'method'    => 'PUT',
-            'route'     => ['user.update', $id],
-            'button'    => 'UPDATE'
+            'route'     => [$this->routePrefix . '.update', $id],
+            'button'    => 'UPDATE',
+            'title'     => 'Update User'
         ];
 
         return view('operator.' . $this->viewEdit, $data);
@@ -112,7 +118,7 @@ class UserController extends Controller
         $model = Model::findOrFail($id);
         $model->fill($requestData);
         $model->save();
-        return redirect()->route('user.' . $this->viewIndex)->with('success', 'Data berhasil di update.');
+        return redirect()->route($this->routePrefix . '.index')->with('success', 'Data berhasil di update.');
     }
 
     /**
@@ -127,6 +133,6 @@ class UserController extends Controller
         }
 
         $model->delete();
-        return redirect()->route('user.' . $this->viewIndex)->with('success', 'Data berhasil di hapus.');
+        return redirect()->route($this->routePrefix . '.index')->with('success', 'Data berhasil di hapus.');
     }
 }

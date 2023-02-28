@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('akses', ['wali', 'operator', 'admin']);
+            $table->string('no_hp', 25);
+            $table->dateTime('nohp_verified_at');
             $table->rememberToken();
             $table->timestamps();
         });

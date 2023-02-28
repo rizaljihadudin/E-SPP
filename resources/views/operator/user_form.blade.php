@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <h5 class="card-header">Form User</h5>
+                <h5 class="card-header">Form {{ $title }}</h5>
                 <div class="col-md-8 offset-2">
                     <div class="card-body">
                         @if ($message = Session::get('success'))
@@ -48,14 +48,27 @@
                             ]) !!}
                             <span class="text-danger">{{ $errors->first('no_hp') }}</span>
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="akses">Hak Akses</label>
-                            {!! Form::Select('akses', ['operator' => 'Operator Sekolah', 'admin' => 'Administrator'], null, [
-                                'class' => 'form-control',
-                                'autofocus',
-                            ]) !!}
-                            <span class="text-danger">{{ $errors->first('akses') }}</span>
-                        </div>
+                        @if (\Route::is('user.*'))
+                            <div class="form-group mb-3">
+                                <label for="akses">Hak Akses</label>
+                                {!! Form::Select('akses', ['operator' => 'Operator Sekolah', 'admin' => 'Administrator'], null, [
+                                    'class' => 'form-control',
+                                    'autofocus',
+                                ]) !!}
+                                <span class="text-danger">{{ $errors->first('akses') }}</span>
+                            </div>
+                        @elseif (\Route::is('wali.*'))
+                            <div class="form-group mb-3">
+                                <label for="akses">Hak Akses</label>
+                                {!! Form::Select('akses', ['wali' => 'Wali Murid'], null, [
+                                    'class' => 'form-control',
+                                    'placeholder' => '-- Pilih Akses --',
+                                    'autofocus',
+                                ]) !!}
+                                <span class="text-danger">{{ $errors->first('akses') }}</span>
+                            </div>
+                        @endif
+
                         {!! Form::submit($button, ['class' => 'btn btn-success']) !!}
                         {!! link_to(URL::previous(), 'BACK', ['class' => 'btn btn-secondary']) !!}
                         {!! Form::close() !!}
