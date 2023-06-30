@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('wali_status')->nullable();
             $table->string('nama', 255);
             $table->string('nisn', 20)->unique();
-            $table->string('jurusan', 25);
+            $table->string('foto')->nullable();
+            $table->string('jurusan_id', 25)->nullable();
             $table->string('kelas', 3);
             $table->string('angkatan');
             $table->foreignId('user_id');

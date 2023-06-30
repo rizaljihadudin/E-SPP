@@ -11,6 +11,19 @@ class Siswa extends Model
     use HasFactory;
     protected $guarder = [];
 
+    protected $fillable = [
+        'nama',
+        'wali_id',
+        'wali_status',
+        'nisn',
+        'foto',
+        'jurusan_id',
+        'kelas',
+        'angkatan',
+        'user_id',
+        'created_at'
+    ];
+
 
     /** untuk relasi user_id : yang input data */
     public function user(): BelongsTo
@@ -23,6 +36,13 @@ class Siswa extends Model
     {
         return $this->belongsTo(User::class, 'wali_id')->withDefault([
             'name' => 'Belum ada wali'
+        ]);
+    }
+
+    public function jurusan(): BelongsTo
+    {
+        return $this->belongsTo(Jurusan::class, 'jurusan_id')->withDefault([
+            'nama_jurusan' => '-'
         ]);
     }
 }

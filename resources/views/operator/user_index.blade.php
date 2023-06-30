@@ -45,9 +45,10 @@
                                             {!! Form::open([
                                                 'route' => [$routePrefix . '.destroy', $item->id],
                                                 'method' => 'DELETE',
+                                                'title' => 'Hapus Data',
                                                 'onsubmit' => 'return confirm("Apakah anda yakin, ingin menghapus data ini?")',
                                             ]) !!}
-                                            <a href="{{ route($routePrefix . '.edit', $item->id) }}"
+                                            <a title="Edit Data" href="{{ route($routePrefix . '.edit', $item->id) }}"
                                                 class="btn btn-icon btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                             <button class="btn btn-icon btn-danger btn-sm">
                                                 <i class="fa fa-trash"></i>

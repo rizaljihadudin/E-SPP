@@ -98,7 +98,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span>
+                        <span class="app-brand-text demo menu-text fw-bolder ms-2">E-SPP</span>
                     </a>
 
                     <a href="javascript:void(0);"
@@ -195,7 +195,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="../assets/img/avatars/1.png" alt
+                                                        <img src="{{ asset('sneat/assets/img/avatars/1.png') }}" alt
                                                             class="w-px-40 h-auto rounded-circle" />
                                                     </div>
                                                 </div>
@@ -288,7 +288,7 @@
     <!-- / Layout wrapper -->
 
     <div class="buy-now">
-        <a href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/" target="_blank"
+        <a href="javascript:;" onclick="alert('Hohohohohohoooho')"
             class="btn btn-icon btn-danger btn-buy-now">Top</a>
     </div>
 

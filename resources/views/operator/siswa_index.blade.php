@@ -38,10 +38,10 @@
                                 @forelse ($models as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->wali->name }}</td>
-                                        <td>{{ $item->nama }}</td>
+                                        <td>{{ Str::title($item->wali->name) }}</td>
+                                        <td>{{ Str::title($item->nama) }}</td>
                                         <td>{{ $item->nisn }}</td>
-                                        <td>{{ $item->jurusan }}</td>
+                                        <td>{{ $item->jurusan->nama_jurusan }}</td>
                                         <td>{{ $item->kelas }}</td>
                                         <td>{{ $item->angkatan }}</td>
                                         <td>
@@ -49,10 +49,14 @@
                                             {!! Form::open([
                                                 'route' => [$routePrefix . '.destroy', $item->id],
                                                 'method' => 'DELETE',
+                                                'title' => 'Hapus Data',
                                                 'onsubmit' => 'return confirm("Apakah anda yakin, ingin menghapus data ini?")',
                                             ]) !!}
-                                            <a href="{{ route($routePrefix . '.edit', $item->id) }}"
+                                            <a title="Edit Data" href="{{ route($routePrefix . '.edit', $item->id) }}"
                                                 class="btn btn-icon btn-primary btn-sm"><i class="fa fa-edit"></i></a>
+                                            <a title="Detail Data" href="{{ route($routePrefix . '.show', $item->id) }}"
+                                                class="btn btn-icon btn-info btn-sm"><i class="fa fa-info-circle"></i></a>
+
                                             <button class="btn btn-icon btn-danger btn-sm">
                                                 <i class="fa fa-trash"></i>
                                             </button>
@@ -62,7 +66,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4">Data Siswa masih kosong!</td>
+                                        <td colspan="8" style="text-align: center">Data Siswa masih kosong!</td>
                                     </tr>
                                 @endforelse
                             </tbody>
