@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $models = Model::where('akses', '<>', 'wali')->latest()->paginate(50);
+        $models = Model::wali()->latest()->paginate(50);
         $data = [
             'models'        => $models,
             'title'         => 'Data User',
@@ -66,7 +66,7 @@ class UserController extends Controller
         $requestData['password'] = bcrypt('12345678');
 
         Model::create($requestData);
-        return back()->with('success', 'Data berhasil di simpan.');
+        return redirect()->route($this->routePrefix . '.index')->with('success', 'Data berhasil di simpan.');
     }
 
     /**
@@ -74,7 +74,13 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $models = Model::wali()->findOrfail($id);
+        $data = [
+            'models'        => $models,
+            'title'         => 'Detail Wali Murid',
+            'routePrefix'   => $this->routePrefix
+        ];
+        return view('operator.' . $this->viewShow, $data);
     }
 
     /**

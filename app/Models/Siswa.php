@@ -45,4 +45,12 @@ class Siswa extends Model
             'nama_jurusan' => '-'
         ]);
     }
+
+    public function scopeSearch($query, $keyword)
+    {
+        if ($keyword) {
+            return $query->where('nama', 'LIKE', '%' . $keyword . '%');
+        }
+        return $query;
+    }
 }

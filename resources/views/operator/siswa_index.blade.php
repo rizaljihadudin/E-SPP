@@ -20,6 +20,18 @@
                         </div>
                     @endif
                     <a href="{{ route($routePrefix . '.create') }}" class="btn btn-primary btn-sm mb-2">Tambah Data</a>
+
+                    <!-- Search pagination -->
+                    {!! Form::open(['route' => $routePrefix . '.index', 'method' => 'GET']) !!}
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Cari Nama Siswa"
+                            aria-label="cari nama" aria-describedby="button-addon2" value="{{ request('q') }}">
+                        <button type="submit" class="btn btn-outline-primary" id="button-addon2">
+                            <i class="bx bx-search"></i>
+                        </button>
+                    </div>
+                    {!! Form::close() !!}
+
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>

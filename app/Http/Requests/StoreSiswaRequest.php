@@ -11,7 +11,7 @@ class StoreSiswaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class StoreSiswaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nama'          => 'required',
+            'wali_id'       => 'nullable',
+            'nisn'          => 'required|unique:siswas',
+            'jurusan_id'    => 'nullable',
+            'kelas'         => 'required',
+            'angkatan'      => 'required',
+            'foto'          => 'required|image|mimes:jpeg,png,jpg|max:5000'
+
         ];
     }
 }

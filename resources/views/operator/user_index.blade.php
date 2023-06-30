@@ -41,7 +41,6 @@
                                         <td>{{ $item->email }}</td>
                                         <td>{{ $item->akses }}</td>
                                         <td>
-
                                             {!! Form::open([
                                                 'route' => [$routePrefix . '.destroy', $item->id],
                                                 'method' => 'DELETE',
@@ -50,6 +49,8 @@
                                             ]) !!}
                                             <a title="Edit Data" href="{{ route($routePrefix . '.edit', $item->id) }}"
                                                 class="btn btn-icon btn-primary btn-sm"><i class="fa fa-edit"></i></a>
+                                            <a title="Detail Data" href="{{ route($routePrefix . '.show', $item->id) }}"
+                                                class="btn btn-icon btn-info btn-sm"><i class="fa fa-info-circle"></i></a>
                                             <button class="btn btn-icon btn-danger btn-sm">
                                                 <i class="fa fa-trash"></i>
                                             </button>

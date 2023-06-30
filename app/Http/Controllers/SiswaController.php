@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSiswaRequest;
 use Illuminate\Http\Request;
 use \App\Models\User;
 use \App\Models\Jurusan;
@@ -19,9 +20,15 @@ class SiswaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $models = Model::latest()->paginate(50);
+        if ($request->filled('q')) {
+            $models = Model::search($request->q)->paginate(50);
+        } else {
+            /** eager loading pake (with untuk relasi) */
+            $models = Model::with('wali', 'jurusan')->latest()->paginate(50);
+        }
+
         $data = [
             'models'        => $models,
             'title'         => 'Data Siswa',
@@ -51,27 +58,9 @@ class SiswaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreSiswaRequest $request)
     {
-        $requestData = $request->validate([
-            'nama'          => 'required',
-            'wali_id'       => 'nullable',
-            'nisn'          => 'required|unique:siswas',
-            'jurusan_id'    => 'nullable',
-            'kelas'         => 'required',
-            'angkatan'      => 'required',
-            'foto'          => 'required|image|mimes:jpeg,png,jpg|max:5000'
-        ], [
-            'nama.required'     => 'Nama wajib diisi!',
-            'nisn.required'     => 'NISN wajib diisi!',
-            'nisn.unique'       => 'NISN sudah terdaftar!',
-            'kelas.required'    => 'Kelas wajib diisi',
-            'angkatan.unique'   => 'Angkatan sudah terdaftar',
-            'foto.required'     => 'Foto wajib diisi!',
-            'foto.images'       => 'Foto harus berupa Image',
-            'foto.max'          => 'Maksimal ukuran foto adalah 5mb',
-            'foto.mimes'        => 'Foto harus dengan format JPEG, PNG, JPG'
-        ]);
+        $requestData = $request->validated();
 
         if ($request->hasFile('foto')) {
             $foto           = $request->file('foto');
@@ -134,18 +123,13 @@ class SiswaController extends Controller
             'nisn'          => 'required|unique:siswas,nisn,' . $id,
             'jurusan_id'    => 'nullable',
             'kelas'         => 'required',
-            'angkatan'      => 'required',
-            'foto'          => 'required|image|mimes:jpeg,png,jpg|max:5000'
+            'angkatan'      => 'required'
         ], [
             'nama.required'     => 'Nama wajib diisi!',
             'nisn.required'     => 'NISN wajib diisi!',
             'nisn.unique'       => 'NISN sudah terdaftar!',
             'kelas.required'    => 'Kelas wajib diisi',
-            'angkatan.unique'   => 'Angkatan sudah terdaftar',
-            'foto.required'     => 'Foto wajib diisi!',
-            'foto.images'       => 'Foto harus berupa Image',
-            'foto.max'          => 'Maksimal ukuran foto adalah 5mb',
-            'foto.mimes'        => 'Foto harus dengan format JPEG, PNG, JPG'
+            'angkatan.unique'   => 'Angkatan sudah terdaftar'
         ]);
 
         $model = Model::findOrFail($id);

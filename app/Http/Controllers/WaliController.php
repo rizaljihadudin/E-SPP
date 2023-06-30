@@ -74,7 +74,13 @@ class WaliController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $models = Model::with('siswa')->wali()->findOrfail($id);
+        $data = [
+            'model'        => $models,
+            'title'         => 'Detail Wali Murid',
+            'routePrefix'   => $this->routePrefix
+        ];
+        return view('operator.' . $this->viewShow, $data);
     }
 
     /**
