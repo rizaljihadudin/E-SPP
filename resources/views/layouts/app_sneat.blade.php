@@ -30,11 +30,12 @@
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/select2/select2.css') }}" />
 
     <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/apex-charts/apex-charts.css') }}" />
 
     <!-- Page CSS -->
-
+    <script src="{{ asset('sneat/assets/vendor/libs/jquery/jquery.js') }}"></script>
 
     <!-- Helpers -->
     <script src="{{ asset('sneat/assets/vendor/js/helpers.js') }}"></script>
@@ -117,17 +118,24 @@
                         </a>
                     </li>
                     <!-- Data Users -->
-                    <li class="menu-item {{ \Route::is('user.*') == 'user' ? 'active' : '' }}">
+                    <li class="menu-item {{ \Route::is('user.*') ? 'active' : '' }}">
                         <a href="{{ route('user.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-user"></i>
                             <div data-i18n="Basic">Data User</div>
                         </a>
                     </li>
                     <!-- Data Wali Murid -->
-                    <li class="menu-item {{ \Route::is('wali.*') == 'user' ? 'active' : '' }}">
+                    <li class="menu-item {{ \Route::is('wali.*') ? 'active' : '' }}">
                         <a href="{{ route('wali.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-user"></i>
                             <div data-i18n="Basic">Data Wali Murid</div>
+                        </a>
+                    </li>
+                    <!-- Data Siswa -->
+                    <li class="menu-item {{ \Route::is('siswa.*') ? 'active' : '' }}">
+                        <a href="{{ route('siswa.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-user"></i>
+                            <div data-i18n="Basic">Data Siswa</div>
                         </a>
                     </li>
                     <li class="menu-item">
@@ -284,9 +292,25 @@
             class="btn btn-icon btn-danger btn-buy-now">Top</a>
     </div>
 
+    <!-- buat hide alert otomatis -->
+    <script>
+        $(function() {
+            window.setTimeout(() => {
+                $('.alert').hide(300);
+            }, 3000);
+        })
+    </script>
+
+    <script>
+        $(function() {
+            $('.select2').select2({
+                selectionCssClass: 'form-control'
+            });
+        })
+    </script>
+
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    <script src="{{ asset('sneat/assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('sneat/assets/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('sneat/assets/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ asset('sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
@@ -296,6 +320,7 @@
 
     <!-- Vendors JS -->
     <script src="{{ asset('sneat/assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
+    <script src="{{ asset('sneat/assets/vendor/libs/select2/select2.js') }}"></script>
 
     <!-- Main JS -->
     <script src="{{ asset('sneat/assets/js/main.js') }}"></script>

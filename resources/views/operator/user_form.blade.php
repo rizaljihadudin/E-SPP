@@ -52,7 +52,8 @@
                             <div class="form-group mb-3">
                                 <label for="akses">Hak Akses</label>
                                 {!! Form::Select('akses', ['operator' => 'Operator Sekolah', 'admin' => 'Administrator'], null, [
-                                    'class' => 'form-control',
+                                    'class' => 'form-control select2',
+                                    'id' => 'select2Basic',
                                     'autofocus',
                                 ]) !!}
                                 <span class="text-danger">{{ $errors->first('akses') }}</span>
@@ -61,7 +62,7 @@
                             <div class="form-group mb-3">
                                 <label for="akses">Hak Akses</label>
                                 {!! Form::Select('akses', ['wali' => 'Wali Murid'], null, [
-                                    'class' => 'form-control',
+                                    'class' => 'form-control select2',
                                     'placeholder' => '-- Pilih Akses --',
                                     'autofocus',
                                 ]) !!}
