@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Routing\Route;
+use Illuminate\Support\Str;
 
-class UpdateSiswaRequest extends FormRequest
+class UpdateBiayaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +23,15 @@ class UpdateSiswaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama'          => 'required',
-            'wali_id'       => 'nullable',
-            'nisn'          => 'required|unique:siswas,nisn,' . $this->siswa,
-            'jurusan_id'    => 'nullable',
-            'kelas'         => 'required',
-            'angkatan'      => 'required'
+            'nama_biaya'    => 'required|unique:biayas,nama_biaya,' . $this->biaya,
+            'jumlah'        => 'required|numeric'
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'jumlah' => Str::replace([' ', '.', 'Rp'], '', $this->jumlah)
+        ]);
     }
 }

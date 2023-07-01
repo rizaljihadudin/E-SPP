@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSiswaRequest;
+use App\Http\Requests\UpdateSiswaRequest;
 use Illuminate\Http\Request;
 use \App\Models\User;
 use \App\Models\Jurusan;
@@ -23,7 +24,7 @@ class SiswaController extends Controller
     public function index(Request $request)
     {
         if ($request->filled('q')) {
-            $models = Model::search($request->q)->paginate(50);
+            $models = Model::with('wali', 'jurusan')->search($request->q)->paginate(50);
         } else {
             /** eager loading pake (with untuk relasi) */
             $models = Model::with('wali', 'jurusan')->latest()->paginate(50);
@@ -115,22 +116,9 @@ class SiswaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateSiswaRequest $request, string $id)
     {
-        $requestData = $request->validate([
-            'nama'          => 'required',
-            'wali_id'       => 'nullable',
-            'nisn'          => 'required|unique:siswas,nisn,' . $id,
-            'jurusan_id'    => 'nullable',
-            'kelas'         => 'required',
-            'angkatan'      => 'required'
-        ], [
-            'nama.required'     => 'Nama wajib diisi!',
-            'nisn.required'     => 'NISN wajib diisi!',
-            'nisn.unique'       => 'NISN sudah terdaftar!',
-            'kelas.required'    => 'Kelas wajib diisi',
-            'angkatan.unique'   => 'Angkatan sudah terdaftar'
-        ]);
+        $requestData = $request->validated();
 
         $model = Model::findOrFail($id);
 

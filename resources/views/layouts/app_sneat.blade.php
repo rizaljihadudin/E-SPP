@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="light-style layout-menu-fixed" dir="ltr"
-    data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free">
+    data-theme="theme-default" data-assets-path="{{ asset('sneat/assets/') }}" data-template="vertical-menu-template-free">
 
 <head>
     <meta charset="utf-8" />
@@ -134,8 +134,15 @@
                     <!-- Data Siswa -->
                     <li class="menu-item {{ \Route::is('siswa.*') ? 'active' : '' }}">
                         <a href="{{ route('siswa.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-user"></i>
+                            <i class="menu-icon tf-icons bx bx-user-pin"></i>
                             <div data-i18n="Basic">Data Siswa</div>
+                        </a>
+                    </li>
+                    <!-- Data Biaya -->
+                    <li class="menu-item {{ \Route::is('biaya.*') ? 'active' : '' }}">
+                        <a href="{{ route('biaya.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-money"></i>
+                            <div data-i18n="Basic">Data Biaya</div>
                         </a>
                     </li>
                     <li class="menu-item">
@@ -200,8 +207,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">John Doe</span>
-                                                    <small class="text-muted">Admin</small>
+                                                    <span
+                                                        class="fw-semibold d-block">{{ \Str::title(Auth::user()->name) }}</span>
+                                                    <small
+                                                        class="text-muted">{{ \Str::title(Auth::user()->akses) }}</small>
                                                 </div>
                                             </div>
                                         </a>
