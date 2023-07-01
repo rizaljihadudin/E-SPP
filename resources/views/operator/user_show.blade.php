@@ -91,7 +91,7 @@
                                                 {!! Form::open([
                                                     'route' => $route,
                                                     'method' => 'PUT',
-                                                    'title' => 'Hapus Data Siswa',
+                                                    'title' => 'Hapus Anak',
                                                     'onsubmit' => 'return confirm("Apakah anda yakin, ingin menghapus data ini?")',
                                                 ]) !!}
                                                 {!! Form::hidden('siswa_id', $item->id, null, []) !!}

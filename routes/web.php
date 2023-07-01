@@ -37,13 +37,16 @@ Route::prefix('operator')->middleware(['auth', 'auth.operator'])->group(function
     Route::resource('siswa', SiswaController::class);
     Route::resource('biaya', BiayaController::class);
     Route::resource('transaksi', TransaksiController::class);
+
     Route::put('updateAnak', [WaliController::class, 'updateAnak'])->name('wali.updateAnak');
+    Route::put('updateAnak', [UserController::class, 'updateAnak'])->name('user.updateAnak');
 });
 
 Route::prefix('wali')->middleware(['auth', 'auth.wali'])->group(function () {
 
     /** Route untuk Wali */
     Route::get('beranda', [App\Http\Controllers\Wali\BerandaController::class, 'index'])->name('wali.beranda');
+    Route::put('updateAnak', [WaliController::class, 'updateAnak'])->name('wali.updateAnak');
 });
 
 Route::prefix('admin')->middleware(['auth', 'auth.admin'])->group(function () {

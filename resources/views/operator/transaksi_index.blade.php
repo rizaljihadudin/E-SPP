@@ -77,7 +77,13 @@
                                             ]) !!}
                                             <a title="Edit Data" href="{{ route($routePrefix . '.edit', $item->id) }}"
                                                 class="btn btn-icon btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                            <a title="Detail Data" href="{{ route($routePrefix . '.show', $item->id) }}"
+                                            <a title="Detail Tagihan"
+                                                href="{{ route($routePrefix . '.show', [
+                                                    $item->siswa_id,
+                                                    'siswa_id' => $item->siswa_id,
+                                                    'bulan' => $item->tanggal_tagihan->format('m'),
+                                                    'tahun' => $item->tanggal_tagihan->format('Y'),
+                                                ]) }}"
                                                 class="btn btn-icon btn-info btn-sm"><i class="fa fa-info-circle"></i></a>
                                             <button class="btn btn-icon btn-danger btn-sm">
                                                 <i class="fa fa-trash"></i>

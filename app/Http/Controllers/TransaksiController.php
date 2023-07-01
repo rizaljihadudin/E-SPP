@@ -115,9 +115,24 @@ class TransaksiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Model $tagihan)
+    public function show(Request $request, String $id)
     {
-        //
+        $tagihan = Model::with('siswa')
+            ->where('siswa_id', $request->siswa_id)
+            ->whereMonth('tanggal_tagihan', $request->bulan)
+            ->whereYear('tanggal_tagihan', $request->tahun)
+            ->get();
+        $siswa  = Siswa::where('id', $request->siswa_id)->first();
+        $date = '01' . $request->bulan . ' ' . $request->tahun;
+        $periode = Carbon::parse($date)->isoFormat('MMMM Y');
+        $data = [
+            'models'        => $tagihan,
+            'siswa'         => $siswa,
+            'periode'       => $periode,
+            'title'         => 'Detail Tagihan Siswa',
+            'routePrefix'   => $this->routePrefix
+        ];
+        return view('operator.' . $this->viewShow, $data);
     }
 
     /**
