@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Siswa extends Model
 {
     use HasFactory;
-    protected $guarder = [];
 
     protected $fillable = [
         'nama',

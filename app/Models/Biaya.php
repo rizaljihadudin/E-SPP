@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,13 +11,21 @@ class Biaya extends Model
 {
     use HasFactory;
 
-    protected $guarder = [];
-
     protected $fillable = [
         'nama_biaya',
         'jumlah',
         'user_id'
     ];
+
+    protected $append = ['nama_biaya_full'];
+
+    protected function namaBiayaFull(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strtoupper($this->nama_biaya . ' - ' . formatRupiah($this->jumlah)),
+            #set: fn ($value) => strtolower($value), 
+        );
+    }
 
     protected static function booted(): void
     {

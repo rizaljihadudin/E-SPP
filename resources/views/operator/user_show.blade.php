@@ -7,6 +7,18 @@
                 <h5 class="card-header">{{ $title }}</h5>
                 <!-- Account -->
                 <div class="card-body">
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            <strong>{{ $message }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    @if ($message = Session::get('error'))
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <strong>{{ $message }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
                     <div class="row mt-2">
                         <table class="table table-striped table-sm">
                             <thead>
@@ -36,6 +48,24 @@
                     </div>
                     <br>
                     <h5 class="card-header">Data Anak</h5>
+                    {!! Form::open(['route' => $route, 'method' => 'PUT']) !!}
+                    <div class="row mb-2">
+                        <div class="col-md-12 col-sm-12">
+                            {!! Form::select('siswa_id', $siswa, null, [
+                                'class' => 'form-control select2',
+                                'autofocus',
+                                'placeholder' => '-- Pilih Siswa --',
+                            ]) !!}
+                            <span class="text-danger">{{ $errors->first('siswa_id') }}</span>
+                            {!! Form::hidden('wali_id', $model->id, null, []) !!}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <button class="btn btn-md btn-primary" type="submit">Tambah Data Anak</button>
+                        </div>
+                    </div>
+                    {!! Form::close() !!}
                     <div class="table-responsive text-nowrap">
                         <table class="table">
                             <thead>
@@ -43,6 +73,7 @@
                                     <th>No.</th>
                                     <th>Nama</th>
                                     <th>NISN</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,6 +87,19 @@
                                             <td>{{ $loop->iteration . '.' }}</td>
                                             <td>{{ Str::title($item->nama) }}</td>
                                             <td>{{ $item->nisn }}</td>
+                                            <td>
+                                                {!! Form::open([
+                                                    'route' => $route,
+                                                    'method' => 'PUT',
+                                                    'title' => 'Hapus Data Siswa',
+                                                    'onsubmit' => 'return confirm("Apakah anda yakin, ingin menghapus data ini?")',
+                                                ]) !!}
+                                                {!! Form::hidden('siswa_id', $item->id, null, []) !!}
+                                                <button class="btn btn-icon btn-danger btn-sm">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                                {!! Form::close() !!}
+                                            </td>
                                         </tr>
                                     @endforeach
                                 @endif

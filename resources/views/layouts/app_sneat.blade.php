@@ -145,6 +145,13 @@
                             <div data-i18n="Basic">Data Biaya</div>
                         </a>
                     </li>
+                    <!-- Data Transaksi -->
+                    <li class="menu-item {{ \Route::is('transaksi.*') ? 'active' : '' }}">
+                        <a href="{{ route('transaksi.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-transfer-alt"></i>
+                            <div data-i18n="Basic">Data Tagihan</div>
+                        </a>
+                    </li>
                     <li class="menu-item">
                         <a href="{{ route('logout') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-log-out"></i>
@@ -314,6 +321,16 @@
         $(function() {
             $('.select2').select2({
                 selectionCssClass: 'form-control'
+            });
+
+            $('.select2-multiple').select2({
+                selectionCssClass: 'form-control',
+                tags: true,
+                tokenSeparators: [',', ' ']
+            });
+
+            $(".select2insidemodal").select2({
+                dropdownParent: $("#modalCenter")
             });
         })
     </script>
