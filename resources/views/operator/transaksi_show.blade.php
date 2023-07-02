@@ -45,8 +45,33 @@
                     </table>
                 </div>
                 <h5 class="card-header">
-                    DATA PEMBAYARAN
+                    FORM PEMBAYARAN
                 </h5>
+                <div class="card-body">
+                    {!! Form::model($pembayaran, ['route' => 'pembayaran.store', 'method' => 'POST']) !!}
+                    <div class="form-group mb-2">
+                        <label for="tanggal_bayar">Tanggal Pembayaran</label>
+                        {!! Form::date('tanggal_bayar', $pembayaran->tanggal_bayar ?? \Carbon\Carbon::now(), [
+                            'class' => 'form-control',
+                            'autofocus',
+                        ]) !!}
+                        <span class="text-danger">{{ $errors->first('tanggal_bayar') }}</span>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="jumlah_dibayar">Jumlah Bayar</label>
+                        {!! Form::text('jumlah_dibayar', null, [
+                            'class' => 'form-control',
+                            'autofocus',
+                            'placeholder' => 'Masukkan nilai pembayaran',
+                            'oninput' => 'formatIDR(this)',
+                        ]) !!}
+                        <span class="text-danger">{{ $errors->first('jumlah_dibayar') }}</span>
+                    </div>
+                    {!! Form::submit('SIMPAN', [
+                        'class' => 'btn btn-success',
+                    ]) !!}
+                    {!! Form::close() !!}
+                </div>
             </div>
         </div>
         <div class="col-md-6">

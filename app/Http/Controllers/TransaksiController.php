@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateTransaksiRequest;
 use Illuminate\Http\Request;
 use App\Models\Siswa;
 use App\Models\Biaya;
+use App\Models\Pembayaran;
 use App\Models\TransaksiDetail;
 use Carbon\Carbon;
 
@@ -124,7 +125,8 @@ class TransaksiController extends Controller
             'siswa'         => $tagihan->siswa,
             'periode'       => $periode,
             'title'         => 'Detail Tagihan Siswa',
-            'routePrefix'   => $this->routePrefix
+            'routePrefix'   => $this->routePrefix,
+            'pembayaran'    => new Pembayaran()
         ];
         return view('operator.' . $this->viewShow, $data);
     }

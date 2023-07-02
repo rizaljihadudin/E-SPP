@@ -42,31 +42,29 @@
                                     <td>TGL DIUPDATE</td>
                                     <td>: {{ $model->updated_at }}</td>
                                 </tr>
-
                             </thead>
                         </table>
                     </div>
                     <br>
-                    <h5 class="card-header">Data Anak</h5>
-                    {!! Form::open(['route' => $route, 'method' => 'PUT']) !!}
+                    <h5 class="">TAMBAH DATA ANAK</h5>
+                    {!! Form::open(['route' => 'walisiswa.store', 'method' => 'POST']) !!}
+                    {!! Form::hidden('wali_id', $model->id, []) !!}
                     <div class="row mb-2">
-                        <div class="col-md-12 col-sm-12">
+                        <div class="col-md-12 col-sm-12 form-group">
+                            <label for="siswa_id">Pilih Data Siswa</label>
                             {!! Form::select('siswa_id', $siswa, null, [
                                 'class' => 'form-control select2',
                                 'autofocus',
                                 'placeholder' => '-- Pilih Siswa --',
                             ]) !!}
                             <span class="text-danger">{{ $errors->first('siswa_id') }}</span>
-                            {!! Form::hidden('wali_id', $model->id, null, []) !!}
+                            <span class="text-danger">{{ $errors->first('wali_id') }}</span>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <button class="btn btn-md btn-primary" type="submit">Tambah Data Anak</button>
-                        </div>
-                    </div>
+                    {!! Form::submit('SIMPAN', ['class' => 'btn btn-success']) !!}
                     {!! Form::close() !!}
-                    <div class="table-responsive text-nowrap">
+                    <h5 class="mt-5">DATA ANAK</h5>
+                    <div class="table-responsive text-nowrap mt-2">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -89,7 +87,7 @@
                                             <td>{{ $item->nisn }}</td>
                                             <td>
                                                 {!! Form::open([
-                                                    'route' => $route,
+                                                    'route' => ['walisiswa.update', $item->id],
                                                     'method' => 'PUT',
                                                     'title' => 'Hapus Anak',
                                                     'onsubmit' => 'return confirm("Apakah anda yakin, ingin menghapus data ini?")',

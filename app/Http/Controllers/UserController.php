@@ -80,7 +80,6 @@ class UserController extends Controller
             'model'         => $models,
             'title'         => 'Detail Wali Murid',
             'routePrefix'   => $this->routePrefix,
-            'route'         => [$this->routePrefix . '.updateAnak', $id],
             'siswa'         => Siswa::where('wali_id', null)->pluck('nama', 'id'),
         ];
         return view('operator.' . $this->viewShow, $data);
@@ -143,23 +142,5 @@ class UserController extends Controller
 
         $model->delete();
         return redirect()->route($this->routePrefix . '.index')->with('success', 'Data berhasil di hapus.');
-    }
-
-    public function updateAnak(Request $request)
-    {
-        $requestData = $request->validate([
-            'siswa_id'      => 'required'
-        ], [
-            'siswa_id.required' => 'Silahkan pilih salah satu siswa'
-        ]);
-
-        $value  = $request->wali_id ? $request->wali_id : null;
-        $msg    = $value ? 'di tambahkan' : 'di hapus';
-
-        Siswa::where('id', $request->siswa_id)
-            ->update([
-                'wali_id' => $value,
-            ]);
-        return back()->with('success', 'Data Anak berhasil ' . $msg . '.');
     }
 }

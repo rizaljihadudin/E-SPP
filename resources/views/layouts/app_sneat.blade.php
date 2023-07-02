@@ -333,6 +333,18 @@
                 dropdownParent: $("#modalCenter")
             });
         })
+
+        const formatIDR = (input) => {
+            let nominal = input.value;
+            nominal = nominal.replace(/\D/g, '');
+            let parts = nominal.split('.');
+            let decimal = parts[1] ? '.' + parts[1] : '';
+            let thousands = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+            let formattedNominal = `Rp. ${thousands}${decimal}`;
+
+            input.value = formattedNominal;
+        }
     </script>
 
     <!-- Core JS -->

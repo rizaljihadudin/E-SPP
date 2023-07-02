@@ -5,6 +5,7 @@ use App\Http\Controllers\WaliController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\BiayaController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\WaliSiswaController;
 use App\Http\Middleware\Wali;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -37,16 +38,14 @@ Route::prefix('operator')->middleware(['auth', 'auth.operator'])->group(function
     Route::resource('siswa', SiswaController::class);
     Route::resource('biaya', BiayaController::class);
     Route::resource('transaksi', TransaksiController::class);
-
-    Route::put('updateAnak', [WaliController::class, 'updateAnak'])->name('wali.updateAnak');
-    Route::put('updateAnak', [UserController::class, 'updateAnak'])->name('user.updateAnak');
+    Route::resource('pembayaran', PembayaranController::class);
+    Route::resource('walisiswa', WaliSiswaController::class);
 });
 
 Route::prefix('wali')->middleware(['auth', 'auth.wali'])->group(function () {
 
     /** Route untuk Wali */
     Route::get('beranda', [App\Http\Controllers\Wali\BerandaController::class, 'index'])->name('wali.beranda');
-    Route::put('updateAnak', [WaliController::class, 'updateAnak'])->name('wali.updateAnak');
 });
 
 Route::prefix('admin')->middleware(['auth', 'auth.admin'])->group(function () {
