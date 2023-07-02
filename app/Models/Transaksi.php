@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Transaksi extends Model
 {
@@ -24,10 +25,14 @@ class Transaksi extends Model
         'user_id'
     ];
 
+    protected $visible = ['id'];
+
     protected $casts = [
         'tanggal_tagihan'       => 'date',
         'tanggal_jatuh_tempo'   => 'date'
     ];
+
+    protected $with = ['user', 'siswa', 'transaksiDetails'];
 
     protected static function booted(): void
     {
@@ -50,5 +55,10 @@ class Transaksi extends Model
     public function siswa(): BelongsTo
     {
         return $this->belongsTo(Siswa::class);
+    }
+
+    public function transaksiDetails(): HasMany
+    {
+        return $this->hasMany(TransaksiDetail::class);
     }
 }

@@ -57,6 +57,7 @@
                                     <th>NISN</th>
                                     <th>Tanggal Tagihan</th>
                                     <th>Status</th>
+                                    <th>Jumlah Tagihan</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -67,7 +68,21 @@
                                         <td>{{ $item->siswa->nama }}</td>
                                         <td>{{ $item->siswa->nisn }}</td>
                                         <td>{{ $item->tanggal_tagihan->translatedFormat('d-F-Y') }}</td>
-                                        <td>{{ $item->status }}</td>
+
+                                        @php
+                                            $class = '';
+                                            if ($item->status == 'baru') {
+                                                $class = 'bg-danger';
+                                            } elseif ($item->status == 'lunas') {
+                                                $class = 'bg-success';
+                                            } elseif ($item->status == 'angsuran') {
+                                                $class = 'bg-warning';
+                                            }
+                                            
+                                        @endphp
+
+                                        <td><span class="badge {{ $class }}">{{ $item->status }}</span></td>
+                                        <td>{{ formatRupiah($item->transaksiDetails->sum('jumlah_biaya')) }}</td>
                                         <td>
                                             {!! Form::open([
                                                 'route' => [$routePrefix . '.destroy', $item->id],
@@ -79,8 +94,7 @@
                                                 class="btn btn-icon btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                             <a title="Detail Tagihan"
                                                 href="{{ route($routePrefix . '.show', [
-                                                    $item->siswa_id,
-                                                    'siswa_id' => $item->siswa_id,
+                                                    $item->id,
                                                     'bulan' => $item->tanggal_tagihan->format('m'),
                                                     'tahun' => $item->tanggal_tagihan->format('Y'),
                                                 ]) }}"

@@ -8,8 +8,8 @@ use App\Http\Requests\UpdateTransaksiRequest;
 use Illuminate\Http\Request;
 use App\Models\Siswa;
 use App\Models\Biaya;
+use App\Models\TransaksiDetail;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class TransaksiController extends Controller
 {
@@ -25,13 +25,11 @@ class TransaksiController extends Controller
     {
 
         if ($request->filled('bulan') && $request->filled('tahun')) {
-            $models = Model::with('user', 'siswa')
-                ->whereMonth('tanggal_tagihan', $request->bulan)
+            $models = Model::whereMonth('tanggal_tagihan', $request->bulan)
                 ->whereYear('tanggal_tagihan', $request->tahun)
-                ->groupBy('siswa_id')
                 ->paginate(50);
         } else {
-            $models = Model::with('user', 'siswa')->groupBy('siswa_id')->latest()->paginate(50);
+            $models = Model::latest()->paginate(50);
         }
 
         $data = [
@@ -78,34 +76,35 @@ class TransaksiController extends Controller
 
         $siswa = $siswa->get();
 
-        foreach ($siswa as $item) {
-            $itemSiswa  = $item;
+        foreach ($siswa as $itemSiswa) {
             $biaya      = Biaya::whereIn('id', $biayaIdArray)->get();
-            foreach ($biaya as $itemBiaya) {
-                $dataTagihan = [
-                    'siswa_id'              => $itemSiswa->id,
-                    'angkatan'              => $requestData['angkatan'],
-                    'kelas'                 => $requestData['kelas'],
-                    'tanggal_tagihan'       => $requestData['tanggal_tagihan'],
-                    'tanggal_jatuh_tempo'   => $requestData['tanggal_jatuh_tempo'],
-                    'nama_biaya'            => $itemBiaya->nama_biaya,
-                    'jumlah_biaya'          => $itemBiaya->jumlah,
-                    'keterangan'            => $requestData['keterangan'],
-                    'status'                => 'baru'
-                ];
+            $dataTagihan = [
+                'siswa_id'              => $itemSiswa->id,
+                'angkatan'              => $requestData['angkatan'],
+                'kelas'                 => $requestData['kelas'],
+                'tanggal_tagihan'       => $requestData['tanggal_tagihan'],
+                'tanggal_jatuh_tempo'   => $requestData['tanggal_jatuh_tempo'],
+                'keterangan'            => $requestData['keterangan'],
+                'status'                => 'baru'
+            ];
 
-                $tanggalTagihan     = Carbon::parse($requestData['tanggal_tagihan']);
-                $tanggalJatuhTempo  = Carbon::parse($requestData['tanggal_jatuh_tempo']);
-                $bulanTagihan       = $tanggalTagihan->format('m');
-                $tahunTagihan       = $tanggalTagihan->format('Y');
-                $cekTagihan         = Model::where('siswa_id', $itemSiswa->id)
-                    ->where('nama_biaya', $itemBiaya->nama_biaya)
-                    ->whereMonth('tanggal_tagihan', $bulanTagihan)
-                    ->whereYear('tanggal_tagihan', $tahunTagihan)
-                    ->first();
+            $tanggalTagihan     = Carbon::parse($requestData['tanggal_tagihan']);
+            $tanggalJatuhTempo  = Carbon::parse($requestData['tanggal_jatuh_tempo']);
+            $bulanTagihan       = $tanggalTagihan->format('m');
+            $tahunTagihan       = $tanggalTagihan->format('Y');
+            $cekTagihan         = Model::where('siswa_id', $itemSiswa->id)
+                ->whereMonth('tanggal_tagihan', $bulanTagihan)
+                ->whereYear('tanggal_tagihan', $tahunTagihan)
+                ->first();
 
-                if (!$cekTagihan) {
-                    Model::create($dataTagihan);
+            if (!$cekTagihan) {
+                $tagihan = Model::create($dataTagihan);
+                foreach ($biaya as $itemBiaya) {
+                    $detail = TransaksiDetail::create([
+                        'transaksi_id'  => $tagihan->id,
+                        'nama_biaya'    => $itemBiaya->nama_biaya,
+                        'jumlah_biaya'  => $itemBiaya->jumlah
+                    ]);
                 }
             }
         }
@@ -117,17 +116,12 @@ class TransaksiController extends Controller
      */
     public function show(Request $request, String $id)
     {
-        $tagihan = Model::with('siswa')
-            ->where('siswa_id', $request->siswa_id)
-            ->whereMonth('tanggal_tagihan', $request->bulan)
-            ->whereYear('tanggal_tagihan', $request->tahun)
-            ->get();
-        $siswa  = Siswa::where('id', $request->siswa_id)->first();
+        $tagihan = Model::findOrFail($id);
         $date = '01' . $request->bulan . ' ' . $request->tahun;
         $periode = Carbon::parse($date)->isoFormat('MMMM Y');
         $data = [
             'models'        => $tagihan,
-            'siswa'         => $siswa,
+            'siswa'         => $tagihan->siswa,
             'periode'       => $periode,
             'title'         => 'Detail Tagihan Siswa',
             'routePrefix'   => $this->routePrefix

@@ -22,11 +22,31 @@
         <div class="col-md-6">
             <div class="card">
                 <h5 class="card-header">
-                    Data Tagihan
+                    DATA TAGIHAN {{ strtoupper($periode) }}
                 </h5>
                 <div class="card-body">
-                    Data Tagihan
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NAMA TAGIHAN</th>
+                                <th>JUMLAH TAGIHAN</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            @foreach ($models->transaksiDetails as $item)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ \Str::title($item->nama_biaya) }}</td>
+                                    <td>{{ formatRupiah($item->jumlah_biaya) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
+                <h5 class="card-header">
+                    DATA PEMBAYARAN
+                </h5>
             </div>
         </div>
         <div class="col-md-6">
