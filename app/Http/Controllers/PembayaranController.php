@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pembayaran;
 use App\Http\Requests\StorePembayaranRequest;
 use App\Http\Requests\UpdatePembayaranRequest;
+use App\Models\Transaksi;
 
 class PembayaranController extends Controller
 {
@@ -29,7 +30,21 @@ class PembayaranController extends Controller
      */
     public function store(StorePembayaranRequest $request)
     {
-        //
+        $requestData = $request->validated();
+        $requestData['status_konfirmasi'] = 'sudah';
+        $requestData['metode_pembayaran'] = 'manual';
+
+        /** cek jumlah tagihan */
+        $tagihan = Transaksi::findOrFail($requestData['transaksi_id']);
+        if ($requestData['jumlah_dibayar'] >= $tagihan->transaksiDetails->sum('jumlah_biaya')) {
+            $tagihan->status = 'lunas';
+        } else {
+            $tagihan->status = 'angsuran';
+        }
+        $tagihan->save();
+
+        Pembayaran::create($requestData);
+        return  redirect()->back()->with('success', 'Data Pembayaran berhasil di simpan.');
     }
 
     /**

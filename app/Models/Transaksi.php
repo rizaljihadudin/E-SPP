@@ -61,4 +61,9 @@ class Transaksi extends Model
     {
         return $this->hasMany(TransaksiDetail::class);
     }
+
+    public function pembayaran(): HasMany
+    {
+        return $this->hasMany(Pembayaran::class);
+    }
 }

@@ -117,7 +117,7 @@ class TransaksiController extends Controller
      */
     public function show(Request $request, String $id)
     {
-        $tagihan = Model::findOrFail($id);
+        $tagihan = Model::with('pembayaran')->findOrFail($id);
         $date = '01' . $request->bulan . ' ' . $request->tahun;
         $periode = Carbon::parse($date)->isoFormat('MMMM Y');
         $data = [
