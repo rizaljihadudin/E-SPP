@@ -112,50 +112,22 @@
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
                     <li class="menu-item {{ Request::segment(2) == 'beranda' ? 'active' : '' }}">
-                        <a href="{{ route('operator.beranda') }}" class="menu-link">
+                        <a href="{{ route('wali.beranda') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Dashboard</div>
                         </a>
                     </li>
-                    <!-- Data Users -->
-                    <li class="menu-item {{ \Route::is('user.*') ? 'active' : '' }}">
-                        <a href="{{ route('user.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-user"></i>
-                            <div data-i18n="Basic">Data User</div>
-                        </a>
-                    </li>
-                    <!-- Data Users -->
-                    <li class="menu-item {{ \Route::is('banksekolah.*') ? 'active' : '' }}">
-                        <a href="{{ route('banksekolah.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-user"></i>
-                            <div data-i18n="Basic">Data Rekening Sekolah</div>
-                        </a>
-                    </li>
-                    <!-- Data Wali Murid -->
-                    <li class="menu-item {{ \Route::is('wali.*') ? 'active' : '' }}">
-                        <a href="{{ route('wali.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-user"></i>
-                            <div data-i18n="Basic">Data Wali Murid</div>
-                        </a>
-                    </li>
                     <!-- Data Siswa -->
-                    <li class="menu-item {{ \Route::is('siswa.*') ? 'active' : '' }}">
-                        <a href="{{ route('siswa.index') }}" class="menu-link">
+                    <li class="menu-item {{ \Route::is('wali.siswa.*') ? 'active' : '' }}">
+                        <a href="{{ route('wali.siswa.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-user-pin"></i>
                             <div data-i18n="Basic">Data Siswa</div>
                         </a>
                     </li>
-                    <!-- Data Biaya -->
-                    <li class="menu-item {{ \Route::is('biaya.*') ? 'active' : '' }}">
-                        <a href="{{ route('biaya.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-money"></i>
-                            <div data-i18n="Basic">Data Biaya</div>
-                        </a>
-                    </li>
-                    <!-- Data Transaksi -->
-                    <li class="menu-item {{ \Route::is('transaksi.*') ? 'active' : '' }}">
-                        <a href="{{ route('transaksi.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-transfer-alt"></i>
+                    <!-- Data Tagihan -->
+                    <li class="menu-item {{ \Route::is('wali.tagihan.*') ? 'active' : '' }}">
+                        <a href="{{ route('wali.tagihan.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-user-pin"></i>
                             <div data-i18n="Basic">Data Tagihan</div>
                         </a>
                     </li>

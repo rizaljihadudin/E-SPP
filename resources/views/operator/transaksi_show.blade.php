@@ -13,7 +13,8 @@
                             <h6 class="mb-0">{{ \Str::title($siswa->nama) }}</h6>
                             <small class="text-nowrap">{{ 'NISN : ' . $siswa->nisn }}</small>
                             <br />
-                            <a href="" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-file"></i>
+                            <a href="{{ route('kartuspp.index', ['siswa_id' => $siswa->id, 'tahun' => request('tahun')]) }}"
+                                class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-file"></i>
                                 Kartu
                                 Tagihan
                                 {{ request('tahun') }}</a>
@@ -57,8 +58,6 @@
 
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
             <div class="card">
                 <h5 class="card-header pb-0">
                     INFORMASI PEMBAYARAN
@@ -131,6 +130,9 @@
                     {!! Form::close() !!}
                 </div>
             </div>
+        </div>
+        <div class="col-md-6">
+
         </div>
     </div>
 @endsection
