@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Wali;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bank;
 use App\Models\BankSekolah;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class TagihanController extends Controller
         $data = [
             'tagihan'       => $tagihan,
             'siswa'         => $tagihan->siswa,
-            'bankSekolah'   => $bankSekolah
+            'bankSekolah'   => $bankSekolah,
         ];
 
         return view('wali.tagihan_show', $data);

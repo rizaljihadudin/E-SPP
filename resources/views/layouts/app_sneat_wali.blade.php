@@ -39,6 +39,10 @@
             color: #fff !important;
             background: #343a40 !important;
         }
+
+        .reset {
+            all: revert;
+        }
     </style>
 
     <!-- Page CSS -->

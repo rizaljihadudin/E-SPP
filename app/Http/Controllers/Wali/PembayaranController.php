@@ -16,6 +16,7 @@ class PembayaranController extends Controller
     {
         $tagihan        = Transaksi::WaliSiswa()->findOrFail($request['tagihan_id']);
         $bankSekolah    = BankSekolah::findOrFail($request['bank_sekolah_id']);
+        $listBank       = Bank::pluck('nama_bank', 'id');
 
         $data = [
             'tagihan'       => $tagihan,
@@ -24,7 +25,8 @@ class PembayaranController extends Controller
             'pembayaran'    => new Pembayaran(),
             'route'         => 'wali.pembayaran.store',
             'method'        => 'POST',
-            'bank'          => Bank::where('id', $request['bank_id'])->first()
+            'bank'          => Bank::where('id', $request['bank_id'])->first(),
+            'listBank'      => $listBank
 
         ];
 
