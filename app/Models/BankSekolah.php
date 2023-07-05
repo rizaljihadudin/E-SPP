@@ -16,6 +16,8 @@ class BankSekolah extends Model
         'nomor_rekening'
     ];
 
+    protected $with = ['bank'];
+
 
     public function bank(): BelongsTo
     {

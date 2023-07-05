@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 
 class Transaksi extends Model
 {
@@ -78,5 +79,10 @@ class Transaksi extends Model
         }
 
         return $this->status;
+    }
+
+    public function scopeWaliSiswa($query)
+    {
+        return $query->whereIn('siswa_id', Auth::user()->getAllSiswaId());
     }
 }

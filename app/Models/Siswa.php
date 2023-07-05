@@ -24,6 +24,8 @@ class Siswa extends Model
     ];
 
 
+    protected $with = ['jurusan'];
+
     /** untuk relasi user_id : yang input data */
     public function user(): BelongsTo
     {

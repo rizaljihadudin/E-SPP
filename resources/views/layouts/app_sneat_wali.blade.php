@@ -34,6 +34,13 @@
 
     <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/apex-charts/apex-charts.css') }}" />
 
+    <style>
+        .table-darkx {
+            color: #fff !important;
+            background: #343a40 !important;
+        }
+    </style>
+
     <!-- Page CSS -->
     <script src="{{ asset('sneat/assets/vendor/libs/jquery/jquery.js') }}"></script>
 
@@ -288,13 +295,13 @@
     </div>
 
     <!-- buat hide alert otomatis -->
-    <script>
+    {{-- <script>
         $(function() {
             window.setTimeout(() => {
                 $('.alert').hide(300);
             }, 3000);
         })
-    </script>
+    </script> --}}
 
     <script>
         $(function() {

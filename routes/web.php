@@ -13,6 +13,7 @@ use App\Http\Controllers\WaliSiswaController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\Wali\SiswaController as WaliMuridSiswaController;
 use App\Http\Controllers\Wali\TagihanController as WaliMuridTagihanController;
+use App\Http\Controllers\Wali\PembayaranController as WaliMuridPembayaranController;
 use App\Http\Middleware\Wali;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -57,6 +58,7 @@ Route::prefix('wali')->middleware(['auth', 'auth.wali'])->name('wali.')->group(f
     Route::get('beranda', [App\Http\Controllers\Wali\BerandaController::class, 'index'])->name('beranda');
     Route::resource('siswa', WaliMuridSiswaController::class);
     Route::resource('tagihan', WaliMuridTagihanController::class);
+    Route::resource('pembayaran', WaliMuridPembayaranController::class);
 });
 
 Route::prefix('admin')->middleware(['auth', 'auth.admin'])->group(function () {

@@ -27,7 +27,7 @@
                                     <th>Nama Siswa</th>
                                     <th>Jurusan</th>
                                     <th>Kelas</th>
-                                    <th>Tanggal Tagihan</th>
+                                    <th>Periode Tagihan</th>
                                     <th>Status Pembayaran</th>
                                     <th>Jumlah Tagihan</th>
                                     <th class="text-center">Action</th>
@@ -40,7 +40,7 @@
                                         <td>{{ ucwords($item->siswa->nama) }}</td>
                                         <td>{{ $item->siswa->jurusan->nama_jurusan }}</td>
                                         <td>{{ $item->siswa->kelas }}</td>
-                                        <td>{{ $item->tanggal_tagihan->translatedFormat('d-F-Y') }}</td>
+                                        <td>{{ $item->tanggal_tagihan->translatedFormat('F Y') }}</td>
 
                                         @php
                                             $class = '';
@@ -60,7 +60,8 @@
                                         <td>{{ formatRupiah($item->transaksiDetails->sum('jumlah_biaya')) }}</td>
                                         <td style="width: 20%" class="text-center">
                                             @if ($item->status == 'baru' || $item->status == 'angsuran')
-                                                <a href="" class="btn btn-outline-primary">Lakukan Pembayaran</a>
+                                                <a href="{{ route('wali.tagihan.show', $item->id) }}"
+                                                    class="btn btn-outline-primary">Lakukan Pembayaran</a>
                                             @else
                                                 <p class="mb-0 text-left"><mark>LUNAS</mark></p>
                                             @endif
