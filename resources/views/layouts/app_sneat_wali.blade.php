@@ -28,6 +28,9 @@
         class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('sneat/assets/css/demo.css') }}" />
 
+
+
+
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
     <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/select2/select2.css') }}" />
@@ -54,6 +57,9 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('sneat/assets/js/config.js') }}"></script>
+
+    <!--- jQuery Mask -->
+    <script src="{{ asset('assets/jquery-mask/jquery.mask.min.js') }}"></script>
 </head>
 
 <body>
@@ -321,6 +327,10 @@
 
             $(".select2insidemodal").select2({
                 dropdownParent: $("#modalCenter")
+            });
+
+            $('.rupiah').mask('000.000.000', {
+                reverse: true
             });
         })
 

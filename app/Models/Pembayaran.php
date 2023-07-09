@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pembayaran extends Model
 {
@@ -12,6 +13,8 @@ class Pembayaran extends Model
     protected $fillable = [
         'transaksi_id',
         'wali_id',
+        'bank_wali_id',
+        'bank_sekolah_id',
         'tanggal_bayar',
         'status_konfirmasi',
         'jumlah_dibayar',
@@ -20,7 +23,7 @@ class Pembayaran extends Model
         'user_id'
     ];
 
-    protected $with = ['user', 'transaksi'];
+    protected $with = ['user', 'transaksi', 'bankSekolah'];
 
 
     protected $casts = [
@@ -48,5 +51,20 @@ class Pembayaran extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function wali(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'wali_id');
+    }
+
+    public function waliBank(): BelongsTo
+    {
+        return $this->belongsTo(WaliBank::class, 'bank_wali_id');
+    }
+
+    public function bankSekolah(): BelongsTo
+    {
+        return $this->belongsTo(BankSekolah::class, 'bank_sekolah_id');
     }
 }

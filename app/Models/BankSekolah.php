@@ -16,6 +16,7 @@ class BankSekolah extends Model
         'nomor_rekening'
     ];
 
+    protected $table = 'bank_sekolahs';
     protected $with = ['bank'];
 
 

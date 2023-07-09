@@ -124,7 +124,7 @@
                                     <a href="{{ route('wali.pembayaran.create', [
                                         'tagihan_id' => $tagihan->id,
                                         'bank_sekolah_id' => $itemBank->id,
-                                        'bank_id' => $itemBank->bank_id,
+                                        'bank_id' => $itemBank->id,
                                     ]) }}"
                                         class="btn btn-sm btn-primary mt-2">Konfirmasi Pembayaran</a>
                                 </div>

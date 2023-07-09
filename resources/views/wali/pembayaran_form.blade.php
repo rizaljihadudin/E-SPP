@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12 col-sm-12">
             <div class="card">
-                <div class="col-md-8 offset-md-2 col-sm-12 offset-sm-0 offset-xs-0">
+                <div class="col-md-10 offset-md-1 col-sm-12 offset-sm-0 offset-xs-0">
                     <h5 class="card-header">{{ $title }}</h5>
 
                     <div class="card-body">
@@ -20,13 +20,22 @@
                                     aria-label="Close"></button>
                             </div>
                         @endif
+                        @if ($message = Session::get('info'))
+                            <div class="alert alert-info alert-dismissible" role="alert">
+                                <strong>{{ $message }}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
                         {!! Form::model($pembayaran, [
                             'route' => $route,
                             'method' => $method,
                             'files' => true,
                         ]) !!}
+                        {!! Form::hidden('tagihan_id', request('tagihan_id'), []) !!}
                         <fieldset class="reset mb-2">
-                            <legend class="reset fw-bold"><i class="fa fa-info-circle"></i> INFORMASI REKENING PENGIRIM
+                            <legend class="reset fw-bold" style="color: red"><i class="fa fa-info-circle"></i> INFORMASI
+                                REKENING PENGIRIM
                             </legend>
                             <div class="alert alert-dark mt-2" role="alert">
                                 <i>Informasi ini dibutuhkan agar operator sekolah dapat memverifikasi pembayaran yang
@@ -92,7 +101,8 @@
                             </div>
                         </fieldset>
                         <fieldset class="reset mb-2">
-                            <legend class="reset fw-bold"><i class="fa fa-info-circle"></i> INFORMASI REKENING TUJUAN
+                            <legend class="reset fw-bold" style="color: red"><i class="fa fa-info-circle"></i> INFORMASI
+                                REKENING TUJUAN
                             </legend>
                             <div class="form-group mb-3">
                                 <label for="bank_nama">Nama Bank</label>
@@ -126,16 +136,30 @@
                             </div>
                         </fieldset>
                         <fieldset class="reset mb-2">
-                            <legend class="reset fw-bold"><i class="fa fa-info-circle"></i> INFORMASI PEMBAYARAN</legend>
+                            <legend class="reset fw-bold" style="color: red"><i class="fa fa-info-circle"></i> INFORMASI
+                                PEMBAYARAN</legend>
                             <div class="form-group mb-3">
-                                <label for="bank_id">Tanggal Bayar</label>
+                                <label for="tanggal_bayar">Tanggal Bayar</label>
                                 {!! Form::date('tanggal_bayar', $pembayaran->tanggal_bayar ?? \Carbon\Carbon::now(), [
                                     'class' => 'form-control',
                                 ]) !!}
                                 <span class="text-danger">{{ $errors->first('tanggal_bayar') }}</span>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="bukti_bayar">Upload Bukti Bayar</label>
+                                <label for="jumlah_bayar">Jumlah Bayar</label>
+                                {!! Form::text('jumlah_bayar', $tagihan->transaksiDetails->sum('jumlah_biaya'), [
+                                    'class' => 'form-control rupiah',
+                                    'placeholder' => 'Masukkan nominal pembayaran',
+                                    'autofocus',
+                                ]) !!}
+                                <span class="text-danger">{{ $errors->first('jumlah_bayar') }}</span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="bukti_bayar">
+                                    Upload Bukti Bayar
+                                    <span class="text-danger">*File harus berukuran JPG, JPEG, dan PNG. Ukuran file, maks:
+                                        5mb</span>
+                                </label>
                                 {!! Form::file('bukti_bayar', [
                                     'class' => 'form-control',
                                     'accept' => 'image/*',
