@@ -6,6 +6,7 @@ use App\Models\Pembayaran;
 use App\Http\Requests\StorePembayaranRequest;
 use App\Http\Requests\UpdatePembayaranRequest;
 use App\Models\Transaksi;
+use Illuminate\Http\Request;
 
 class PembayaranController extends Controller
 {
@@ -31,8 +32,9 @@ class PembayaranController extends Controller
     public function store(StorePembayaranRequest $request)
     {
         $requestData = $request->validated();
-        $requestData['status_konfirmasi'] = 'sudah';
-        $requestData['metode_pembayaran'] = 'manual';
+        $requestData['status_konfirmasi']   = 'sudah';
+        $requestData['tanggal_konfirmasi']  = now();
+        $requestData['metode_pembayaran']   = 'manual';
 
         /** cek jumlah tagihan */
         $tagihan = Transaksi::findOrFail($requestData['transaksi_id']);
@@ -52,9 +54,13 @@ class PembayaranController extends Controller
      */
     public function show(Pembayaran $pembayaran)
     {
+        // untuk melakukan update notifikasi
+        auth()->user()->unreadNotifications->where('id', request('id'))->first()?->markAsRead();
         $data = [
             'model'     => $pembayaran,
-            'title'     => 'DATA PEMBAYARAN'
+            'title'     => 'DATA PEMBAYARAN',
+            'route'     => ['pembayaran.update', $pembayaran->id],
+            'method'    => 'PUT'
         ];
 
         return view('operator.pembayaran_show', $data);
@@ -71,9 +77,18 @@ class PembayaranController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePembayaranRequest $request, Pembayaran $pembayaran)
+    public function update(Request $request, Pembayaran $pembayaran)
     {
-        //
+        // untuk update data di tabel pembayarans
+        $pembayaran->status_konfirmasi = 'sudah';
+        $pembayaran->tanggal_konfirmasi = now();
+        $pembayaran->user_id = auth()->user()->id;
+        $pembayaran->save();
+
+        //update data di tabel transaksis
+        $pembayaran->transaksi->status = 'lunas';
+        $pembayaran->transaksi->save();
+        return  redirect()->back()->with('success', 'Data Pembayaran berhasil di konfirmasi.');
     }
 
     /**

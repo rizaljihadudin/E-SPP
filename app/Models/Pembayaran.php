@@ -17,6 +17,7 @@ class Pembayaran extends Model
         'bank_sekolah_id',
         'tanggal_bayar',
         'status_konfirmasi',
+        'tanggal_konfirmasi',
         'jumlah_dibayar',
         'bukti_bayar',
         'metode_pembayaran',
@@ -27,7 +28,8 @@ class Pembayaran extends Model
 
 
     protected $casts = [
-        'tanggal_bayar' => 'date'
+        'tanggal_bayar'         => 'date',
+        'tanggal_konfirmasi'    => 'datetime'
     ];
 
     protected static function booted(): void
