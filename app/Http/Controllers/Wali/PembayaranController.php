@@ -96,7 +96,7 @@ class PembayaranController extends Controller
 
         $validasiPembayaran = Pembayaran::where('jumlah_dibayar', $jumlahBayar)
             ->where('transaksi_id', $request['tagihan_id'])
-            ->where('status_konfirmasi', 'belum')
+            //->where('status_konfirmasi', 'belum')
             ->first();
         if ($validasiPembayaran) {
             return redirect()->back()->with('info', 'Data pembayaran ini sudah ada, dan akan segera di konfirmasi oleh operator');
@@ -115,10 +115,10 @@ class PembayaranController extends Controller
         $dataPembayaran = [
             'transaksi_id'      => $request['tagihan_id'],
             'wali_id'           => $waliBank->wali_id,
-            'bank_wali_id'      => $waliBank->bank_id,
+            'bank_wali_id'      => $waliBank->id,
             'bank_sekolah_id'   => $request['bank_id'],
             'tanggal_bayar'     => $request['tanggal_bayar'],
-            'status_konfirmasi' => 'belum',
+            //'status_konfirmasi' => 'belum',
             'jumlah_dibayar'    => $jumlahBayar,
             'bukti_bayar'       => $buktiBayar,
             'metode_pembayaran' => 'transfer',
@@ -137,7 +137,7 @@ class PembayaranController extends Controller
             return redirect()->back()->with('error', 'Gagal menyimpan data pembayaran' + $th->getMessage())->error();
         }
 
-        return redirect()->back()->with('success', 'berhasil melakukan pembayaran dan akan segera di konfirmasi oleh operator');
+        return redirect()->route('wali.tagihan.index')->with('success', 'berhasil melakukan pembayaran dan akan segera di konfirmasi oleh operator');
     }
 
     public function validationInput($request)

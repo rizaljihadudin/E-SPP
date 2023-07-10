@@ -30,7 +30,7 @@ class WaliBank extends Model
 
     public function bank(): BelongsTo
     {
-        return $this->belongsTo(Bank::class);
+        return $this->belongsTo(Bank::class, 'bank_id');
     }
 
     public function wali(): BelongsTo

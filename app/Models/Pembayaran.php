@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +17,6 @@ class Pembayaran extends Model
         'bank_wali_id',
         'bank_sekolah_id',
         'tanggal_bayar',
-        'status_konfirmasi',
         'tanggal_konfirmasi',
         'jumlah_dibayar',
         'bukti_bayar',
@@ -25,6 +25,7 @@ class Pembayaran extends Model
     ];
 
     protected $with = ['user', 'transaksi', 'bankSekolah'];
+    protected $append = ['status_konfirmasi'];
 
 
     protected $casts = [
@@ -44,6 +45,14 @@ class Pembayaran extends Model
             $pembayaran->user_id = auth()->user()->id;
         });
     }
+
+    protected function statusKonfirmasi(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => ($this->tanggal_konfirmasi) ? 'Sudah Dikonfirmasi' : 'Belum Dikonfirmasi'
+        );
+    }
+
 
     public function transaksi(): BelongsTo
     {

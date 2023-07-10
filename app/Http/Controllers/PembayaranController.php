@@ -32,7 +32,7 @@ class PembayaranController extends Controller
     public function store(StorePembayaranRequest $request)
     {
         $requestData = $request->validated();
-        $requestData['status_konfirmasi']   = 'sudah';
+        //$requestData['status_konfirmasi']   = 'sudah';
         $requestData['tanggal_konfirmasi']  = now();
         $requestData['metode_pembayaran']   = 'manual';
 
@@ -80,7 +80,7 @@ class PembayaranController extends Controller
     public function update(Request $request, Pembayaran $pembayaran)
     {
         // untuk update data di tabel pembayarans
-        $pembayaran->status_konfirmasi = 'sudah';
+        //$pembayaran->status_konfirmasi = 'sudah';
         $pembayaran->tanggal_konfirmasi = now();
         $pembayaran->user_id = auth()->user()->id;
         $pembayaran->save();
