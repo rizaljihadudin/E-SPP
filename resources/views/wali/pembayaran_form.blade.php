@@ -106,11 +106,6 @@
                             </legend>
                             <div class="form-group mb-3">
                                 <label for="bank_nama">Nama Bank</label>
-                                {!! Form::text('bank_nama', $bank->nama_bank, [
-                                    'readonly' => true,
-                                    'class' => 'form-control',
-                                ]) !!}
-
                                 @if (request('bank_sekolah_id'))
                                     <div class="alert alert-dark mt-2" role="alert">
                                         <table width="100%">
@@ -132,7 +127,8 @@
                                     </div>
                                 @endif
 
-                                {!! Form::hidden('bank_id', $bank->id, []) !!}
+                                {!! Form::hidden('bank_id', $bankSekolah->id, []) !!}
+                                {!! Form::hidden('list_wali_bank', count($listWaliBank), []) !!}
                             </div>
                         </fieldset>
                         <fieldset class="reset mb-2">

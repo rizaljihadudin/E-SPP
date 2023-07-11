@@ -67,39 +67,42 @@
                                 </tr>
                                 <tr>
                                     <td>Nama Wali</td>
-                                    <td>: {{ ucwords($model->wali->name) }}</td>
+                                    <td>: ---Nunggu nanti</td>
                                 </tr>
-                                <tr>
-                                    <td colspan="2" class="bg-secondary text-white fw-bold">INFORMASI BANK PENGIRIM</td>
-                                </tr>
-                                <tr>
-                                    <td>Bank Pengirim</td>
-                                    <td>: {{ $model->waliBank->bank->nama_bank }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Nama Rekening</td>
-                                    <td>: {{ $model->waliBank->nama_rekening }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Nomor Rekening</td>
-                                    <td>: {{ $model->waliBank->nomor_rekening }}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="bg-secondary text-white fw-bold">INFORMASI BANK TUJUAN
-                                        TRANSFER</td>
-                                </tr>
-                                <tr>
-                                    <td>Bank Tujuan Transfer</td>
-                                    <td>: {{ $model->BankSekolah->bank->nama_bank }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Nama Rekening</td>
-                                    <td>: {{ $model->BankSekolah->nama_rekening }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Nomor Rekening</td>
-                                    <td>: {{ $model->BankSekolah->nomor_rekening }}</td>
-                                </tr>
+                                @if ($model->metode_pembayaran == 'transfer')
+                                    <tr>
+                                        <td colspan="2" class="bg-secondary text-white fw-bold">INFORMASI BANK PENGIRIM
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bank Pengirim</td>
+                                        <td>: {{ $model->waliBank->bank->nama_bank }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nama Rekening</td>
+                                        <td>: {{ $model->waliBank->nama_rekening }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nomor Rekening</td>
+                                        <td>: {{ $model->waliBank->nomor_rekening }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="bg-secondary text-white fw-bold">INFORMASI BANK TUJUAN
+                                            TRANSFER</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bank Tujuan Transfer</td>
+                                        <td>: {{ $model->BankSekolah->bank->nama_bank }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nama Rekening</td>
+                                        <td>: {{ $model->BankSekolah->nama_rekening }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nomor Rekening</td>
+                                        <td>: {{ $model->BankSekolah->nomor_rekening }}</td>
+                                    </tr>
+                                @endif
                                 <tr>
                                     <td colspan="2" class="bg-secondary text-white fw-bold">INFORMASI PEMBAYARAN</td>
                                 </tr>

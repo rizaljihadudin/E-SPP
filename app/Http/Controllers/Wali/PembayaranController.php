@@ -35,7 +35,6 @@ class PembayaranController extends Controller
             'pembayaran'    => new Pembayaran(),
             'route'         => 'wali.pembayaran.store',
             'method'        => 'POST',
-            'bank'          => BankSekolah::where('id', $request['bank_id'])->first(),
             'listBank'      => $listBank,
             'listWaliBank'  => $listWaliBank
 
@@ -46,7 +45,7 @@ class PembayaranController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->filled('tambah_data_bank')) {
+        if ($request->filled('tambah_data_bank') || $request['list_wali_bank'] <= 0) {
             $this->validationInput($request);
 
             $bankId         = $request['bank_id_pengirim'];
@@ -131,10 +130,11 @@ class PembayaranController extends Controller
             $pembayaran     = Pembayaran::create($dataPembayaran);
             $userOperator   = User::where('akses', 'operator')->get();
             Notification::send($userOperator, new PembayaranNotification($pembayaran));
+
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Gagal menyimpan data pembayaran' + $th->getMessage())->error();
+            return redirect()->back()->with('error', 'Gagal menyimpan data pembayaran' . $th->getMessage())->error();
         }
 
         return redirect()->route('wali.tagihan.index')->with('success', 'berhasil melakukan pembayaran dan akan segera di konfirmasi oleh operator');

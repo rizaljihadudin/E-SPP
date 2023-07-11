@@ -169,6 +169,13 @@
                             <div data-i18n="Basic">Data Tagihan</div>
                         </a>
                     </li>
+                    <!-- Data Pembayaran -->
+                    <li class="menu-item {{ \Route::is('pembayaran.*') ? 'active' : '' }}">
+                        <a href="{{ route('pembayaran.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-transfer-alt"></i>
+                            <div data-i18n="Basic">Data Pembayaran</div>
+                        </a>
+                    </li>
                     <li class="menu-item">
                         <a href="{{ route('logout') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-log-out"></i>
@@ -269,7 +276,6 @@
                                 </ul>
                             </li>
                             <!--/ Notification -->
-
                             <!-- User -->
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"

@@ -136,7 +136,9 @@ class TransaksiController extends Controller
      */
     public function edit(Model $tagihan)
     {
-        $data = [];
+        $data = [
+            'title' => 'EDIT DATA TRANSAKSI'
+        ];
 
         return view('operator.' . $this->viewEdit, $data);
     }

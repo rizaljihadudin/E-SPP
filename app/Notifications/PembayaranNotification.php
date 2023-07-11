@@ -2,6 +2,9 @@
 
 namespace App\Notifications;
 
+use App\Channels\WhacenterChannel;
+use App\Services\WhacenterService;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -27,7 +30,7 @@ class PembayaranNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['database', WhacenterChannel::class];
     }
 
     /**
@@ -46,15 +49,39 @@ class PembayaranNotification extends Notification
      *
      * @return array<string, mixed>
      */
+
+    /** mengirim ke notifikasi wali di web */
     public function toArray(object $notifiable): array
     {
         return [
             'tagihan_id'    => $this->pembayaran->transaksi_id,
             'wali_id'       => $this->pembayaran->wali_id,
             'pembayaran_id' => $this->pembayaran->id,
-            'title'         => 'Pembayaran Tagihan',
-            'message'       => '<b>' . $this->pembayaran->wali->name . '</b> Melakukan pembayaran tagihan. ',
+            'title'         => "Pembayaran Tagihan",
+            'message'       => "<b>{$this->pembayaran->wali->name}</b> Melakukan pembayaran tagihan. ",
             'url'           => route('pembayaran.show', $this->pembayaran->id)
         ];
+    }
+
+    /** pengiriman notifikasi ke Whatsapp */
+    public function toWhacenter($notifiable)
+    {
+        /** membuat link login operator */
+        $url = URL::temporarySignedRoute(
+            'login.url',
+            now()->addDays(30),
+            [
+                'pembayaran_id' => $this->pembayaran->id,
+                'user_id'       => $notifiable->id,
+                'url'           => route('pembayaran.show', $this->pembayaran->id)
+            ]
+        );
+        return (new WhacenterService())
+            ->to($notifiable->no_hp)
+            ->line("Hallo Operator,")
+            ->line("Ada Pembayaran Tagihan SPP")
+            ->line("{$this->pembayaran->wali->name} Melakukan pembayaran tagihan.")
+            ->line("Untuk melihat info pembayaran, klik link berikut: {$url}")
+            ->line("JANGAN BERIKAN LINK INI KEPADA SIAPAPUN.");
     }
 }

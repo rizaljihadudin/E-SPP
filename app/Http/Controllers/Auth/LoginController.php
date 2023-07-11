@@ -62,4 +62,16 @@ class LoginController extends Controller
             return redirect()->route('login')->with('Anda tidak memiliki hak akses')->error();
         }
     }
+
+    /** untuk melakukan login via link dari whatsapp */
+    public function loginUrl(Request $request)
+    {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
+        $user = Auth::loginUsingId($request->user_id);
+
+        return redirect($request->url);
+    }
 }

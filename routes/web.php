@@ -17,6 +17,7 @@ use App\Http\Controllers\Wali\PembayaranController as WaliMuridPembayaranControl
 use App\Http\Middleware\Wali;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,20 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// Route::get('tes', function () {
+//     echo URL::temporarySignedRoute(
+//         'login.url',
+//         now()->addDays(30),
+//         [
+//             'pembayaran_id' => 1,
+//             'user_id'       => 2,
+//             'url'           => route('pembayaran.show', 1)
+//         ]
+//     );
+// });
+
+Route::get('login/login-url', [LoginController::class, 'loginUrl'])->name('login.url');
 
 Route::get('/', function () {
     return view('welcome');

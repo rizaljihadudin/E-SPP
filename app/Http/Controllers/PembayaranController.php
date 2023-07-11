@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Pembayaran;
 use App\Http\Requests\StorePembayaranRequest;
-use App\Http\Requests\UpdatePembayaranRequest;
 use App\Models\Transaksi;
+use App\Notifications\PembayaranKonfirmasiNotification;
 use Illuminate\Http\Request;
 
 class PembayaranController extends Controller
@@ -15,7 +15,9 @@ class PembayaranController extends Controller
      */
     public function index()
     {
-        //
+        $models     = Pembayaran::latest()->orderBy('tanggal_konfirmasi', 'desc')->paginate(50);
+        $title      = 'DATA PEMBAYARAN';
+        return view('operator.pembayaran_index', compact('models', 'title'));
     }
 
     /**
@@ -80,7 +82,9 @@ class PembayaranController extends Controller
     public function update(Request $request, Pembayaran $pembayaran)
     {
         // untuk update data di tabel pembayarans
-        //$pembayaran->status_konfirmasi = 'sudah';
+
+        $wali = $pembayaran->wali;
+        $wali->notify(new PembayaranKonfirmasiNotification($pembayaran));
         $pembayaran->tanggal_konfirmasi = now();
         $pembayaran->user_id = auth()->user()->id;
         $pembayaran->save();
