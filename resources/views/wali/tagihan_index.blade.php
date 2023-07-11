@@ -53,9 +53,19 @@
                                             }
                                             
                                         @endphp
-
-                                        <td style="text-align: center"><span
-                                                class="badge {{ $class }}">{{ $item->getStatusTransaksiWali() }}</span>
+                                        <td style="text-align: center">
+                                            @if ($item->pembayaran->count() >= 1)
+                                                <a
+                                                    href="{{ route('wali.pembayaran.show', $item->pembayaran->first()->id) }}">
+                                                    <span class="badge {{ $class }}">
+                                                        {{ $item->getStatusTransaksiWali() }}
+                                                    </span>
+                                                </a>
+                                            @else
+                                                <span class="badge {{ $class }}">
+                                                    {{ $item->getStatusTransaksiWali() }}
+                                                </span>
+                                            @endif
                                         </td>
                                         <td>{{ formatRupiah($item->transaksiDetails->sum('jumlah_biaya')) }}</td>
                                         <td style="width: 20%" class="text-center">

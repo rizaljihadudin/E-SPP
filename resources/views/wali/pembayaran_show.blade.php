@@ -1,4 +1,4 @@
-@extends('layouts.app_sneat')
+@extends('layouts.app_sneat_wali')
 
 @section('content')
     <div class="row justify-content-center">
@@ -67,7 +67,7 @@
                                 </tr>
                                 <tr>
                                     <td>Nama Wali</td>
-                                    <td>: ---Nunggu nanti</td>
+                                    <td>: {{ ucwords($model->wali->name) }}</td>
                                 </tr>
                                 @if ($model->metode_pembayaran == 'transfer')
                                     <tr>
@@ -140,7 +140,7 @@
                                 <tr>
                                     <td>Status Pembayaran</td>
                                     <td>: <span
-                                            class="badge bg-label-primary">{{ $model->transaksi->getStatusTransaksiWali() }}</span>
+                                            class="badge bg-success">{{ $model->transaksi->getStatusTransaksiWali() }}</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -150,22 +150,25 @@
                                 </tr>
                             </thead>
                         </table>
-                        @if ($model->transaksi->status != 'lunas')
-                            {!! Form::open([
-                                'route' => $route,
-                                'method' => $method,
-                                'onsubmit' => 'return confirm("Apakah anda yakin, untuk melakukan Konfirmasi Pembayaran?")',
-                            ]) !!}
-                            {!! Form::hidden('pembayaran_id', $model->id, []) !!}
-                            {!! Form::submit('KONFIRMASI PEMBAYARAN', ['class' => 'btn btn-success mt-2']) !!}
-                            {!! link_to(URL::previous(), 'BACK', ['class' => 'btn btn-dark mt-2']) !!}
-                            {!! Form::close() !!}
-                        @else
+                        @if ($model->transaksi->status == 'lunas')
                             <div class="alert alert-primary mt-2" role="alert">
                                 <h4>TAGIHAN SUDAH LUNAS</h4>
                             </div>
-                            {!! link_to(URL::previous(), 'BACK', ['class' => 'btn btn-dark mt-2']) !!}
                         @endif
+                        {!! Form::open([
+                            'route' => ['wali.pembayaran.destroy', $model->id],
+                            'method' => 'DELETE',
+                            'title' => 'Hapus Data',
+                            'class' => 'mt-3',
+                            'onsubmit' => 'return confirm("Apakah anda yakin, ingin menghapus data ini?")',
+                        ]) !!}
+                        {!! link_to(URL::previous(), 'BACK', ['class' => 'btn btn-dark']) !!}
+                        @if ($model->status_konfirmasi != 'Sudah Dikonfirmasi')
+                            <button class="btn btn-danger btn-md">
+                                <i class="fa fa-xmark fa-xl"></i> Batalkan Konfirmasi Pembayaran ini
+                            </button>
+                        @endif
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>

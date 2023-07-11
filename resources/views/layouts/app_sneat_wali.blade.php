@@ -146,12 +146,20 @@
                         </a>
                     </li>
                     <!-- Data Tagihan -->
-                    <li class="menu-item {{ \Route::is('wali.tagihan.*') ? 'active' : '' }}">
+                    <li
+                        class="menu-item {{ \Route::is('wali.tagihan.*') || \Route::is('wali.pembayaran.*') ? 'active' : '' }}">
                         <a href="{{ route('wali.tagihan.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-user-pin"></i>
                             <div data-i18n="Basic">Data Tagihan</div>
                         </a>
                     </li>
+                    {{-- <!-- Data Pembayaran -->
+                    <li class="menu-item {{ \Route::is('wali.pembayaran.*') ? 'active' : '' }}">
+                        <a href="{{ route('wali.pembayaran.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-transfer-alt"></i>
+                            <div data-i18n="Basic">Data Pembayaran</div>
+                        </a>
+                    </li> --}}
                     <li class="menu-item">
                         <a href="{{ route('logout') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-log-out"></i>
@@ -275,7 +283,7 @@
                                                     <span
                                                         class="fw-semibold d-block">{{ \Str::title(Auth::user()->name) }}</span>
                                                     <small
-                                                        class="text-muted">{{ \Str::title(Auth::user()->akses) }}</small>
+                                                        class="text-muted">{{ \Str::title(Auth::user()->email) }}</small>
                                                 </div>
                                             </div>
                                         </a>
@@ -287,12 +295,6 @@
                                         <a class="dropdown-item" href="#">
                                             <i class="bx bx-user me-2"></i>
                                             <span class="align-middle">My Profile</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="bx bx-cog me-2"></i>
-                                            <span class="align-middle">Settings</span>
                                         </a>
                                     </li>
                                     <li>
@@ -309,7 +311,8 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="auth-login-basic.html">
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                            onclick="return confirm('apakah anda ingin logout?')">
                                             <i class="bx bx-power-off me-2"></i>
                                             <span class="align-middle">Log Out</span>
                                         </a>
@@ -328,7 +331,6 @@
                     <!-- Content -->
 
                     <div class="container-xxl flex-grow-1 container-p-y">
-                        @include('flash::message')
                         @yield('content')
                     </div>
                     <!-- / Content -->

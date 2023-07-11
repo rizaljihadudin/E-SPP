@@ -247,7 +247,7 @@
                                                                 <h6 class="mb-1">{{ $notification->data['title'] }}
                                                                 </h6>
                                                                 <p class="mb-0">
-                                                                    {!! \Str::title($notification->data['message']) !!}
+                                                                    {!! \Str::title($notification->data['messages']) !!}
                                                                 </p>
                                                                 <small class="text-muted">
                                                                     {{ $notification->created_at->diffForHumans() }}

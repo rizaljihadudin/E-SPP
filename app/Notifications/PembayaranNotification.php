@@ -58,12 +58,12 @@ class PembayaranNotification extends Notification
             'wali_id'       => $this->pembayaran->wali_id,
             'pembayaran_id' => $this->pembayaran->id,
             'title'         => "Pembayaran Tagihan",
-            'message'       => "<b>{$this->pembayaran->wali->name}</b> Melakukan pembayaran tagihan. ",
+            'messages'       => "<b>{$this->pembayaran->wali->name}</b> Melakukan pembayaran tagihan. ",
             'url'           => route('pembayaran.show', $this->pembayaran->id)
         ];
     }
 
-    /** pengiriman notifikasi ke Whatsapp */
+    /** pengiriman notifikasi ke Whatsapp Operator */
     public function toWhacenter($notifiable)
     {
         /** membuat link login operator */

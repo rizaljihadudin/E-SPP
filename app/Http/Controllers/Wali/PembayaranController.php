@@ -13,11 +13,19 @@ use App\Notifications\PembayaranNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 class PembayaranController extends Controller
 {
+
+    public function index()
+    {
+        $models     = Pembayaran::where('wali_id', Auth::user()->id)->latest()->orderBy('tanggal_konfirmasi', 'desc')->paginate(50);
+        $title      = 'DATA PEMBAYARAN';
+        return view('wali.pembayaran_index', compact('models', 'title'));
+    }
 
     public function create(Request $request)
     {
@@ -137,7 +145,7 @@ class PembayaranController extends Controller
             return redirect()->back()->with('error', 'Gagal menyimpan data pembayaran' . $th->getMessage())->error();
         }
 
-        return redirect()->route('wali.tagihan.index')->with('success', 'berhasil melakukan pembayaran dan akan segera di konfirmasi oleh operator');
+        return redirect()->route('wali.pembayaran.show', $pembayaran->id)->with('success', 'berhasil melakukan pembayaran dan akan segera di konfirmasi oleh operator');
     }
 
     public function validationInput($request)
@@ -147,5 +155,34 @@ class PembayaranController extends Controller
             'nama_rekening_pengirim'    => 'required',
             'nomor_rekening'            => 'required|numeric'
         ]);
+    }
+
+    public function show(Pembayaran $pembayaran)
+    {
+        auth()->user()->unreadNotifications->where('id', request('id'))->first()?->markAsRead();
+        $data = [
+            'model'     => $pembayaran,
+            'title'     => 'DATA PEMBAYARAN',
+        ];
+
+        return view('wali.pembayaran_show', $data);
+    }
+
+    public function destroy($id)
+    {
+        $pembayaran = Pembayaran::findOrFail($id);
+
+        //validasi pembayaran sudah di konfirmasi
+        if ($pembayaran->tanggal_konfirmasi) {
+            return redirect()->back()->with('error', 'Data Pembayaran ini sudah dikonfirmasi, tidak bisa dihapus.');
+        }
+
+        // jika data pembayaran belum di konfirmasi
+        $image_path = public_path($pembayaran->bukti_bayar);
+        if (File::exists($image_path)) {
+            File::delete($image_path);
+        }
+        $pembayaran->delete();
+        return redirect()->route('wali.pembayaran.index')->with('success', 'Berhasil melakukan Pembatalan');
     }
 }

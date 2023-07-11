@@ -2,10 +2,13 @@
 
 namespace App\Notifications;
 
+use App\Channels\WhacenterChannel;
+use App\Services\WhacenterService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\URL;
 
 class PembayaranKonfirmasiNotification extends Notification
 {
@@ -27,7 +30,7 @@ class PembayaranKonfirmasiNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['database', WhacenterChannel::class];
     }
 
     /**
@@ -54,5 +57,26 @@ class PembayaranKonfirmasiNotification extends Notification
             'messages'          => 'Pembayaran Tagihan SPP atas nama ' . $this->pembayaran->transaksi->siswa->nama . ' telah di konfirmasi.',
             'url'               => route('wali.pembayaran.show', $this->pembayaran->id)
         ];
+    }
+
+    /** pengiriman notifikasi ke Whatsapp Wali Murid */
+    public function toWhacenter($notifiable)
+    {
+        /** membuat link login operator */
+        $url = URL::temporarySignedRoute(
+            'login.url',
+            now()->addDays(30),
+            [
+                'pembayaran_id' => $this->pembayaran->id,
+                'user_id'       => $notifiable->id,
+                'url'           => route('wali.tagihan.index')
+            ]
+        );
+        return (new WhacenterService())
+            ->to($notifiable->no_hp)
+            ->line("Hallo {$notifiable->name},")
+            ->line("Pembayaran Tagihan siswa atas nama : {$this->pembayaran->transaksi->siswa->nama} Sudah Di konfimasi")
+            ->line("Untuk melihat info pembayaran, klik link berikut: {$url}")
+            ->line("JANGAN BERIKAN LINK INI KEPADA SIAPAPUN.");
     }
 }
