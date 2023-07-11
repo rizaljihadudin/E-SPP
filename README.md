@@ -10,6 +10,9 @@ It's a full stack E-SPP Application made using Laravel v.10
 - Operator can add, update, or delete students.
 - Operator can add, update, or delete School fees (SPP)
 - Operator can add, update, or delete Billing
+- Parent can add, update, or cancel Billing (https://github.com/andes2912/indobank)
+- Parent can add payment method with 152 Indonesian banks data
+- Notification Billing on Web Aplication and Whatsapp (use https://app.whacenter.com/)
 - etc ( is under development)
 ```
 
