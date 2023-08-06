@@ -61,6 +61,11 @@ class Biaya extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function siswa(): HasMany
+    {
+        return $this->hasMany(Siswa::class, 'biaya_id', 'parent_id');
+    }
+
     public function scopeSearch($query, $keyword)
     {
         if ($keyword) {

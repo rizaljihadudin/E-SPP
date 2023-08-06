@@ -115,12 +115,13 @@ class BiayaController extends Controller
      */
     public function destroy(string $id)
     {
-        $model = Model::findOrFail($id);
-        $children = $model->children->count();
+        $model      = Model::findOrFail($id);
+        $children   = $model->children->count();
 
         if ($children > 0) {
             return back()->with('error', 'Data tidak bisa dihapus karena masih memiliki item biaya. Hapus item biaya, terlebih dahulu!');
         }
+
 
         $model->delete();
         return redirect()->route($this->routePrefix . '.index')->with('success', 'Data berhasil di hapus.');
@@ -128,9 +129,11 @@ class BiayaController extends Controller
 
     public function deleteItem(string $id)
     {
-        $model = Model::findOrFail($id);
-        $parentId = $model->parent_id;
-        $model->delete();
+        $biaya = Biaya::findOrFail($id);
+        if ($biaya->siswa->count() >= 1) {
+            return back()->with('error', 'Data tidak bisa dihapus karena memiliki relasi dengan data siswa');
+        }
+        $biaya->delete();
         return back()->with('success', 'Data Item berhasil di hapus.');
     }
 }

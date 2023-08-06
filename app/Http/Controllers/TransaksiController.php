@@ -10,8 +10,11 @@ use App\Models\Siswa;
 use App\Models\Biaya;
 use App\Models\Pembayaran;
 use App\Models\TransaksiDetail;
+use App\Models\User;
+use App\Notifications\TagihanNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class TransaksiController extends Controller
 {
@@ -70,7 +73,6 @@ class TransaksiController extends Controller
 
         //get semua data siswa yang statusnya aktif
         $siswa          = Siswa::currentStatus('aktif')->get();
-
         foreach ($siswa as $itemSiswa) {
             $dataTagihan = [
                 'siswa_id'              => $itemSiswa->id,
@@ -92,6 +94,9 @@ class TransaksiController extends Controller
             //kalo tagihan belum pernah dibuat
             if (!$cekTagihan) {
                 $tagihan = Model::create($dataTagihan);
+
+                $wali    = User::whereIn('id', $siswa->pluck('wali_id'))->get();
+                Notification::send($tagihan->siswa->wali, new TagihanNotification($tagihan));
                 $biaya   = $itemSiswa->biaya->children;
                 foreach ($biaya as $itemBiaya) {
                     $detail = TransaksiDetail::create([

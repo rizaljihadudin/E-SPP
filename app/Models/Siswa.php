@@ -53,8 +53,12 @@ class Siswa extends Model
 
     public function biaya(): BelongsTo
     {
-        // print_r($this->biaya_id);
         return $this->belongsTo(Biaya::class, 'biaya_id');
+    }
+
+    public function transaksi(): BelongsTo
+    {
+        return $this->belongsTo(Transaksi::class, 'id');
     }
 
     public function scopeSearch($query, $keyword)

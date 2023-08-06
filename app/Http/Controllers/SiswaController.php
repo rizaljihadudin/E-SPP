@@ -154,9 +154,13 @@ class SiswaController extends Controller
      */
     public function destroy(string $id)
     {
-        $model = Model::findOrFail($id);
-        unlink($model->foto);
-        $model->delete();
+        $siswa = Model::findOrFail($id);
+        if ($siswa->transaksi->count() >= 1) {
+            return back()->with('error', 'Data tidak bisa di hapus, di karenakan masih memiliki relasi data tagihan.');
+        }
+
+        unlink($siswa->foto);
+        $siswa->delete();
         return redirect()->route($this->routePrefix . '.index')->with('success', 'Data berhasil di hapus.');
     }
 }

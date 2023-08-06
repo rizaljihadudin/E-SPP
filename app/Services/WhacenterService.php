@@ -9,6 +9,7 @@ class WhacenterService
 
     protected string $to;
     protected array $lines;
+    protected string $file = '';
     protected string $baseUrl = '';
     protected string $deviceId = '';
 
@@ -43,12 +44,20 @@ class WhacenterService
         return $this;
     }
 
+    /** ngide ngirim pake gambar */
+    public function file($file): self
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
     public function send(): mixed
     {
         if ($this->to == '' || count($this->lines) <= 0) {
             throw new \Exception('Message not correct.');
         }
-        $params = 'device_id=' . $this->deviceId . '&number=' . $this->to . '&message=' . urlencode(implode("\n", $this->lines));
+        $params = 'device_id=' . $this->deviceId . '&number=' . $this->to . '&message=' . urlencode(implode("\n", $this->lines)) . '&file=' . $this->file;
         $response = Http::get($this->baseUrl . '/send?' . $params);
         return $response->body();
     }
