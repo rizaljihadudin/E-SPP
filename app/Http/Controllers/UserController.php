@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $models = Model::wali()->latest()->paginate(50);
+        $models = Model::wali()->latest()->paginate(settings()->get('app_pagination', 50));
         $data = [
             'models'        => $models,
             'title'         => 'Data User',

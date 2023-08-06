@@ -65,7 +65,9 @@
                                 @endforelse
                             </tbody>
                         </table>
-                        {!! $models->links() !!}
+                        <div class="mt-3">
+                            {!! $models->links(settings()->get('app_pagination_style', 'vendor.pagination.custom')) !!}
+                        </div>
                     </div>
                 </div>
             </div>

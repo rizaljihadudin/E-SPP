@@ -51,10 +51,12 @@ class TagihanNotification extends Notification
      */
     public function toArray(object $notifiable): array
     {
+        $bulanTagihan   = $this->transaksi->tanggal_tagihan->translatedFormat('F Y');
+        $siswa          = $this->transaksi->siswa->nama;
         return [
             'tagihan_id'    => $this->transaksi->id,
-            'title'         => "Tagihan SPP Bulan " . $this->transaksi->siswa->nama,
-            'messages'      => "Tagihan SPP Bulan " . $this->transaksi->tanggal_tagihan->translatedFormat('F Y'),
+            'title'         => "Tagihan SPP Bulan {$bulanTagihan}",
+            'messages'      => "Tagihan SPP Bulan {$bulanTagihan} Atas Nama : {$siswa}",
             'url'           => route('wali.tagihan.show', $this->transaksi->id)
         ];
     }

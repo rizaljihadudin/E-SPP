@@ -50,9 +50,8 @@
                         </div> --}}
                         <div class="form-group mb-3">
                             <label for="tanggal_tagihan">Tanggal Tagihan</label>
-                            {!! Form::date('tanggal_tagihan', null, [
+                            {!! Form::date('tanggal_tagihan', $model->tanggal_tagihan ?? date('Y-m-01'), [
                                 'class' => 'form-control',
-                                'autofocus',
                                 'rows' => 5,
                                 'placeholder' => 'Silahkan isi tanggal tagihan...',
                             ]) !!}
@@ -60,9 +59,8 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="tanggal_jatuh_tempo">Tanggal Jatuh Tempo</label>
-                            {!! Form::date('tanggal_jatuh_tempo', null, [
+                            {!! Form::date('tanggal_jatuh_tempo', $model->tanggal_jatuh_temp ?? date('Y-m-10'), [
                                 'class' => 'form-control',
-                                'autofocus',
                                 'rows' => 5,
                                 'placeholder' => 'Silahkan isi tanggal jatuh tempo...',
                             ]) !!}

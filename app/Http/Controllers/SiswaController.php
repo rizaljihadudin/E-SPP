@@ -24,15 +24,14 @@ class SiswaController extends Controller
      */
     public function index(Request $request)
     {
+        $models = Model::with('wali', 'jurusan')->latest();
+
         if ($request->filled('q')) {
-            $models = Model::with('wali', 'jurusan')->search($request->q)->paginate(50);
-        } else {
-            /** eager loading pake (with untuk relasi) */
-            $models = Model::with('wali', 'jurusan')->latest()->paginate(50);
+            $models = $models->search($request->q);
         }
 
         $data = [
-            'models'        => $models,
+            'models'        => $models->paginate(settings()->get('app_pagination', 50)),
             'title'         => 'Data Siswa',
             'routePrefix'   => $this->routePrefix
         ];
@@ -78,11 +77,8 @@ class SiswaController extends Controller
         if ($request->filled('wali_id')) {
             $requestData['wali_status'] = 'ok';
         }
-        $requestData['user_id']     = auth()->user()->id;
 
-
-        $siswa = Model::create($requestData);
-        $siswa->setStatus('aktif');
+        Model::create($requestData);
 
         return  redirect()->route($this->routePrefix . '.index')->with('success', 'Data Siswa berhasil di simpan.');
     }

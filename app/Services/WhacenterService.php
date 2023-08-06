@@ -54,11 +54,16 @@ class WhacenterService
 
     public function send(): mixed
     {
-        if ($this->to == '' || count($this->lines) <= 0) {
-            throw new \Exception('Message not correct.');
+        // if ($this->to == '' || count($this->lines) <= 0) {
+        //     throw new \Exception('Message not correct.');
+        // }
+
+        if (!$this->to) {
+            $params = 'device_id=' . $this->deviceId . '&number=' . $this->to . '&message=' . urlencode(implode("\n", $this->lines)) . '&file=' . $this->file;
+            $response = Http::get($this->baseUrl . '/send?' . $params);
+            return $response->body();
         }
-        $params = 'device_id=' . $this->deviceId . '&number=' . $this->to . '&message=' . urlencode(implode("\n", $this->lines)) . '&file=' . $this->file;
-        $response = Http::get($this->baseUrl . '/send?' . $params);
-        return $response->body();
+
+        return 'No number to send';
     }
 }

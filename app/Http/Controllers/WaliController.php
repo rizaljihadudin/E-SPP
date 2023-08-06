@@ -18,7 +18,7 @@ class WaliController extends Controller
 
     public function index()
     {
-        $models = Model::where('akses', 'wali')->latest()->paginate(50);
+        $models = Model::where('akses', 'wali')->latest()->paginate(settings()->get('app_pagination', 50));
         $data = [
             'models'        => $models,
             'title'         => 'Data Wali Murid',

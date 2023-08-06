@@ -7,7 +7,10 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>
+        {{ $title ?? '' }} |
+        {{ settings()->get('app_name', 'E-SPP') }}
+    </title>
 
     <meta name="description" content="" />
 
@@ -41,6 +44,10 @@
 
         .ps {
             position: relative;
+        }
+
+        .reset {
+            all: revert;
         }
     </style>
 
@@ -108,7 +115,8 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="app-brand-text demo menu-text fw-bolder ms-2">E-SPP</span>
+                        <span
+                            class="app-brand-text demo menu-text fw-bolder ms-2">{{ settings()->get('app_alias', 'E-SPP') }}</span>
                     </a>
 
                     <a href="javascript:void(0);"
@@ -125,6 +133,13 @@
                         <a href="{{ route('operator.beranda') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Dashboard</div>
+                        </a>
+                    </li>
+                    <!--- Setting -->
+                    <li class="menu-item {{ \Route::is('setting.*') ? 'active' : '' }}">
+                        <a href="{{ route('setting.create') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                            <div data-i18n="Analytics">Pengaturan Aplikasi</div>
                         </a>
                     </li>
                     <!-- Data Users -->

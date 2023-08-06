@@ -61,6 +61,23 @@ class Siswa extends Model
         return $this->belongsTo(Transaksi::class, 'id');
     }
 
+    protected static function booted(): void
+    {
+        /** to insert user_id after create data on table biayas */
+        static::creating(function (Biaya $siswa) {
+            $siswa->user_id = auth()->user()->id;
+        });
+
+        static::created(function (Biaya $siswa) {
+            $siswa->setStatus('aktif');
+        });
+
+        /** to insert user_id after update on table biayas */
+        static::updating(function (Biaya $siswa) {
+            $siswa->user_id = auth()->user()->id;
+        });
+    }
+
     public function scopeSearch($query, $keyword)
     {
         if ($keyword) {

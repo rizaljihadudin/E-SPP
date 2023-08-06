@@ -11,6 +11,7 @@ use App\Http\Controllers\KwitansiPembayaranController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\WaliSiswaController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\Wali\SiswaController as WaliMuridSiswaController;
 use App\Http\Controllers\Wali\TagihanController as WaliMuridTagihanController;
@@ -65,6 +66,7 @@ Route::prefix('operator')->middleware(['auth', 'auth.operator'])->group(function
     Route::resource('transaksi', TransaksiController::class);
     Route::resource('pembayaran', PembayaranController::class);
     Route::resource('walisiswa', WaliSiswaController::class);
+    Route::resource('setting', SettingController::class);
     Route::get('kwitansi-pembayaran/{id}', [KwitansiPembayaranController::class, 'print'])->name('kwitansipembayaran.print');
     Route::get('kartu-spp', [KartuSppController::class, 'index'])->name('kartuspp.index');
     Route::get('delete-biaya-item/{id}', [BiayaController::class, 'deleteItem'])->name('delete.biaya.item');

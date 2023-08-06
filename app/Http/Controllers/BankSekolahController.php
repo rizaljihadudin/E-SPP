@@ -23,7 +23,7 @@ class BankSekolahController extends Controller
     public function index(Request $request)
     {
 
-        $models = Model::latest()->paginate(50);
+        $models = Model::latest()->paginate(settings()->get('app_pagination', 50));
         $data = [
             'models'        => $models,
             'title'         => 'Data Rekening Sekolah',
