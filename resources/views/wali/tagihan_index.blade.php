@@ -79,7 +79,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" style="text-align: center">Tidak ada {{ $title }}
+                                        <td colspan="8" style="text-align: center">Tidak ada {{ $title }}
                                         </td>
                                     </tr>
                                 @endforelse

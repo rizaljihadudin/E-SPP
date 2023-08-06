@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSiswaRequest;
 use App\Http\Requests\UpdateSiswaRequest;
+use App\Models\Biaya;
 use Illuminate\Http\Request;
 use \App\Models\User;
 use \App\Models\Jurusan;
@@ -44,6 +45,7 @@ class SiswaController extends Controller
     public function create()
     {
         $data = [
+            'listBiaya' => Biaya::has('children')->whereNull('parent_id')->pluck('nama_biaya', 'id'),
             'model'     => new Model(),
             'method'    => 'POST',
             'route'     => $this->routePrefix . '.store',
@@ -78,7 +80,10 @@ class SiswaController extends Controller
         }
         $requestData['user_id']     = auth()->user()->id;
 
-        Model::create($requestData);
+
+        $siswa = Model::create($requestData);
+        $siswa->setStatus('aktif');
+
         return  redirect()->route($this->routePrefix . '.index')->with('success', 'Data Siswa berhasil di simpan.');
     }
 
@@ -101,6 +106,7 @@ class SiswaController extends Controller
     public function edit(string $id)
     {
         $data = [
+            'listBiaya' => Biaya::has('children')->whereNull('parent_id')->pluck('nama_biaya', 'id'),
             'model'     => Model::findOrFail($id),
             'method'    => 'PUT',
             'route'     => [$this->routePrefix . '.update', $id],
@@ -136,7 +142,6 @@ class SiswaController extends Controller
         if ($request->filled('wali_id')) {
             $requestData['wali_status'] = 'ok';
         }
-
         $requestData['user_id']     = auth()->user()->id;
         $requestData['updated_at']  = date('Y-m-d H:i:s');
         $model->fill($requestData);

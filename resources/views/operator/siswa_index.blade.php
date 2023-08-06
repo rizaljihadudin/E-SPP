@@ -43,10 +43,12 @@
                                     <th>Jurusan</th>
                                     <th>Kelas</th>
                                     <th>Angkatan</th>
+                                    <th>Tagihan</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
+
                                 @forelse ($models as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
@@ -56,6 +58,7 @@
                                         <td>{{ $item->jurusan->nama_jurusan }}</td>
                                         <td>{{ $item->kelas }}</td>
                                         <td>{{ $item->angkatan }}</td>
+                                        <td>{{ formatRupiah($item->biaya?->total_tagihan) }}</td>
                                         <td>
 
                                             {!! Form::open([
@@ -69,7 +72,7 @@
                                             <a title="Detail Data" href="{{ route($routePrefix . '.show', $item->id) }}"
                                                 class="btn btn-icon btn-info btn-sm"><i class="fa fa-info-circle"></i></a>
 
-                                            <button class="btn btn-icon btn-danger btn-sm">
+                                            <button class="btn btn-icon btn-danger btn-sm my-2">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                             {!! Form::close() !!}
@@ -78,7 +81,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" style="text-align: center">Data Siswa masih kosong!</td>
+                                        <td colspan="9" style="text-align: center">Data Siswa masih kosong!</td>
                                     </tr>
                                 @endforelse
                             </tbody>

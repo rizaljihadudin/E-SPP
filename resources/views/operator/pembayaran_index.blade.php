@@ -20,8 +20,8 @@
                         </div>
                     @endif
                     <div class="row">
-                        <div class="col-md-6">
-                            {!! Form::open(['route' => 'pembayaran.index', 'method' => 'GET']) !!}
+                        {!! Form::open(['route' => 'pembayaran.index', 'method' => 'GET']) !!}
+                        <div class="col-md-10">
                             <div class="row">
                                 <div class="col-md-5 col-sm-12">
                                     {!! Form::selectMonth('bulan', request('bulan'), [
@@ -36,13 +36,14 @@
                                         'placeholder' => '-- Pilih Tahun --',
                                     ]) !!}
                                 </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-md btn-primary" type="submit"><i
-                                            class="fas fa-search"></i></button>
-                                </div>
                             </div>
-                            {!! Form::close() !!}
                         </div>
+                        <div class="col-md-2">
+                            <div class="col-md-2">
+                                <button class="btn btn-md btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                        {!! Form::close() !!}
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped">
@@ -96,7 +97,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" style="text-align: center">Tidak ada {{ $title }}
+                                        <td colspan="7" style="text-align: center">Tidak ada {{ $title }}
                                         </td>
                                     </tr>
                                 @endforelse

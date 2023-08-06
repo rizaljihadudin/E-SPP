@@ -21,7 +21,7 @@
                             </div>
                         @endif
                         {!! Form::model($model, ['route' => $route, 'method' => $method, 'files' => true]) !!}
-                        <div class="form-group mb-3">
+                        {{-- <div class="form-group mb-3">
                             <label for="biaya_id">Jenis Biaya</label>
                             {!! Form::Select('biaya_id[]', $biaya, null, [
                                 'class' => 'form-control select2-multiple',
@@ -47,7 +47,7 @@
                                 'placeholder' => '-- Pilih Angkatan --',
                             ]) !!}
                             <span class="text-danger">{{ $errors->first('angkatan') }}</span>
-                        </div>
+                        </div> --}}
                         <div class="form-group mb-3">
                             <label for="tanggal_tagihan">Tanggal Tagihan</label>
                             {!! Form::date('tanggal_tagihan', null, [

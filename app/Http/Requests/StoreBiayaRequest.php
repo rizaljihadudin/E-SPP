@@ -23,8 +23,9 @@ class StoreBiayaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_biaya'    => 'required|unique:biayas',
-            'jumlah'        => 'required|numeric'
+            'nama_biaya'    => 'required',
+            'jumlah'        => 'required|numeric',
+            'parent_id'     => 'nullable|exists:biayas,id'
         ];
     }
 

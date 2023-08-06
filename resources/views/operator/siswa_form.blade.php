@@ -31,6 +31,15 @@
                             <span class="text-danger">{{ $errors->first('nama') }}</span>
                         </div>
                         <div class="form-group mb-3">
+                            <label for="biaya_id">Tagihan</label>
+                            {!! Form::select('biaya_id', $listBiaya, null, [
+                                'class' => 'form-control select2',
+                                'placeholder' => '-- Pilih Biaya --',
+                                'autofocus',
+                            ]) !!}
+                            <span class="text-danger">{{ $errors->first('biaya_id') }}</span>
+                        </div>
+                        <div class="form-group mb-3">
                             <label for="wali_murid">Wali Murid (Optional)</label>
                             {!! Form::Select('wali_id', $wali, null, [
                                 'class' => 'form-control select2',

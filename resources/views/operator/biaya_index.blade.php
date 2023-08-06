@@ -38,7 +38,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Biaya</th>
-                                    <th style="text-align: center">Jumlah</th>
+                                    <th style="text-align: center">Total Tagihan</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -47,7 +47,8 @@
                                     <tr>
                                         <td width="3%">{{ $loop->iteration }}</td>
                                         <td width="55%">{{ Str::upper($item->nama_biaya) }}</td>
-                                        <td width="25%" style="text-align: center">{{ formatRupiah($item->jumlah) }}</td>
+                                        <td width="25%" style="text-align: center">
+                                            {{ formatRupiah($item->total_tagihan) }}</td>
                                         <td>
 
                                             {!! Form::open([
@@ -58,7 +59,8 @@
                                             ]) !!}
                                             <a title="Edit Data" href="{{ route($routePrefix . '.edit', $item->id) }}"
                                                 class="btn btn-icon btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                            <a title="Detail Data" href="{{ route($routePrefix . '.show', $item->id) }}"
+                                            <a title="Detail Item"
+                                                href="{{ route($routePrefix . '.create', ['parent_id' => $item->id]) }}"
                                                 class="btn btn-icon btn-info btn-sm"><i class="fa fa-info-circle"></i></a>
 
                                             <button class="btn btn-icon btn-danger btn-sm">

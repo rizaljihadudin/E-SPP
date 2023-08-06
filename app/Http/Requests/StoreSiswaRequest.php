@@ -24,6 +24,7 @@ class StoreSiswaRequest extends FormRequest
         return [
             'nama'          => 'required',
             'wali_id'       => 'nullable',
+            'biaya_id'      => 'required|exists:biayas,id',
             'nisn'          => 'required|unique:siswas',
             'jurusan_id'    => 'nullable',
             'kelas'         => 'required',

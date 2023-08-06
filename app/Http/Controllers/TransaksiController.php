@@ -11,6 +11,7 @@ use App\Models\Biaya;
 use App\Models\Pembayaran;
 use App\Models\TransaksiDetail;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class TransaksiController extends Controller
 {
@@ -52,7 +53,7 @@ class TransaksiController extends Controller
             'route'     => $this->routePrefix . '.store',
             'button'    => 'SIMPAN',
             'title'     => 'Tambah Transaksi',
-            'biaya'     => Biaya::get()->pluck('nama_biaya_full', 'id')
+            //'biaya'     => Biaya::get()->pluck('nama_biaya_full', 'id')
         ];
 
         return view('operator.' . $this->viewCreate, $data);
@@ -64,25 +65,15 @@ class TransaksiController extends Controller
     public function store(StoreTransaksiRequest $request)
     {
         $requestData    = $request->validated();
-        $biayaIdArray   = $requestData['biaya_id'];
-        $siswa          = Siswa::query();
 
-        if ($requestData['kelas']) {
-            $siswa->where('kelas', $requestData['kelas']);
-        }
+        DB::beginTransaction();
 
-        if ($requestData['angkatan']) {
-            $siswa->where('angkatan', $requestData['angkatan']);
-        }
-
-        $siswa = $siswa->get();
+        //get semua data siswa yang statusnya aktif
+        $siswa          = Siswa::currentStatus('aktif')->get();
 
         foreach ($siswa as $itemSiswa) {
-            $biaya      = Biaya::whereIn('id', $biayaIdArray)->get();
             $dataTagihan = [
                 'siswa_id'              => $itemSiswa->id,
-                'angkatan'              => $requestData['angkatan'],
-                'kelas'                 => $requestData['kelas'],
                 'tanggal_tagihan'       => $requestData['tanggal_tagihan'],
                 'tanggal_jatuh_tempo'   => $requestData['tanggal_jatuh_tempo'],
                 'keterangan'            => $requestData['keterangan'],
@@ -98,8 +89,10 @@ class TransaksiController extends Controller
                 ->whereYear('tanggal_tagihan', $tahunTagihan)
                 ->first();
 
+            //kalo tagihan belum pernah dibuat
             if (!$cekTagihan) {
                 $tagihan = Model::create($dataTagihan);
+                $biaya   = $itemSiswa->biaya->children;
                 foreach ($biaya as $itemBiaya) {
                     $detail = TransaksiDetail::create([
                         'transaksi_id'  => $tagihan->id,
@@ -109,6 +102,7 @@ class TransaksiController extends Controller
                 }
             }
         }
+        DB::commit();
         return  redirect()->route($this->routePrefix . '.index')->with('success', 'Data Transaksi berhasil di simpan.');
     }
 

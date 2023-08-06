@@ -21,6 +21,40 @@
                             </div>
                         @endif
                         {!! Form::model($model, ['route' => $route, 'method' => $method, 'files' => true]) !!}
+                        @if (request()->filled('parent_id'))
+                            <h3>INFO {{ ucwords($parentData->nama_biaya) }}</h3>
+                            {!! Form::hidden('parent_id', $parentData->id, []) !!}
+                            <table class="table table-sm table-hover table-bordered mb-3">
+                                <thead>
+                                    <tr>
+                                        <td width="4%">No</td>
+                                        <td width="48%">Nama Biaya</td>
+                                        <td width="38%">Jumlah</td>
+                                        <td widht="10%">Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($parentData->children as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}.</td>
+                                            <td>{{ $item->nama_biaya }}</td>
+                                            <td>{{ formatRupiah($item->jumlah) }}</td>
+                                            <td align="center">
+                                                <a href="{{ route('delete.biaya.item', $item->id) }}"
+                                                    class="btn btn-icon btn-danger btn-sm"
+                                                    onclick="return confirm('ingin menghapus data ini?')">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" style="text-align: center;">Tidak Ada Data</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        @endif
                         <div class="form-group mb-3">
                             <label for="nama_biaya">Nama Biaya</label>
                             {!! Form::text('nama_biaya', null, [

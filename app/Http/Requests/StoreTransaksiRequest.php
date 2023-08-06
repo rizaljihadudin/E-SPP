@@ -22,9 +22,9 @@ class StoreTransaksiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'biaya_id.*'            => 'required|exists:biayas,id',
-            'angkatan'              => 'nullable|numeric',
-            'kelas'                 => 'nullable',
+            // 'biaya_id.*'            => 'required|exists:biayas,id',
+            // 'angkatan'              => 'nullable|numeric',
+            // 'kelas'                 => 'nullable',
             'tanggal_tagihan'       => 'required|date',
             'tanggal_jatuh_tempo'   => 'required|date',
             'keterangan'            => 'nullable'
