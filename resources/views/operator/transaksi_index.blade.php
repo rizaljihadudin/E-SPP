@@ -20,11 +20,11 @@
                         </div>
                     @endif
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <a href="{{ route($routePrefix . '.create') }}" class="btn btn-primary btn-sm mb-2">Tambah
                                 Data</a>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             {!! Form::open(['route' => $routePrefix . '.index', 'method' => 'GET']) !!}
                             <div class="row">
                                 <div class="col-md-5 col-sm-12">
@@ -48,9 +48,9 @@
                             {!! Form::close() !!}
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
+                    <div class="table-responsive mt-3">
+                        <table class="{{ config('app.table_style') }}">
+                            <thead class="{{ config('app.thead_style') }}">
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Siswa</th>
@@ -65,8 +65,8 @@
                                 @forelse ($models as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->siswa->nama }}</td>
-                                        <td>{{ $item->siswa->nisn }}</td>
+                                        <td>{{ $item->siswa?->nama }}</td>
+                                        <td>{{ $item->siswa?->nisn }}</td>
                                         <td>{{ $item->tanggal_tagihan->translatedFormat('d-F-Y') }}</td>
 
                                         @php
@@ -114,7 +114,9 @@
                                 @endforelse
                             </tbody>
                         </table>
-                        {!! $models->links() !!}
+                        <div class="mt-3">
+                            {!! $models->links(settings()->get('app_pagination_style', 'vendor.pagination.custom')) !!}
+                        </div>
                     </div>
                 </div>
             </div>

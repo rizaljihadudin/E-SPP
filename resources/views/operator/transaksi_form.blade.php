@@ -1,5 +1,28 @@
 @extends('layouts.app_sneat')
-
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $('#loading-spinner').hide();
+            $('#form-ajax').submit(function(e) {
+                $.ajax({
+                    type: $(this).attr('method'),
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    dataType: "json",
+                    beforeSend: function() {
+                        $('#loading-spinner').show();
+                    },
+                    success: function(response) {
+                        $('#loading-spinner').hide();
+                        alert('Data Berhasil disimpan')
+                    }
+                });
+                e.preventDefault();
+                return;
+            });
+        });
+    </script>
+@endsection
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -20,7 +43,7 @@
                                     aria-label="Close"></button>
                             </div>
                         @endif
-                        {!! Form::model($model, ['route' => $route, 'method' => $method, 'files' => true]) !!}
+                        {!! Form::model($model, ['route' => $route, 'method' => $method, 'files' => true, 'id' => 'form-ajax']) !!}
                         {{-- <div class="form-group mb-3">
                             <label for="biaya_id">Jenis Biaya</label>
                             {!! Form::Select('biaya_id[]', $biaya, null, [
@@ -78,7 +101,12 @@
                         </div>
 
 
-                        {!! Form::submit($button, ['class' => 'btn btn-success']) !!}
+                        {{-- {!! Form::submit($button, ['class' => 'btn btn-success']) !!} --}}
+                        <button class="btn btn-success" type="submit">
+                            <span id="loading-spinner" class="spinner-border spinner-border-sm" role="status"
+                                aria-hidden="true"></span>
+                            {{ $button }}
+                        </button>
                         {!! link_to(URL::previous(), 'BACK', ['class' => 'btn btn-secondary']) !!}
                         {!! Form::close() !!}
                     </div>

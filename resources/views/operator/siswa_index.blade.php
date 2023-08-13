@@ -32,9 +32,9 @@
                     </div>
                     {!! Form::close() !!}
 
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
+                    <div class="table-responsive mt-3">
+                        <table class="{{ config('app.table_style') }}">
+                            <thead class="{{ config('app.thead_style') }}">
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Wali Murid</th>
@@ -86,7 +86,9 @@
                                 @endforelse
                             </tbody>
                         </table>
-                        {!! $models->links(settings()->get('app_pagination_style', 'vendor.pagination.custom')) !!}
+                        <div class="mt-3">
+                            {!! $models->links(settings()->get('app_pagination_style', 'vendor.pagination.custom')) !!}
+                        </div>
                     </div>
                 </div>
             </div>

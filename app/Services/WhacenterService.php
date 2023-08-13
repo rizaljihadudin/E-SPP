@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 class WhacenterService
 {
 
-    protected string $to;
+    protected ?string $to;
     protected array $lines;
     protected string $file = '';
     protected string $baseUrl = '';

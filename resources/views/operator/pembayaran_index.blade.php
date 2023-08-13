@@ -21,7 +21,7 @@
                     @endif
                     <div class="row">
                         {!! Form::open(['route' => 'pembayaran.index', 'method' => 'GET']) !!}
-                        <div class="col-md-10">
+                        <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-5 col-sm-12">
                                     {!! Form::selectMonth('bulan', request('bulan'), [
@@ -36,18 +36,18 @@
                                         'placeholder' => '-- Pilih Tahun --',
                                     ]) !!}
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="col-md-2">
-                                <button class="btn btn-md btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                                <div class="col-md-2 col-sm-12">
+                                    <button class="btn btn-md btn-primary" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         {!! Form::close() !!}
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
+                    <div class="table-responsive mt-3">
+                        <table class="{{ config('app.table_style') }}">
+                            <thead class="{{ config('app.thead_style') }}">
                                 <tr>
                                     <th width="4%">No</th>
                                     <th>NISN</th>

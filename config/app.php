@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Facade;
 
 return [
 
+    'table_style'   => 'table table-striped table-bordered',
+    'thead_style'   => 'table table-dark',
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

@@ -20,9 +20,9 @@
                         </div>
                     @endif
                     <a href="{{ route($routePrefix . '.create') }}" class="btn btn-primary btn-sm mb-2">Tambah Data</a>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
+                    <div class="table-responsive mt-3">
+                        <table class="{{ config('app.table_style') }}">
+                            <thead class="{{ config('app.thead_style') }}">
                                 <tr>
                                     <th>No</th>
                                     <th>Nama</th>
@@ -60,7 +60,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4">Data {{ $title }} masih kosong!</td>
+                                        <td colspan="6" align="center">Data {{ $title }} masih kosong!</td>
                                     </tr>
                                 @endforelse
                             </tbody>

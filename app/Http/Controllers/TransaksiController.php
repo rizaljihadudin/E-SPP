@@ -108,7 +108,10 @@ class TransaksiController extends Controller
             }
         }
         DB::commit();
-        return  redirect()->route($this->routePrefix . '.index')->with('success', 'Data Transaksi berhasil di simpan.');
+        //return  redirect()->route($this->routePrefix . '.index')->with('success', 'Data Transaksi berhasil di simpan.');
+        return response()->json([
+            'message'   => 'Data Berhasil Disimpan!'
+        ], 200);
     }
 
     /**

@@ -475,7 +475,8 @@
         });
     </script>
 
-    <!-- Place this tag in your head or just before your close body tag. -->
+    @yield('js');
+
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 
