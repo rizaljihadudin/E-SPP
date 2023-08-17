@@ -18,7 +18,7 @@ use App\Http\Controllers\Wali\SiswaController as WaliMuridSiswaController;
 use App\Http\Controllers\Wali\TagihanController as WaliMuridTagihanController;
 use App\Http\Controllers\Wali\PembayaranController as WaliMuridPembayaranController;
 use App\Http\Controllers\Wali\ProfileController as WaliMuridProfileController;
-use App\Http\Controllers\Wali\InvoiceController as WaliMuridInvoiceController;
+use App\Http\Controllers\Wali\InvoiceController as InvoiceController;
 use App\Http\Middleware\Wali;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -57,6 +57,7 @@ Auth::routes();
 Route::get('login-wali', [LoginController::class, 'showLoginFormWali'])->name('login.wali');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('panduan-pembayaran/{id}', [PanduanController::class, 'index'])->name('panduan.pembayaran');
+Route::resource('invoice', InvoiceController::class);
 
 Route::prefix('operator')->middleware(['auth', 'auth.operator'])->group(function () {
 
@@ -84,7 +85,6 @@ Route::prefix('wali')->middleware(['auth', 'auth.wali'])->name('wali.')->group(f
     Route::resource('tagihan', WaliMuridTagihanController::class);
     Route::resource('pembayaran', WaliMuridPembayaranController::class);
     Route::resource('profile', WaliMuridProfileController::class);
-    Route::resource('invoice', WaliMuridInvoiceController::class);
 });
 
 Route::prefix('admin')->middleware(['auth', 'auth.admin'])->group(function () {

@@ -58,7 +58,7 @@
                                                 <a
                                                     href="{{ route('wali.pembayaran.show', $item->pembayaran->first()->id) }}">
                                                     <span class="badge {{ $class }}">
-                                                        {{ $item->getStatusTransaksiWali() }}
+                                                        {{ $item->pembayaran->first()->tanggal_konfirmasi ?  'Sudah Di Bayar.' : ' Menunggu Konfirmasi.' }}
                                                     </span>
                                                 </a>
                                             @else

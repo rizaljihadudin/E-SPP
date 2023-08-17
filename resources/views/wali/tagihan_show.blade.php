@@ -38,12 +38,18 @@
                                 </tr>
                                 <tr>
                                     <td>Status Pembayaran</td>
-                                    <td>: {{ $tagihan->getStatusTransaksiWali() }}</td>
+                                    <td>: 
+                                        @if ($tagihan->pembayaran->count() >= 1)
+                                            {{ $tagihan->pembayaran->first()->tanggal_konfirmasi ? 'Sudah Dibayar.' : 'Menunggu Konfirmasi.' }}
+                                        @else
+                                            {{ $tagihan->getStatusTransaksiWali() }}
+                                        @endif
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">
                                         <i class="fa fa-print"></i>
-                                        <a href="{{ route('wali.invoice.show', Crypt::encrypt($tagihan->id)) }}" target="_blank">Cetak Invoice tagihan</a>
+                                        <a href="{{ route('invoice.show', Crypt::encrypt($tagihan->id)) }}" target="_blank">Cetak Invoice tagihan</a>
                                     </td>
                                 </tr>
                             </table>

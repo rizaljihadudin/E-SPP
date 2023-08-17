@@ -30,28 +30,11 @@
                                     <td>: {{ $model->id }}</td>
                                 </tr>
                                 <tr>
-                                    <td>ID Tagihan</td>
-                                    <td>: {{ $model->transaksi_id }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Item tagihan</td>
-                                    <td>
-                                        <table class="table table-sm">
-                                            <thead>
-                                                <th width="5%">No.</th>
-                                                <th>Nama Biaya</th>
-                                                <th>Jumlah</th>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($model->transaksi->transaksiDetails as $itemTagihan)
-                                                    <tr>
-                                                        <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $itemTagihan->nama_biaya }}</td>
-                                                        <td>{{ formatRupiah($itemTagihan->jumlah_biaya) }}</td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                    <td>Invoice Tagihan</td>
+                                    <td>:
+                                        <a href="{{ route('invoice.show', Crypt::encrypt($model->transaksi_id)) }}" target="_blank">
+                                            <i class="fa fa-print"></i> Cetak Invoice tagihan
+                                        </a>
                                     </td>
                                 </tr>
                                 <tr>

@@ -25,7 +25,6 @@ class TagihanController extends Controller
     {
         $tagihan        = Transaksi::WaliSiswa()->findOrFail($id);
         $bankSekolah    = BankSekolah::all();
-
         $data = [
             'tagihan'       => $tagihan,
             'siswa'         => $tagihan->siswa,

@@ -7,13 +7,18 @@ use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
     public function show(String $id)
-    {
+    {   
+        if(Auth::user()->akses == 'wali') {
+            $tagihan    = Transaksi::waliSiswa()->findOrFail(Crypt::decrypt($id));
+        }else{
+            $tagihan    = Transaksi::findOrFail(Crypt::decrypt($id));
+        }
         
-        $tagihan    = Transaksi::waliSiswa()->findOrFail(Crypt::decrypt($id));
         $title      = "Tagihan SPP Bulan {$tagihan->tanggal_tagihan->translatedFormat('F Y')}";
 
         if(request('output') == 'pdf'){
