@@ -11,10 +11,23 @@
                     dataType: "json",
                     beforeSend: function() {
                         $('#loading-spinner').show();
+                        $('#loadingOverlay').removeClass("d-none");
                     },
                     success: function(response) {
+                        console.log(response)
+                        $('#alert-message').removeClass("d-none");
+                        $('#alert-message').addClass("alert-success");
+                        $('#msg-alert').html(response.message)
                         $('#loading-spinner').hide();
-                        alert('Data Berhasil disimpan')
+                        $('#loadingOverlay').addClass("d-none");
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr)
+                        $('#alert-message').removeClass("d-none");
+                        $('#alert-message').addClass("alert-danger");
+                        $('#msg-alert').html(xhr.responseJSON.message)
+                        $('#loading-spinner').hide();
+                        $('#loadingOverlay').addClass("d-none");
                     }
                 });
                 e.preventDefault();
@@ -30,19 +43,10 @@
                 <h5 class="card-header">Form {{ $title }}</h5>
                 <div class="col-md-8 offset-2">
                     <div class="card-body">
-                        @if ($message = Session::get('success'))
-                            <div class="alert alert-success alert-dismissible" role="alert">
-                                <strong>{{ $message }}</strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        @endif
-                        @if ($message = Session::get('error'))
-                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                <strong>{{ $message }}</strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                            </div>
-                        @endif
+                        <div class="alert alert-dismissible d-none" role="alert" id="alert-message">
+                            <strong id="msg-alert"></strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                         {!! Form::model($model, ['route' => $route, 'method' => $method, 'files' => true, 'id' => 'form-ajax']) !!}
                         {{-- <div class="form-group mb-3">
                             <label for="biaya_id">Jenis Biaya</label>

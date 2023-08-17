@@ -7,7 +7,10 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>
+        {{ $title ?? '' }} |
+        {{ settings()->get('app_name', 'E-SPP') }}
+    </title>
 
     <meta name="description" content="" />
 
@@ -119,7 +122,9 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="app-brand-text demo menu-text fw-bolder ms-2">E-SPP</span>
+                        <span class="app-brand-text demo menu-text fw-bolder ms-2">
+                            {{ settings()->get('app_alias', 'E-SPP') }}
+                        </span>
                     </a>
 
                     <a href="javascript:void(0);"
@@ -151,6 +156,13 @@
                         <a href="{{ route('wali.tagihan.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-user-pin"></i>
                             <div data-i18n="Basic">Data Tagihan</div>
+                        </a>
+                    </li>
+                    <li
+                        class="menu-item {{ \Route::is('wali.profile.*') ? 'active' : '' }}">
+                        <a href="{{ route('wali.profile.create') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-user-pin"></i>
+                            <div data-i18n="Basic">Ubah Profile</div>
                         </a>
                     </li>
                     {{-- <!-- Data Pembayaran -->
@@ -194,13 +206,6 @@
                         <!-- /Search -->
 
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
-                            <!-- Place this tag where you want the button to render. -->
-                            <li class="nav-item lh-1 me-3">
-                                <a class="github-button"
-                                    href="https://github.com/themeselection/sneat-html-admin-template-free"
-                                    data-icon="octicon-star" data-size="large" data-show-count="true"
-                                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
-                            </li>
                             <!-- Notification -->
                             <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
@@ -265,7 +270,7 @@
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                     data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ asset('sneat/assets/img/avatars/1.png') }}" alt
+                                        <img src="{{ asset('foto_siswa/acc-img2.png') }}" alt
                                             class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </a>
@@ -275,7 +280,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="{{ asset('sneat/assets/img/avatars/1.png') }}" alt
+                                                        <img src="{{ asset('foto_siswa/acc-img.png') }}" alt
                                                             class="w-px-40 h-auto rounded-circle" />
                                                     </div>
                                                 </div>
@@ -292,18 +297,19 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a href="{{ route('wali.profile.create') }}" class="dropdown-item">
                                             <i class="bx bx-user me-2"></i>
                                             <span class="align-middle">My Profile</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a href="{{ route('wali.tagihan.index') }}" class="dropdown-item">
                                             <span class="d-flex align-items-center align-middle">
                                                 <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
                                                 <span class="flex-grow-1 align-middle">Billing</span>
-                                                <span
-                                                    class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
+                                                <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">
+                                                    {{ auth()->user()->unreadNotifications->count() }}
+                                                </span>
                                             </span>
                                         </a>
                                     </li>

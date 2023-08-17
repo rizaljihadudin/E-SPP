@@ -8,6 +8,7 @@ use App\Models\BankSekolah;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class TagihanController extends Controller
 {

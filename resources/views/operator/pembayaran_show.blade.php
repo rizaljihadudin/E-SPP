@@ -67,7 +67,7 @@
                                 </tr>
                                 <tr>
                                     <td>Nama Wali</td>
-                                    <td>: ---Nunggu nanti</td>
+                                    <td>: {{ ucwords($model->transaksi->siswa->wali->name) }} </td>
                                 </tr>
                                 @if ($model->metode_pembayaran == 'transfer')
                                     <tr>
@@ -127,7 +127,7 @@
                                     <td>Bukti Bayar</td>
                                     <td>:
                                         <a href="javascript:;"
-                                            onclick="popupCenter({'url': '{{ url($model->bukti_bayar) }}',
+                                            onclick="popupCenter({'url': '{{ url($model->bukti_bayar ?? '') }}',
                                             title: 'Bukti Bayar' , w: 900, h: 500});">
                                             <i class="fa fa-file"></i> Lihat Bukti Bayar
                                         </a>

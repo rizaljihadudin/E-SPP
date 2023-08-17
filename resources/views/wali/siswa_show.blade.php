@@ -1,4 +1,4 @@
-@extends('layouts.app_sneat')
+@extends('layouts.app_sneat_wali')
 
 @section('content')
     <div class="row justify-content-center">
@@ -62,10 +62,6 @@
                                     <td>TGL DIUPDATE</td>
                                     <td>: {{ $model->updated_at }}</td>
                                 </tr>
-                                <tr>
-                                    <td>DIBUAT OLEH</td>
-                                    <td>: {{ $model->user->name }}</td>
-                                </tr>
 
                             </thead>
                         </table>
@@ -103,18 +99,6 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a href="{{ route('status.update', [
-                                'model' => 'siswa',
-                                'id' => $model->id,
-                                'status' => $model->status == 'aktif' ? 'non-aktif' : 'aktif',
-                            ]) }}"
-                                class="btn btn-info btn-sm" onclick="return confirm('ingin mengupdate siswa ini?')">
-                                {{ $model->status == 'aktif' ? 'Non-aktifkan Siswa Ini' : 'Aktifkan Siswa Ini' }}
-                            </a>
                         </div>
                     </div>
                     <div class="row" width="10%">

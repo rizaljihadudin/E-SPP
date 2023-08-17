@@ -49,6 +49,20 @@
         .reset {
             all: revert;
         }
+
+        /* Styling for the loading overlay */
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
     </style>
 
     <!-- Page CSS -->
@@ -63,6 +77,14 @@
 </head>
 
 <body>
+
+    <!-- loading overlay -->
+    <div class="loading-overlay d-none" id="loadingOverlay">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <!-- end loading overlay -->
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
@@ -367,7 +389,6 @@
                     <!-- Content -->
 
                     <div class="container-xxl flex-grow-1 container-p-y">
-                        @include('flash::message')
                         @yield('content')
                     </div>
                     <!-- / Content -->

@@ -7,7 +7,7 @@
                 <h5 class="card-header">DATA TAGIHAN SPP SISWA PERIODE {{ strtoupper($periode) }}</h5>
                 <div class="card-body">
                     <div class="d-flex align-items-start align-items-sm-center gap-4">
-                        <img src="{{ url($siswa->foto) }}" alt="{{ 'foto ' . $siswa->nama }}" class="d-block rounded"
+                        <img src="{{ url($siswa->foto ?? 'foto_siswa/no-image.png') }}" alt="{{ 'foto ' . $siswa->nama }}" class="d-block rounded"
                             height="100" width="100" id="uploadedAvatar" />
                         <div class="col-3 mb-sm-0 mb-2">
                             <h6 class="mb-0">{{ \Str::title($siswa->nama) }}</h6>

@@ -66,7 +66,8 @@ class BiayaController extends Controller
         if ($request->filled('parent_id')) {
             return back()->with('success', 'Data Biaya berhasil di simpan.');
         } else {
-            return  redirect()->route($this->routePrefix . '.index')->with('success', 'Data Biaya berhasil di simpan.');
+            flash()->addSuccess('Data berhasil di simpan.');
+            return  redirect()->route($this->routePrefix . '.index');
         }
     }
 
@@ -107,7 +108,8 @@ class BiayaController extends Controller
         $model = Model::findOrFail($id);
         $model->fill($request->validated());
         $model->save();
-        return redirect()->route($this->routePrefix . '.index')->with('success', 'Data berhasil di update.');
+        flash()->addSuccess('Data berhasil di update!');
+        return redirect()->route($this->routePrefix . '.index');
     }
 
     /**

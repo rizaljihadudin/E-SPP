@@ -1,4 +1,4 @@
-@extends('layouts.app_sneat_wali')
+@extends('layouts.app_sneat_wali',  ['title' => 'Data Tagihan SPP'])
 
 @section('content')
     <div class="row justify-content-center">
@@ -9,7 +9,7 @@
                     <div class="row mb-2">
                         <div class="col-md-6 col-sm-12">
                             <div class="d-flex align-items-start align-items-sm-center gap-4 mb-4">
-                                <img src="{{ url($siswa->foto) }}" alt="{{ 'foto ' . $siswa->nama }}" class="d-block rounded"
+                                <img src="{{ asset($siswa->foto ?? 'foto_siswa/no-image.png')  }}" alt="{{ 'foto ' . $siswa->nama }}" class="d-block rounded"
                                     height="100" width="100" id="uploadedAvatar" />
                                 <div class="col-3 mb-sm-0 mb-2">
                                     <h6 class="mb-0">{{ \Str::title($siswa->nama) }}</h6>
@@ -43,7 +43,7 @@
                                 <tr>
                                     <td colspan="2">
                                         <i class="fa fa-print"></i>
-                                        <a href="http://" target="_blank">Cetak Invoice tagihan</a>
+                                        <a href="{{ route('wali.invoice.show', Crypt::encrypt($tagihan->id)) }}" target="_blank">Cetak Invoice tagihan</a>
                                     </td>
                                 </tr>
                             </table>
@@ -86,8 +86,8 @@
                         Rekening milik sekolah dibawah ini.
                         <br />
                         <u><i>Jangan Melakukan Transfer selain ke rekening dibawah ini.</i></u><br />
-                        Silahkan lihat tata cara pembayaran melalui <a href="">ATM</a> atau <a
-                            href="">internet Banking</a>.
+                        Silahkan lihat tata cara pembayaran melalui <a href="{{ route('panduan.pembayaran', 'atm') }}" target="_blank">ATM</a> atau <a
+                        href="{{ route('panduan.pembayaran', 'internet-banking') }}" target="_blank">internet Banking</a>.
                         <br />
                         Setelah melakukan pembayaran, silahkan upload bukti pembayaran melalu tombol konfirmasi yang
                         terdapat
@@ -95,10 +95,10 @@
                     </div>
                     <ul>
                         <li>
-                            <a href="http://">Lihat Cara Melakukan Pembayaran Melalui ATM</a>
+                            <a href="{{ route('panduan.pembayaran', 'atm') }}" target="_blank">Lihat Cara Melakukan Pembayaran Melalui ATM</a>
                         </li>
                         <li>
-                            <a href="http://">Lihat Cara Melakukan Pembayaran Melalui Internet Banking</a>
+                            <a href="{{ route('panduan.pembayaran', 'internet-banking') }}" target="_blank">Lihat Cara Melakukan Pembayaran Melalui Internet Banking</a>
                         </li>
                     </ul>
                     <div class="row">

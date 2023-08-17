@@ -19,37 +19,39 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
-                    <a href="" class="btn btn-primary btn-sm mb-2">Tambah Data</a>
 
                     <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
+                        <table class="{{ config('app.table_style') }}">
+                            <thead class="{{ config('app.thead_style') }}">
                                 <tr>
-                                    <th>No</th>
-                                    <th>Nama Wali Murid</th>
+                                    <th width="1%">No</th>
                                     <th>Nama</th>
                                     <th>NISN</th>
                                     <th>Jurusan</th>
                                     <th>Kelas</th>
                                     <th>Angkatan</th>
-                                    <th>Action</th>
+                                    <th>Biaya</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($models as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ Str::title($item->wali->name) }}</td>
                                         <td>{{ Str::title($item->nama) }}</td>
                                         <td>{{ $item->nisn }}</td>
                                         <td>{{ $item->jurusan->nama_jurusan }}</td>
                                         <td>{{ $item->kelas }}</td>
                                         <td>{{ $item->angkatan }}</td>
-                                        <td></td>
+                                        <td class="text-end">
+                                            <a href="{{ route('wali.siswa.show', $item->id) }}">
+                                                {{ formatRupiah($item->biaya->total_tagihan) }}
+                                                <i class="fa fa-arrow-alt-circle-right"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" style="text-align: center">Data Siswa masih kosong!</td>
+                                        <td colspan="7" style="text-align: center">Data Siswa masih kosong!</td>
                                     </tr>
                                 @endforelse
                             </tbody>

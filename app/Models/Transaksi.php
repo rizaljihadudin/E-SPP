@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Transaksi extends Model
 {
@@ -34,6 +35,15 @@ class Transaksi extends Model
     ];
 
     protected $with = ['user', 'siswa', 'transaksiDetails'];
+    protected $append = ['total_tagihan'];
+
+    protected function totalTagihan(): Attribute
+    {
+        //dd($this->nama_biaya);
+        return Attribute::make(
+            get: fn ($value) => $this->transaksiDetails->sum('jumlah_biaya'),
+        );
+    }
 
     protected static function booted(): void
     {
