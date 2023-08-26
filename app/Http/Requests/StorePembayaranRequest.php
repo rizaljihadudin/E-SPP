@@ -25,7 +25,8 @@ class StorePembayaranRequest extends FormRequest
         return [
             'tanggal_bayar'     => 'required|date',
             'jumlah_dibayar'    => 'required|numeric',
-            'transaksi_id'      => 'required'
+            'transaksi_id'      => 'required',
+            'wali_id'           => 'required'
         ];
     }
 

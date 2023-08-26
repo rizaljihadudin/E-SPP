@@ -28,17 +28,22 @@ class TransaksiController extends Controller
      */
     public function index(Request $request)
     {
+        $models = Model::latest();
 
-        if ($request->filled('bulan') && $request->filled('tahun')) {
-            $models = Model::whereMonth('tanggal_tagihan', $request->bulan)
-                ->whereYear('tanggal_tagihan', $request->tahun)
-                ->paginate(50);
-        } else {
-            $models = Model::latest()->paginate(50);
+        if($request->filled('bulan')){
+            $models = $models->whereMonth('tanggal_tagihan', $request->bulan);
+        }
+
+        if($request->filled('tahun')){
+            $models = $models->whereYear('tanggal_tagihan', $request->tahun);
+        }
+
+        if($request->filled('q')){
+            $models = $models->search($request->q, null, true, true);
         }
 
         $data = [
-            'models'        => $models,
+            'models'        => $models->paginate(settings()->get('app_pagination', '50')),
             'title'         => 'Data Tagihan',
             'routePrefix'   => $this->routePrefix
         ];

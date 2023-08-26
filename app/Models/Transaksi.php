@@ -8,10 +8,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Transaksi extends Model
 {
     use HasFactory;
+    use SearchableTrait;
+
+    protected $searchable = [
+        'columns' => [
+            'siswas.nama' => 10,
+            'siswas.nisn' => 10,
+        ],
+        'joins' => [
+            'siswas' => ['siswas.id','transaksis.siswa_id'],
+        ],
+    ];
 
     protected $fillable = [
         'siswa_id',

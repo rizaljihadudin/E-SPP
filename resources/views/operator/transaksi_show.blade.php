@@ -108,6 +108,7 @@
                     {!! Form::model($pembayaran, ['route' => 'pembayaran.store', 'method' => 'POST']) !!}
                     <div class="form-group mb-2">
                         {!! Form::hidden('transaksi_id', $models->id, []) !!}
+                        {!! Form::hidden('wali_id', $siswa->wali_id, []) !!}
                         <label for="tanggal_bayar">Tanggal Pembayaran</label>
                         {!! Form::date('tanggal_bayar', $pembayaran->tanggal_bayar ?? \Carbon\Carbon::now(), [
                             'class' => 'form-control',

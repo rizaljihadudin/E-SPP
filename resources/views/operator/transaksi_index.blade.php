@@ -20,29 +20,42 @@
                         </div>
                     @endif
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <a href="{{ route($routePrefix . '.create') }}" class="btn btn-primary btn-sm mb-2">Tambah
-                                Data</a>
+                                Data
+                            </a>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-10">
                             {!! Form::open(['route' => $routePrefix . '.index', 'method' => 'GET']) !!}
                             <div class="row">
-                                <div class="col-md-5 col-sm-12">
+                                <div class="col-md-3 col-sm-12">
+                                    {!! Form::text('q', request('q'), [
+                                        'class' => 'form-control',
+                                        'placeholder' => 'Pencarian data siswa',
+                                    ]) !!}
+                                </div>
+                                <div class="col-md-3 col-sm-12">
                                     {!! Form::selectMonth('bulan', request('bulan'), [
                                         'class' => 'form-control select2',
                                         'placeholder' => '-- Pilih Bulan --',
                                     ]) !!}
                                 </div>
-                                <div class="col-md-5 col-sm-12">
+                                <div class="col-md-3 col-sm-12">
                                     {!! Form::selectRange('tahun', '2010', date('Y') + 1, request('tahun'), [
                                         'class' => 'form-control select2',
                                         'autofocus',
                                         'placeholder' => '-- Pilih Tahun --',
                                     ]) !!}
                                 </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-md btn-primary" type="submit"><i
-                                            class="fas fa-search"></i></button>
+                                <div class="col-md-1">
+                                    <button class="btn btn-md btn-primary" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                                <div class="col-md-1">
+                                    <button class="btn btn-md btn-danger" onclick="hapusPencarian()" type="reset">
+                                        <i class="fas fa-remove"></i>
+                                    </button>
                                 </div>
                             </div>
                             {!! Form::close() !!}
@@ -120,4 +133,13 @@
             </div>
         </div>
     </div>
+    <script>
+
+        const hapusPencarian = () => {
+            let url = window.location.origin + window.location.pathname;
+            window.location.href = url;
+
+        }
+
+    </script>
 @endsection

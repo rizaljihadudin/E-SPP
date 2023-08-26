@@ -17,7 +17,8 @@
         "laravelcollective/html": "^6.4",
         "php-flasher/flasher-laravel": "^1.15",
         "qcod/laravel-settings": "^1.2",
-        "spatie/laravel-model-status": "^1.14"
+        "spatie/laravel-model-status": "^1.14",
+        "nicolaslopezj/searchable": "1.*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",

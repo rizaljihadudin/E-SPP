@@ -34,9 +34,10 @@ class PembayaranController extends Controller
     public function store(StorePembayaranRequest $request)
     {
         $requestData = $request->validated();
+        
         //$requestData['status_konfirmasi']   = 'sudah';
         $requestData['tanggal_konfirmasi']  = now();
-        $requestData['metode_pembayaran']   = 'manual';
+        $requestData['metode_pembayaran']   = 'manual';         
 
         /** cek jumlah tagihan */
         $tagihan = Transaksi::findOrFail($requestData['transaksi_id']);
@@ -46,8 +47,9 @@ class PembayaranController extends Controller
             $tagihan->status = 'angsuran';
         }
         $tagihan->save();
-
-        Pembayaran::create($requestData);
+        $pembayaran = Pembayaran::create($requestData);
+        $wali = $pembayaran->wali;
+        $wali->notify(new PembayaranKonfirmasiNotification($pembayaran));
         return  redirect()->back()->with('success', 'Data Pembayaran berhasil di simpan.');
     }
 

@@ -106,6 +106,7 @@
                                     <td>Jumlah Yang Dibayar</td>
                                     <td>: {{ formatRupiah($model->jumlah_dibayar) }}</td>
                                 </tr>
+                                @if ($model->bukti_bayar != null)
                                 <tr>
                                     <td>Bukti Bayar</td>
                                     <td>:
@@ -116,6 +117,7 @@
                                         </a>
                                     </td>
                                 </tr>
+                                @endif
                                 <tr>
                                     <td>Status Konfirmasi</td>
                                     <td>: {{ $model->status_konfirmasi }}</td>
