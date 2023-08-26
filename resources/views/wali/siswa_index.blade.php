@@ -26,10 +26,10 @@
                                 <tr>
                                     <th width="1%">No</th>
                                     <th>Nama</th>
-                                    <th>NISN</th>
                                     <th>Jurusan</th>
                                     <th>Kelas</th>
                                     <th>Angkatan</th>
+                                    <th>Kartu SPP</th>
                                     <th>Biaya</th>
                                 </tr>
                             </thead>
@@ -37,11 +37,19 @@
                                 @forelse ($models as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ Str::title($item->nama) }}</td>
-                                        <td>{{ $item->nisn }}</td>
+                                        <td>
+                                            <div>{{ Str::title($item->nama) }}</div>
+                                            <div>{{ $item->nisn }}</div>
+                                        </td>
                                         <td>{{ $item->jurusan->nama_jurusan }}</td>
                                         <td>{{ $item->kelas }}</td>
                                         <td>{{ $item->angkatan }}</td>
+                                        <td>
+                                            <a href="{{ route('kartuspp.index', ['siswa_id' => $item->id, 'tahun' => date('Y')]) }}"  target="_blank">
+                                                <i class="fa fa-print"></i>
+                                                Download
+                                            </a>
+                                        </td>
                                         <td class="text-end">
                                             <a href="{{ route('wali.siswa.show', $item->id) }}">
                                                 {{ formatRupiah($item->biaya->total_tagihan) }}

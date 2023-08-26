@@ -66,6 +66,11 @@
                             </thead>
                         </table>
                     </div>
+                    <br/>
+                    <a href="{{ route('kartuspp.index', ['siswa_id' => $model->id, 'tahun' => date('Y')]) }}"  target="_blank">
+                        <i class="fa fa-print"></i>
+                        Kartu SPP {{ date('Y') }}
+                    </a>
                     <h6 class="mt-3">TAGIHAN SPP</h6>
                     <div class="row">
                         <div class="col-md-5">

@@ -90,8 +90,6 @@
                                                 'title' => 'Hapus Data',
                                                 'onsubmit' => 'return confirm("Apakah anda yakin, ingin menghapus data ini?")',
                                             ]) !!}
-                                            <a title="Edit Data" href="{{ route($routePrefix . '.edit', $item->id) }}"
-                                                class="btn btn-icon btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                             <a title="Detail Tagihan"
                                                 href="{{ route($routePrefix . '.show', [
                                                     $item->id,

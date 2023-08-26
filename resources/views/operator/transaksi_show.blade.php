@@ -15,9 +15,8 @@
                             <br />
                             <a href="{{ route('kartuspp.index', ['siswa_id' => $siswa->id, 'tahun' => request('tahun')]) }}"
                                 class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-file"></i>
-                                Kartu
-                                Tagihan
-                                {{ request('tahun') }}</a>
+                                Kartu SPP {{ request('tahun') }}
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -55,7 +54,9 @@
                             </tr>
                         </tfoot>
                     </table>
-
+                    <a href="{{ route('invoice.show', Crypt::encrypt($models->id)) }}" target="blank"> 
+                        <i class="fa fa-file-pdf"></i> Download Invoice 
+                    </a>
                 </div>
             </div>
             <div class="card">
@@ -76,7 +77,7 @@
                             @foreach ($models->pembayaran as $item)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('kwitansipembayaran.print', $item->id) }}" target="_blank"><i
+                                        <a href="{{ route('kwitansipembayaran.print', Crypt::encrypt($item->id)) }}" target="_blank"><i
                                                 class="fa fa-print"></i></a>
                                     </td>
                                     <td>{{ $item->tanggal_bayar->translatedFormat('d/m/Y') }}</td>

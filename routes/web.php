@@ -58,7 +58,8 @@ Route::get('login-wali', [LoginController::class, 'showLoginFormWali'])->name('l
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('panduan-pembayaran/{id}', [PanduanController::class, 'index'])->name('panduan.pembayaran');
 Route::resource('invoice', InvoiceController::class);
-
+Route::get('kwitansi-pembayaran/{id}', [KwitansiPembayaranController::class, 'print'])->name('kwitansipembayaran.print')->middleware('auth');
+Route::get('kartu-spp', [KartuSppController::class, 'index'])->name('kartuspp.index')->middleware('auth');
 Route::prefix('operator')->middleware(['auth', 'auth.operator'])->group(function () {
 
     /** Route untuk Operator */
@@ -72,8 +73,6 @@ Route::prefix('operator')->middleware(['auth', 'auth.operator'])->group(function
     Route::resource('pembayaran', PembayaranController::class);
     Route::resource('walisiswa', WaliSiswaController::class);
     Route::resource('setting', SettingController::class);
-    Route::get('kwitansi-pembayaran/{id}', [KwitansiPembayaranController::class, 'print'])->name('kwitansipembayaran.print');
-    Route::get('kartu-spp', [KartuSppController::class, 'index'])->name('kartuspp.index');
     Route::get('delete-biaya-item/{id}', [BiayaController::class, 'deleteItem'])->name('delete.biaya.item');
     Route::get('status/update', [StatusController::class, 'update'])->name('status.update');
 });

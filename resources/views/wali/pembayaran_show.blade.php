@@ -137,6 +137,7 @@
                             <div class="alert alert-primary mt-2" role="alert">
                                 <h4>TAGIHAN SUDAH LUNAS</h4>
                             </div>
+                            <a href="{{ route('kwitansipembayaran.print', Crypt::encrypt($model->id)) }}" target="blank"> <i class="fa fa-file-pdf"></i> Download Kwitansi </a>
                         @endif
                         {!! Form::open([
                             'route' => ['wali.pembayaran.destroy', $model->id],

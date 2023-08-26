@@ -1,5 +1,34 @@
 <?php
 
+
+function bulanSPP()
+{
+    return [
+        7,8,9,10,11,12,1,2,3,4,5,6
+    ];
+}
+
+function namaBulan($bulan)
+{
+    $namaBulan = [
+        ''      => '',
+        '1'     => 'Januari',
+        '2'     => 'Februari',
+        '3'     => 'Maret',
+        '4'     => 'April',
+        '5'     => 'Mei',
+        '6'     => 'Juni',
+        '7'     => 'Juli',
+        '8'     => 'Agustus',
+        '9'     => 'September',
+        '10'    => 'Oktober',
+        '11'    => 'November',
+        '12'    => 'Desember'
+    ];
+
+    return $namaBulan[$bulan];
+}
+
 function formatRupiah($nominal, $prefix = null)
 {
     $prefix = $prefix ? $prefix : 'Rp. ';
