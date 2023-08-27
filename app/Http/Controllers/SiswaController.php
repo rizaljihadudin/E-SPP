@@ -50,8 +50,7 @@ class SiswaController extends Controller
             'route'     => $this->routePrefix . '.store',
             'button'    => 'SIMPAN',
             'title'     => 'Tambah Siswa',
-            'wali'      => User::where('akses', 'wali')->pluck('name', 'id'),
-            'jurusan'   => Jurusan::pluck('nama_jurusan', 'id')
+            'wali'      => User::where('akses', 'wali')->pluck('name', 'id')
         ];
 
         return view('operator.' . $this->viewCreate, $data);
@@ -125,7 +124,10 @@ class SiswaController extends Controller
         $model = Model::findOrFail($id);
 
         if ($request->hasFile('foto')) {
-            unlink($model->foto);
+            if($model->foto != null && file_exists($model->foto)){
+                unlink($model->foto);
+            }
+
             $foto           = $request->file('foto');
             $nisn           = $requestData['nisn'];
             $nama           = str_replace(' ', '-', $requestData['nama']);
@@ -142,7 +144,8 @@ class SiswaController extends Controller
         $requestData['updated_at']  = date('Y-m-d H:i:s');
         $model->fill($requestData);
         $model->save();
-        return redirect()->route($this->routePrefix . '.index')->with('success', 'Data berhasil di update.');
+        flash()->addSuccess('Data berhasil di update!');
+        return redirect()->route($this->routePrefix . '.index');
     }
 
     /**

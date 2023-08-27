@@ -16,11 +16,16 @@ class WaliController extends Controller
     private $viewShow       = 'user_show';
     private $routePrefix    = 'wali';
 
-    public function index()
+    public function index(Request $request)
     {
-        $models = Model::where('akses', 'wali')->latest()->paginate(settings()->get('app_pagination', 50));
+        $models = Model::where('akses', 'wali')->latest();
+
+        if($request->filled('q')){
+            $models = $models->search($request->q);
+        }
+
         $data = [
-            'models'        => $models,
+            'models'        => $models->paginate(settings()->get('app_pagination', 50)),
             'title'         => 'Data Wali Murid',
             'routePrefix'   => $this->routePrefix
         ];

@@ -51,18 +51,28 @@
         }
 
         /* Styling for the loading overlay */
-    .loading-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-    }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        a.emailto:link{
+            color:#ff0000;
+        }
+        a.emailto:visited{
+            color:#0000ff;
+        }
+        a.emailto:hover{
+            background:#66ff66;
+        }
     </style>
 
     <!-- Page CSS -->
@@ -210,7 +220,21 @@
                     <li class="menu-item {{ \Route::is('pembayaran.*') ? 'active' : '' }}">
                         <a href="{{ route('pembayaran.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-transfer-alt"></i>
-                            <div data-i18n="Basic">Data Pembayaran</div>
+                            <div data-i18n="Basic">
+                                Data Pembayaran 
+                                <span class="badge badge-center rounded-pill bg-danger">
+                                    {{ auth()->user()->unreadNotifications->count() }}
+                                </span>
+                            </div>
+                        </a>
+                    </li>
+                    <!-- Data Laporan -->
+                    <li class="menu-item {{ \Route::is('laporanform.*') ? 'active' : '' }}">
+                        <a href="{{ route('laporanform.create') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-transfer-alt"></i>
+                            <div data-i18n="Basic">
+                                Laporan Form 
+                            </div>
                         </a>
                     </li>
                     <li class="menu-item">
@@ -234,26 +258,20 @@
                             <i class="bx bx-menu bx-sm"></i>
                         </a>
                     </div>
-
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        {!! Form::open(['route' => 'transaksi.index', 'method' => 'GET']) !!}
                         <!-- Search -->
                         <div class="navbar-nav align-items-center">
                             <div class="nav-item d-flex align-items-center">
                                 <i class="bx bx-search fs-4 lh-0"></i>
                                 <input type="text" class="form-control border-0 shadow-none"
-                                    placeholder="Search..." aria-label="Search..." />
+                                    placeholder="Pencarian Data Tagihan.." aria-label="Search..." name="q" value="{{ request('q') }}"/>
                             </div>
                         </div>
                         <!-- /Search -->
+                        {!! Form::close() !!}
 
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
-                            <!-- Place this tag where you want the button to render. -->
-                            <li class="nav-item lh-1 me-3">
-                                <a class="github-button"
-                                    href="https://github.com/themeselection/sneat-html-admin-template-free"
-                                    data-icon="octicon-star" data-size="large" data-show-count="true"
-                                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
-                            </li>
 
                             <!-- Notification -->
                             <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
@@ -336,7 +354,7 @@
                                                     <span
                                                         class="fw-semibold d-block">{{ \Str::title(Auth::user()->name) }}</span>
                                                     <small
-                                                        class="text-muted">{{ \Str::title(Auth::user()->akses) }}</small>
+                                                        class="text-muted">{{ Auth::user()->email }}</small>
                                                 </div>
                                             </div>
                                         </a>
@@ -345,32 +363,33 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="{{ route('user.edit', Auth::user()->id) }}">
                                             <i class="bx bx-user me-2"></i>
-                                            <span class="align-middle">My Profile</span>
+                                            <span class="align-middle">Profile</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="{{ route('setting.create') }}">
                                             <i class="bx bx-cog me-2"></i>
-                                            <span class="align-middle">Settings</span>
+                                            <span class="align-middle">Pengaturan Aplikasi</span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">
+                                    {{-- <li>
+                                        <a class="dropdown-item" href="{{ route('pembayaran.index') }}">
                                             <span class="d-flex align-items-center align-middle">
                                                 <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                                                <span class="flex-grow-1 align-middle">Billing</span>
-                                                <span
-                                                    class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
+                                                <span class="flex-grow-1 align-middle">Pembayaran</span>
+                                                <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">
+                                                    {{ auth()->user()->unreadNotifications->count() }}
+                                                </span>
                                             </span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     <li>
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="auth-login-basic.html">
+                                        <a class="dropdown-item" href="{{ route('logout') }}">
                                             <i class="bx bx-power-off me-2"></i>
                                             <span class="align-middle">Log Out</span>
                                         </a>
@@ -398,12 +417,15 @@
                         <div
                             class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                             <div class="mb-2 mb-md-0">
-                                ©
-                                <script>
-                                    document.write(new Date().getFullYear());
-                                </script>
-                                , made with ❤️ by
-                                <b>E-SPP</b>
+                                © 2023, made with ❤️ by
+                                <a href="mailto:mithnyong@gmail.com" class="footer-link me-4 emailto">
+                                    <b>E-SPP Team</b>
+                                </a>
+                            </div>
+                            <div>
+                                <a href="https://themeselection.com" target="_blank" class="footer-link me-4">
+                                    ThemeSelection
+                                </a>
                             </div>
                         </div>
                     </footer>
@@ -420,20 +442,6 @@
         <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
-
-    <div class="buy-now">
-        <a href="javascript:;" onclick="alert('Hohohohohohoooho')"
-            class="btn btn-icon btn-danger btn-buy-now">Top</a>
-    </div>
-
-    <!-- buat hide alert otomatis -->
-    <script>
-        // $(function() {
-        //     window.setTimeout(() => {
-        //         $('.alert').hide(300);
-        //     }, 3000);
-        // })
-    </script>
 
     <script>
         $(function() {

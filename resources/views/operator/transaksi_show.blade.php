@@ -12,11 +12,11 @@
                         <div class="col-3 mb-sm-0 mb-2">
                             <h6 class="mb-0">{{ \Str::title($siswa->nama) }}</h6>
                             <small class="text-nowrap">{{ 'NISN : ' . $siswa->nisn }}</small>
+                            <br/>
+                            <small class="text-nowrap">{{ 'KELAS : ' . $siswa->kelas }}</small>
+                            <br/>
+                            <small class="text-nowrap">{{ 'JURUSAN : ' . $siswa->jurusan->nama_jurusan . ' ( '. $siswa->jurusan->kode_jurusan .' ) '}}</small>
                             <br />
-                            <a href="{{ route('kartuspp.index', ['siswa_id' => $siswa->id, 'tahun' => request('tahun')]) }}"
-                                class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-file"></i>
-                                Kartu SPP {{ request('tahun') }}
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -30,8 +30,8 @@
                     DATA TAGIHAN {{ strtoupper($periode) }}
                 </h5>
                 <div class="card-body">
-                    <table class="table table-sm table-bordered">
-                        <thead>
+                    <table class="{{ config('app.table_style') }}">
+                        <thead class="{{ config('app.thead_style') }}">
                             <tr>
                                 <th>No</th>
                                 <th>NAMA TAGIHAN</th>
@@ -64,8 +64,8 @@
                     INFORMASI PEMBAYARAN
                 </h5>
                 <div class="card-body">
-                    <table class="table table-striped table-bordered">
-                        <thead>
+                    <table class="{{ config('app.table_style') }}">
+                        <thead class="{{ config('app.thead_style') }}">
                             <tr>
                                 <th width="1%">#</th>
                                 <th>TANGGAL</th>
@@ -134,7 +134,35 @@
             </div>
         </div>
         <div class="col-md-6">
-
+            <div class="card">
+                <h5 class="card-header">Kartu SPP</h5>
+                <div class="card-body">
+                    <a href="{{ route('kartuspp.index', ['siswa_id' => $siswa->id, 'tahun' => request('tahun')]) }}"
+                        class="mb-3" target="_blank"><i class="fa fa-print"></i>
+                        Cetak Kartu SPP {{ request('tahun') }}
+                    </a>
+                    <table width="100%" class="{{ config('app.table_style') }} mt-2" style="font-size: 14px;">
+                        <thead class="{{ config('app.thead_style') }}">
+                            <tr style="height: 50px;">
+                                <th style="width:1%;text-align:center">No</th>
+                                <th style="text-align:start;">Bulan</th>
+                                <th style="text-align:end;">Jumlah Tagihan</th>
+                                <th>Tanggal Bayar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($kartuSpp as $item)
+                            <tr>
+                                <td style="text-align:center">{{ $loop->iteration }}.</td>
+                                <td style="text-align:start;">{{ $item['bulan'] . ' ' . $item['tahun'] }}</td>
+                                <td style="text-align:end;">{{ formatRupiah($item['total_tagihan']) }}</td>
+                                <td>{{ $item['tanggal_bayar'] }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

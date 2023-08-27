@@ -8,6 +8,11 @@ function bulanSPP()
     ];
 }
 
+function getListJurusan()
+{
+    return \App\Models\Jurusan::pluck('nama_jurusan', 'id');
+}
+
 function namaBulan($bulan)
 {
     $namaBulan = [

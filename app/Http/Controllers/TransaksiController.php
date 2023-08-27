@@ -124,6 +124,31 @@ class TransaksiController extends Controller
      */
     public function show(Request $request, String $id)
     {
+        $siswa = Siswa::findOrFail($request->siswa_id);
+        $tahun = $request->tahun;
+        $arrayData = [];
+        foreach(bulanSPP() as $bulan){
+            ($bulan == 1) ?? $tahun += 1;
+
+            $tagihan = Model::where('siswa_id',$request->siswa_id)
+                ->whereYear('tanggal_tagihan', $tahun)
+                ->whereMonth('tanggal_tagihan', $bulan)
+                ->first();
+
+                $tanggalBayar = '';
+                if($tagihan != null && $tagihan->status != 'baru'){
+                    $tanggalBayar = $tagihan->pembayaran->first()->tanggal_bayar->format('d/m/Y');
+                }
+                $arrayData[] = [
+                    'bulan'             => namaBulan($bulan),
+                    'tahun'             => $tahun,
+                    'total_tagihan'     => $tagihan->total_tagihan ?? 0,
+                    'status'            => ($tagihan == null ) ? false : true,
+                    'status_pembayaran' => ($tagihan == null) ? 'Belum Bayar' : $tagihan->status,
+                    'tanggal_bayar'     => $tanggalBayar
+                ];
+        }
+
         $tagihan = Model::with('pembayaran')->findOrFail($id);
         $date = '01' . $request->bulan . ' ' . $request->tahun;
         $periode = Carbon::parse($date)->isoFormat('MMMM Y');
@@ -133,7 +158,8 @@ class TransaksiController extends Controller
             'periode'       => $periode,
             'title'         => 'Detail Tagihan Siswa',
             'routePrefix'   => $this->routePrefix,
-            'pembayaran'    => new Pembayaran()
+            'pembayaran'    => new Pembayaran(),
+            'kartuSpp'      => collect($arrayData)
         ];
         return view('operator.' . $this->viewShow, $data);
     }

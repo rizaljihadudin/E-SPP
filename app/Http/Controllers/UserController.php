@@ -16,11 +16,16 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $models = Model::wali()->latest()->paginate(settings()->get('app_pagination', 50));
+        $models = Model::wali()->latest();
+
+        if($request->filled('q')){
+            $models = $models->search($request->q);
+        }
+
         $data = [
-            'models'        => $models,
+            'models'        => $models->paginate(settings()->get('app_pagination', 50)),
             'title'         => 'Data User',
             'routePrefix'   => $this->routePrefix
         ];

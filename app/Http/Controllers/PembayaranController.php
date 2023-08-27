@@ -7,15 +7,38 @@ use App\Http\Requests\StorePembayaranRequest;
 use App\Models\Transaksi;
 use App\Notifications\PembayaranKonfirmasiNotification;
 use Illuminate\Http\Request;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class PembayaranController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $models     = Pembayaran::latest()->orderBy('tanggal_konfirmasi', 'desc')->paginate(50);
+        $models     = Pembayaran::latest()->orderBy('tanggal_konfirmasi', 'desc');
+
+        if($request->filled('bulan')){
+            $models = $models->whereMonth('tanggal_bayar', $request->bulan);
+        }
+
+        if($request->filled('tahun')){
+            $models = $models->whereYear('tanggal_bayar', $request->tahun);
+        }
+
+        if($request->filled('q')){
+            $models = $models->search($request->q, null, true, true);
+        }
+
+        if($request->filled('status')){
+            if($request->status == 'sudah-konfirm'){
+                $models = $models->whereNotNull('tanggal_konfirmasi');
+            }elseif($request->status == 'belum-konfirm'){
+                $models = $models->whereNull('tanggal_konfirmasi');
+            }
+        }
+
+        $models     = $models->paginate(settings()->get('app_pagination', '50'));
         $title      = 'DATA PEMBAYARAN';
         return view('operator.pembayaran_index', compact('models', 'title'));
     }

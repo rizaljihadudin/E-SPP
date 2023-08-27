@@ -191,7 +191,7 @@
                                 <th>Paraf</th>
                                 <th>Keterangan</th>
                             </tr>
-                            @foreach ($tagihan as $item)
+                            @foreach ($kartuSpp as $item)
                             <tr>
                                 <td style="text-align:center">{{ $loop->iteration }}.</td>
                                 <td style="text-align:start;">{{ $item['bulan'] . ' ' . $item['tahun'] }}</td>

@@ -47,7 +47,7 @@ class KartuSppController extends Controller
 
         if(request('output') == 'pdf'){
             $pdf        = Pdf::loadView('kartu_spp', [
-                'tagihan' => collect($arrayData), 
+                'kartuSpp' => collect($arrayData), 
                 'siswa' => $siswa,
                 'title' => $title
             ]);
@@ -56,7 +56,7 @@ class KartuSppController extends Controller
         }
 
         return view('kartu_spp', [
-            'tagihan' => collect($arrayData), 
+            'kartuSpp' => collect($arrayData), 
             'siswa' => $siswa,
             'title' => $title
         ]);

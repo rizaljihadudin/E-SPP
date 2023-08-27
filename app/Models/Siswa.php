@@ -73,9 +73,9 @@ class Siswa extends Model
         });
 
         /** to insert user_id after update on table biayas */
-        static::updating(function (Biaya $siswa) {
-            $siswa->user_id = auth()->user()->id;
-        });
+        // static::updating(function (Biaya $siswa) {
+        //     $siswa->user_id = auth()->user()->id;
+        // });
     }
 
     public function scopeSearch($query, $keyword)

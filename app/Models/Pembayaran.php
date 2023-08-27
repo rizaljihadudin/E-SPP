@@ -7,10 +7,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Pembayaran extends Model
 {
     use HasFactory;
+    use SearchableTrait;
+
+    protected $searchable = [
+        'columns' => [
+            'siswas.nama' => 10,
+            'siswas.nisn' => 10,
+        ],
+        'joins' => [
+            'transaksis' => ['transaksis.id', 'pembayarans.transaksi_id'],
+            'siswas' => ['siswas.id','transaksis.siswa_id']
+        ],
+    ];
+
     protected $fillable = [
         'transaksi_id',
         'wali_id',

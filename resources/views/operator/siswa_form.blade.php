@@ -59,7 +59,7 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="jurusan_id">Jurusan</label>
-                            {!! Form::Select('jurusan_id', $jurusan, null, [
+                            {!! Form::Select('jurusan_id', getListJurusan(), null, [
                                 'class' => 'form-control select2',
                                 'placeholder' => '-- Pilih Jurusan --',
                                 'autofocus',
@@ -68,7 +68,7 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="kelas">Kelas</label>
-                            {!! Form::selectRange('kelas', 1, 6, null, [
+                            {!! Form::selectRange('kelas', 1, 6, $model->kelas ?? null , [
                                 'class' => 'form-control',
                                 'autofocus',
                                 'placeholder' => '-- Pilih Kelas --',

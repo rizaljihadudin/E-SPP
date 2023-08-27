@@ -27,7 +27,7 @@
                         <table class="table table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <td width="15%">STATUS SISWA</td>
+                                    <td width="15%">Status Siswa</td>
                                     <td>:
                                         <span class="badge {{ $model->status == 'aktif' ? 'bg-success' : 'bg-danger' }}">
                                             {{ $model->status }}
@@ -35,7 +35,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="15%">NAMA</td>
+                                    <td width="15%">Nama</td>
                                     <td>: {{ Str::title($model->nama) }}</td>
                                 </tr>
                                 <tr>
@@ -47,23 +47,23 @@
                                     <td>: {{ $model->jurusan->nama_jurusan }}</td>
                                 </tr>
                                 <tr>
-                                    <td>KELAS</td>
+                                    <td>Kelas</td>
                                     <td>: {{ $model->kelas }}</td>
                                 </tr>
                                 <tr>
-                                    <td>ANGKATAN</td>
+                                    <td>Angkatan</td>
                                     <td>: {{ $model->angkatan }}</td>
                                 </tr>
                                 <tr>
-                                    <td>TGL DIBUAT</td>
-                                    <td>: {{ $model->created_at }}</td>
+                                    <td>Created At</td>
+                                    <td>: {{ $model->created_at->format('d-m-Y') }}</td>
                                 </tr>
                                 <tr>
-                                    <td>TGL DIUPDATE</td>
-                                    <td>: {{ $model->updated_at }}</td>
+                                    <td>Last Updated</td>
+                                    <td>: {{ $model->updated_at->format('d-m-Y') }}</td>
                                 </tr>
                                 <tr>
-                                    <td>DIBUAT OLEH</td>
+                                    <td>Updated By</td>
                                     <td>: {{ $model->user->name }}</td>
                                 </tr>
 
@@ -73,8 +73,8 @@
                     <h6 class="mt-3">TAGIHAN SPP</h6>
                     <div class="row">
                         <div class="col-md-5">
-                            <table class="table table-sm table-hover table-bordered mb-3">
-                                <thead>
+                            <table class="{{ config('app.table_style') }}">
+                                <thead class="{{ config('app.thead_style') }}">
                                     <tr>
                                         <th width="3%">NO</th>
                                         <th>ITEM TAGIHAN</th>
@@ -106,7 +106,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 mt-3">
                             <a href="{{ route('status.update', [
                                 'model' => 'siswa',
                                 'id' => $model->id,

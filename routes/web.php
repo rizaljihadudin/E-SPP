@@ -14,6 +14,7 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\PanduanController;
+use App\Http\Controllers\LaporanFormController;
 use App\Http\Controllers\Wali\SiswaController as WaliMuridSiswaController;
 use App\Http\Controllers\Wali\TagihanController as WaliMuridTagihanController;
 use App\Http\Controllers\Wali\PembayaranController as WaliMuridPembayaranController;
@@ -75,6 +76,10 @@ Route::prefix('operator')->middleware(['auth', 'auth.operator'])->group(function
     Route::resource('setting', SettingController::class);
     Route::get('delete-biaya-item/{id}', [BiayaController::class, 'deleteItem'])->name('delete.biaya.item');
     Route::get('status/update', [StatusController::class, 'update'])->name('status.update');
+
+    //Laporan
+    Route::get('laporanform/create', [LaporanFormController::class, 'create'])->name('laporanform.create');
+    Route::get('laporanform/laporan-tagihan', [LaporanFormController::class, 'showLaporanTagihan'])->name('laporanform.show.laporantagihan');
 });
 
 Route::prefix('wali')->middleware(['auth', 'auth.wali'])->name('wali.')->group(function () {

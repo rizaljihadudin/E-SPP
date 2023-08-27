@@ -60,4 +60,12 @@ class User extends Authenticatable
     {
         return $this->siswa->pluck('id')->toArray();
     }
+
+    public function scopeSearch($query, $keyword)
+    {
+        if ($keyword) {
+            return $query->where('name', 'LIKE', '%' . $keyword . '%');
+        }
+        return $query;
+    }
 }
