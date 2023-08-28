@@ -52,7 +52,7 @@
                                 @forelse ($models as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ Str::title($item->wali->name) }}</td>
+                                        <td>{{ Str::title($item->wali->name ?? 'Belum Ada Wali') }}</td>
                                         <td>{{ Str::title($item->nama) }}</td>
                                         <td>{{ $item->nisn }}</td>
                                         <td>{{ $item->jurusan->nama_jurusan }}</td>

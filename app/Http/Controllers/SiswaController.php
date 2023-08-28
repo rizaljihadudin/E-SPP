@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use \App\Models\User;
 use \App\Models\Jurusan;
 use App\Models\Siswa as Model;
+use App\DataTables\SiswaDataTable;
 
 
 
@@ -22,7 +23,7 @@ class SiswaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, SiswaDataTable $dataTable)
     {
         $models = Model::with('wali', 'jurusan')->latest();
 
@@ -36,6 +37,7 @@ class SiswaController extends Controller
             'routePrefix'   => $this->routePrefix
         ];
         return view('operator.' . $this->viewIndex, $data);
+        // return $dataTable->render('operator.siswa_index_yajra');
     }
 
     /**

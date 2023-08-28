@@ -80,6 +80,7 @@ Route::prefix('operator')->middleware(['auth', 'auth.operator'])->group(function
     //Laporan
     Route::get('laporanform/create', [LaporanFormController::class, 'create'])->name('laporanform.create');
     Route::get('laporanform/laporan-tagihan', [LaporanFormController::class, 'showLaporanTagihan'])->name('laporanform.show.laporantagihan');
+    Route::get('laporanform/laporan-pembayaran', [LaporanFormController::class, 'showLaporanPembayaran'])->name('laporanform.show.laporanpembayaran');
 });
 
 Route::prefix('wali')->middleware(['auth', 'auth.wali'])->name('wali.')->group(function () {

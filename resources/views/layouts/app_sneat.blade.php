@@ -221,7 +221,7 @@
                         <a href="{{ route('pembayaran.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-transfer-alt"></i>
                             <div data-i18n="Basic">
-                                Data Pembayaran 
+                                Data Pembayaran
                                 <span class="badge badge-center rounded-pill bg-danger">
                                     {{ auth()->user()->unreadNotifications->count() }}
                                 </span>
@@ -233,7 +233,7 @@
                         <a href="{{ route('laporanform.create') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-transfer-alt"></i>
                             <div data-i18n="Basic">
-                                Laporan Form 
+                                Laporan Form
                             </div>
                         </a>
                     </li>
@@ -505,6 +505,8 @@
     </script>
 
     @yield('js');
+    @vite(['resources/sass/app.scss', 'resources/js/app.js']);
+    @stack('scripts');
 
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>

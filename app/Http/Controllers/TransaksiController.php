@@ -101,7 +101,9 @@ class TransaksiController extends Controller
                 $tagihan = Model::create($dataTagihan);
 
                 $wali    = User::whereIn('id', $siswa->pluck('wali_id'))->get();
-                Notification::send($tagihan->siswa->wali, new TagihanNotification($tagihan));
+                if($tagihan->siswa->wali != null){
+                    Notification::send($tagihan->siswa->wali, new TagihanNotification($tagihan));
+                }
                 $biaya   = $itemSiswa->biaya->children;
                 foreach ($biaya as $itemBiaya) {
                     $detail = TransaksiDetail::create([

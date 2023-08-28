@@ -85,16 +85,19 @@ class PembayaranController extends Controller
             }
         } else {
             if (!$request['wali_bank_id']) {
-                return back()->with('error', 'Silahkan pilih Bank Pengirim!!');
+                flash()->addError('Silahkan pilih Bank Pengirim!!');
+                return back();
             }
             $waliBankId    = $request['wali_bank_id'];
             $waliBank       = WaliBank::findOrFail($waliBankId);
         }
 
         if (!$request['jumlah_bayar']) {
-            return back()->with('error', 'Silahkan masukkan nominal pembayaran!!');
+            flash()->addError('Silahkan masukkan nominal pembayaran!!');
+            return back();
         } elseif (!$request['bukti_bayar']) {
-            return back()->with('error', 'Silahkan upload Bukti Pembayaran!!');
+            flash()->addError('Silahkan upload Bukti Pembayaran!!');
+            return back();
         }
 
         $jumlahBayar = Str::replace([' ', '.', 'Rp'], '', $request['jumlah_bayar']);
@@ -106,7 +109,8 @@ class PembayaranController extends Controller
             //->where('status_konfirmasi', 'belum')
             ->first();
         if ($validasiPembayaran) {
-            return redirect()->back()->with('info', 'Data pembayaran ini sudah ada, dan akan segera di konfirmasi oleh operator');
+            flash()->addInfo('Data pembayaran ini sudah ada, dan akan segera di konfirmasi oleh operator.');
+            return redirect()->back();
         }
 
         // upload bukti pembayaran
@@ -132,20 +136,28 @@ class PembayaranController extends Controller
             'user_id'           => 0
         ];
 
-        DB::beginTransaction();
+        //validasi pembayaran harus lunas
+        $tagihan        = Transaksi::findOrFail($request['tagihan_id']);
+        if($request->jumlah_dibayar < $tagihan->total_tagihan){
+            DB::beginTransaction();
+            try {
+                $pembayaran     = Pembayaran::create($dataPembayaran);
+                $userOperator   = User::where('akses', 'operator')->get();
+                Notification::send($userOperator, new PembayaranNotification($pembayaran));
 
-        try {
-            $pembayaran     = Pembayaran::create($dataPembayaran);
-            $userOperator   = User::where('akses', 'operator')->get();
-            Notification::send($userOperator, new PembayaranNotification($pembayaran));
-
-            DB::commit();
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Gagal menyimpan data pembayaran' . $th->getMessage())->error();
+                DB::commit();
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                flash()->addError('Gagal menyimpan data pembayaran'. $th->getMessage());
+                return redirect()->back();
+            }
+        }else{
+            flash()->addError('Jumlah Pembayaran tidak boleh kurang dari total tagihan.');
+            return back();
         }
 
-        return redirect()->route('wali.pembayaran.show', $pembayaran->id)->with('success', 'berhasil melakukan pembayaran dan akan segera di konfirmasi oleh operator');
+        flash()->addSuccess('berhasil melakukan pembayaran dan akan segera di konfirmasi oleh operator');
+        return redirect()->route('wali.pembayaran.show', $pembayaran->id);
     }
 
     public function validationInput($request)
@@ -174,7 +186,8 @@ class PembayaranController extends Controller
 
         //validasi pembayaran sudah di konfirmasi
         if ($pembayaran->tanggal_konfirmasi) {
-            return redirect()->back()->with('error', 'Data Pembayaran ini sudah dikonfirmasi, tidak bisa dihapus.');
+            flash()->addError('Data Pembayaran ini sudah dikonfirmasi, tidak bisa dihapus.');
+            return redirect()->back();
         }
 
         // jika data pembayaran belum di konfirmasi
@@ -183,6 +196,7 @@ class PembayaranController extends Controller
             File::delete($image_path);
         }
         $pembayaran->delete();
-        return redirect()->route('wali.pembayaran.index')->with('success', 'Berhasil melakukan Pembatalan');
+        flash()->addSuccess('Berhasil melakukan Pembatalan');
+        return redirect()->route('wali.pembayaran.index');
     }
 }

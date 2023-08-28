@@ -39,9 +39,7 @@ class Siswa extends Model
     /** untuk relasi wali_id : wali dari si murid */
     public function wali(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'wali_id')->withDefault([
-            'name' => 'Belum ada wali'
-        ]);
+        return $this->belongsTo(User::class, 'wali_id');
     }
 
     public function jurusan(): BelongsTo
@@ -64,18 +62,18 @@ class Siswa extends Model
     protected static function booted(): void
     {
         /** to insert user_id after create data on table biayas */
-        static::creating(function (Biaya $siswa) {
+        static::creating(function (Siswa $siswa) {
             $siswa->user_id = auth()->user()->id;
         });
 
-        static::created(function (Biaya $siswa) {
+        static::created(function (Siswa $siswa) {
             $siswa->setStatus('aktif');
         });
 
         /** to insert user_id after update on table biayas */
-        // static::updating(function (Biaya $siswa) {
-        //     $siswa->user_id = auth()->user()->id;
-        // });
+        static::updating(function (Siswa $siswa) {
+            $siswa->user_id = auth()->user()->id;
+        });
     }
 
     public function scopeSearch($query, $keyword)

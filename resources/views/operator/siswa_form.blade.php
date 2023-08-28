@@ -68,7 +68,7 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="kelas">Kelas</label>
-                            {!! Form::selectRange('kelas', 1, 6, $model->kelas ?? null , [
+                            {!! Form::selectRange('kelas', 1, 3, $model->kelas ?? null , [
                                 'class' => 'form-control',
                                 'autofocus',
                                 'placeholder' => '-- Pilih Kelas --',
