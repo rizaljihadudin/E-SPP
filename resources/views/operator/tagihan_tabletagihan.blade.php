@@ -17,7 +17,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="2" style="text-align: center">Total Pembayaran</td>
+            <td colspan="2" style="text-align: center">Total Tagihan</td>
             <td>{{ formatRupiah($models->total_tagihan) }}</td>
         </tr>
     </tfoot>

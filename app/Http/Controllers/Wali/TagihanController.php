@@ -14,8 +14,15 @@ class TagihanController extends Controller
 {
     public function index()
     {
-        $tagihan = Transaksi::WaliSiswa()->get();
-        $data['models'] = $tagihan;
+
+        $tagihan        = Transaksi::waliSiswa()->latest();
+
+        #pengkondisian search
+        if(request()->filled('q')){
+            $tagihan = $tagihan->search(request('q'));
+        }
+
+        $data['models'] = $tagihan->get();
         $data['title']  = 'Data Tagihan SPP';
 
         return view('wali.tagihan_index', $data);
@@ -23,7 +30,15 @@ class TagihanController extends Controller
 
     public function show(String $id)
     {
+        if(request('id')){
+            auth()->user()->unreadNotifications->where('id', request('id'))->first()?->markAsRead();
+        }
+
         $tagihan        = Transaksi::WaliSiswa()->findOrFail($id);
+        if($tagihan->status == 'lunas'){
+            $pembayaranId = $tagihan->pembayaran->last()->id;
+            return redirect()->route('wali.pembayaran.show', $pembayaranId);
+        }
         $bankSekolah    = BankSekolah::all();
         $data = [
             'tagihan'       => $tagihan,

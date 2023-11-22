@@ -77,6 +77,34 @@ class Transaksi extends Model
         });
     }
 
+    public function updateStatus()
+    {
+        if($this->total_pembayaran >= $this->total_tagihan){
+            $tanggalBayar = $this->pembayaran()
+                ->orderBy('tanggal_bayar', 'desc')
+                ->first()
+                ->tanggal_bayar;
+            $this->update([
+                'status'        => 'lunas',
+                'tanggal_lunas' => $tanggalBayar
+            ]);
+        }
+
+        if($this->total_pembayaran > 0 && $this->total_pembayaran < $this->total_tagihan){
+            $this->update([
+                'status'        => 'angsuran',
+                'tanggal_lunas' => null
+            ]);
+        }
+
+        if($this->total_pembayaran <= 0){
+            $this->update([
+                'status'        => 'baru',
+                'tanggal_lunas' => null
+            ]);
+        }
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

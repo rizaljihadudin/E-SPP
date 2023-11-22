@@ -196,13 +196,15 @@
 
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                         <!-- Search -->
+                        {!! Form::open(['route' => 'wali.tagihan.index', 'method' => 'GET']) !!}
                         <div class="navbar-nav align-items-center">
                             <div class="nav-item d-flex align-items-center">
                                 <i class="bx bx-search fs-4 lh-0"></i>
-                                <input type="text" class="form-control border-0 shadow-none"
-                                    placeholder="Search..." aria-label="Search..." />
+                                <input name="q" type="text" class="form-control border-0 shadow-none"
+                                    placeholder="Pencarian data..." aria-label="Search..." value="{{ request('q') }}"/>
                             </div>
                         </div>
+                        {!! Form::close() !!}
                         <!-- /Search -->
 
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -317,7 +319,7 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                        <a class="dropdown-item" href="{{ route('custom.logout') }}"
                                             onclick="return confirm('apakah anda ingin logout?')">
                                             <i class="bx bx-power-off me-2"></i>
                                             <span class="align-middle">Log Out</span>

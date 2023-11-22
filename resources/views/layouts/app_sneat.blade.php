@@ -38,14 +38,6 @@
     <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/apex-charts/apex-charts.css') }}" />
 
     <style>
-        .layout-navbar .navbar-dropdown .dropdown-menu {
-            min-width: 22rem;
-        }
-
-        .ps {
-            position: relative;
-        }
-
         .reset {
             all: revert;
         }

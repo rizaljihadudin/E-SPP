@@ -21,6 +21,7 @@ use App\Http\Controllers\Wali\TagihanController as WaliMuridTagihanController;
 use App\Http\Controllers\Wali\PembayaranController as WaliMuridPembayaranController;
 use App\Http\Controllers\Wali\ProfileController as WaliMuridProfileController;
 use App\Http\Controllers\Wali\InvoiceController as InvoiceController;
+use App\Http\Controllers\WaliNotifikasiController;
 use App\Http\Middleware\Wali;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -92,13 +93,15 @@ Route::prefix('wali')->middleware(['auth', 'auth.wali'])->name('wali.')->group(f
     Route::resource('tagihan', WaliMuridTagihanController::class);
     Route::resource('pembayaran', WaliMuridPembayaranController::class);
     Route::resource('profile', WaliMuridProfileController::class);
+    Route::resource('notifikasi', WaliNotifikasiController::class);
 });
 
 Route::prefix('admin')->middleware(['auth', 'auth.admin'])->group(function () {
     /** Route untuk Admin */
 });
 
-// Route::get('logout', function () {
-//     Auth::logout();
-//     return redirect('/');
-// })->name('logout');
+Route::get('logout', function () {
+    Auth::logout();
+    return redirect('login');
+})->name('custom.logout');
+

@@ -49,6 +49,19 @@ class Pembayaran extends Model
 
     protected static function booted(): void
     {
+
+        static::created(function (Pembayaran $pembayaran){
+            $pembayaran->transaksi->updateStatus();
+        });
+
+        static::updated(function (Pembayaran $pembayaran){
+            $pembayaran->transaksi->updateStatus();
+        });
+
+        static::deleted(function (Pembayaran $pembayaran){
+            $pembayaran->transaksi->updateStatus();
+        });
+
         /** to insert user_id after create data on table biayas */
         static::creating(function (Pembayaran $pembayaran) {
             $pembayaran->user_id = auth()->user()->id;

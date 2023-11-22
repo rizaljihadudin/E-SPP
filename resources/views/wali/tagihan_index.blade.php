@@ -20,8 +20,8 @@
                         </div>
                     @endif
                     <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
+                        <table class="{{ config('app.table_style') }}">
+                            <thead class="{{ config('app.thead_style') }}">
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Siswa</th>
@@ -51,7 +51,7 @@
                                             } else {
                                                 $class = 'bg-warning';
                                             }
-                                            
+
                                         @endphp
                                         <td style="text-align: center">
                                             @if ($item->pembayaran->count() >= 1)

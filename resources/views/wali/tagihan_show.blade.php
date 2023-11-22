@@ -38,7 +38,7 @@
                                 </tr>
                                 <tr>
                                     <td>Status Pembayaran</td>
-                                    <td>: 
+                                    <td>:
                                         @if ($tagihan->pembayaran->count() >= 1)
                                             {{ $tagihan->pembayaran->first()->tanggal_konfirmasi ? 'Sudah Dibayar.' : 'Menunggu Konfirmasi.' }}
                                         @else
@@ -132,7 +132,7 @@
                                         'bank_sekolah_id' => $itemBank->id,
                                         'bank_id' => $itemBank->id,
                                     ]) }}"
-                                        class="btn btn-sm btn-primary mt-2">Konfirmasi Pembayaran</a>
+                                        class="btn btn-md btn-primary mt-2">Konfirmasi Pembayaran</a>
                                 </div>
                             </div>
                         @endforeach

@@ -16,7 +16,7 @@ class KartuSppController extends Controller
         if(Auth::user()->akses == 'wali') {
             $siswa = Siswa::where(['wali_id' => Auth::user()->id, 'id' => $request->siswa_id])->firstOrFail();
         }else{
-            $siswa = Siswa::findOrFail($request->siswa_id);
+            $siswa = Siswa::with('transaksi')->findOrFail($request->siswa_id);
         }
 
         $tahun = $request->tahun;
@@ -27,23 +27,23 @@ class KartuSppController extends Controller
             #kondisi jika bulan == 1, maka tahun di tambahkan 1
             ($bulan == 1) ?? $tahun += 1;
 
-            $tagihan = Transaksi::where('siswa_id', $request->siswa_id)
-                ->whereYear('tanggal_tagihan', $tahun)
-                ->whereMonth('tanggal_tagihan', $bulan)
-                ->first();
+            #mencari tagihan berdasarkan siswa, tahun, dan bulan
+            $tagihan = $siswa->transaksi->filter(function ($value) use ($bulan, $tahun) {
+                return $value->tanggal_tagihan->year == $tahun && $value->tanggal_tagihan->month == $bulan;
+            })->first();
 
-                $tanggalBayar = '';
-                if($tagihan != null && $tagihan->status != 'baru'){
-                    $tanggalBayar = $tagihan->pembayaran->first()->tanggal_bayar->format('d/m/Y');
-                }
-                $arrayData[] = [
-                    'bulan'             => namaBulan($bulan),
-                    'tahun'             => $tahun,
-                    'total_tagihan'     => $tagihan->total_tagihan ?? 0,
-                    'status'            => ($tagihan == null ) ? false : true,
-                    'status_pembayaran' => ($tagihan == null) ? 'Belum Bayar' : $tagihan->status,
-                    'tanggal_bayar'     => $tanggalBayar
-                ];
+            $tanggalBayar = '';
+            if($tagihan != null && $tagihan->status != 'baru'){
+                $tanggalBayar = $tagihan->pembayaran->first()->tanggal_bayar->format('d/m/Y');
+            }
+            $arrayData[] = [
+                'bulan'             => namaBulan($bulan),
+                'tahun'             => $tahun,
+                'total_tagihan'     => $tagihan->total_tagihan ?? 0,
+                'status'            => ($tagihan == null ) ? false : true,
+                'status_pembayaran' => ($tagihan == null) ? 'Belum Bayar' : $tagihan->status,
+                'tanggal_bayar'     => $tanggalBayar
+            ];
         }
         $title = 'Kartu SPP';
 

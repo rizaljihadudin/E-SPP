@@ -11,9 +11,7 @@ use Nicolaslopezj\Searchable\SearchableTrait;
 
 class PembayaranController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index(Request $request)
     {
         $models     = Pembayaran::latest()->orderBy('tanggal_konfirmasi', 'desc');
@@ -43,17 +41,13 @@ class PembayaranController extends Controller
         return view('operator.pembayaran_index', compact('models', 'title'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(StorePembayaranRequest $request)
     {
         $requestData = $request->validated();
@@ -63,17 +57,15 @@ class PembayaranController extends Controller
         #cek jumlah tagihan
         $tagihan = Transaksi::findOrFail($requestData['transaksi_id']);
         $requestData['wali_id'] = $tagihan->siswa->wali_id ?? 0;
-        $totalDibayar           = $tagihan->pembayaran->sum('jumlah_dibayar') + $requestData['jumlah_dibayar'];
-        if ($totalDibayar >= $tagihan->total_tagihan) {
-            $tagihan->status = 'lunas';
-            $tagihan->tanggal_lunas = now();
-        } else {
-            $tagihan->status = 'angsuran';
-        }
-        $tagihan->save();
+
+        #simpan pembayaran
         $pembayaran = Pembayaran::create($requestData);
+
+        #kirim notifikasi ke wali murid
         $wali = $pembayaran->wali;
-        $wali->notify(new PembayaranKonfirmasiNotification($pembayaran));
+        if($wali){
+            $wali->notify(new PembayaranKonfirmasiNotification($pembayaran));
+        }
         flash()->addSuccess('Data Pembayaran berhasil di simpan.');
         return  redirect()->back();
     }
@@ -108,15 +100,13 @@ class PembayaranController extends Controller
         $pembayaran->save();
 
         #update data di tabel transaksis
-        $pembayaran->transaksi->status = 'lunas';
-        $pembayaran->transaksi->tanggal_lunas = $pembayaran->tanggal_bayar;
-        $pembayaran->transaksi->save();
         flash()->addSuccess('Data Pembayaran berhasil di konfirmasi.');
         return  redirect()->back();
     }
 
     public function destroy(Pembayaran $pembayaran)
     {
+        #delete pembayaran
         $pembayaran->delete();
         flash()->addSuccess('Data Pembayaran berhasil di hapus.');
         return  redirect()->back();
