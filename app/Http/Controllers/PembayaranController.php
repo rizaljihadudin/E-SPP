@@ -62,7 +62,9 @@ class PembayaranController extends Controller
 
         #cek jumlah tagihan
         $tagihan = Transaksi::findOrFail($requestData['transaksi_id']);
-        if ($requestData['jumlah_dibayar'] >= $tagihan->transaksiDetails->sum('jumlah_biaya')) {
+        $requestData['wali_id'] = $tagihan->siswa->wali_id ?? 0;
+        $totalDibayar           = $tagihan->pembayaran->sum('jumlah_dibayar') + $requestData['jumlah_dibayar'];
+        if ($totalDibayar >= $tagihan->total_tagihan) {
             $tagihan->status = 'lunas';
             $tagihan->tanggal_lunas = now();
         } else {
@@ -72,7 +74,8 @@ class PembayaranController extends Controller
         $pembayaran = Pembayaran::create($requestData);
         $wali = $pembayaran->wali;
         $wali->notify(new PembayaranKonfirmasiNotification($pembayaran));
-        return  redirect()->back()->with('success', 'Data Pembayaran berhasil di simpan.');
+        flash()->addSuccess('Data Pembayaran berhasil di simpan.');
+        return  redirect()->back();
     }
 
     public function show(Pembayaran $pembayaran)
@@ -108,14 +111,14 @@ class PembayaranController extends Controller
         $pembayaran->transaksi->status = 'lunas';
         $pembayaran->transaksi->tanggal_lunas = $pembayaran->tanggal_bayar;
         $pembayaran->transaksi->save();
-        return  redirect()->back()->with('success', 'Data Pembayaran berhasil di konfirmasi.');
+        flash()->addSuccess('Data Pembayaran berhasil di konfirmasi.');
+        return  redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Pembayaran $pembayaran)
     {
-        //
+        $pembayaran->delete();
+        flash()->addSuccess('Data Pembayaran berhasil di hapus.');
+        return  redirect()->back();
     }
 }

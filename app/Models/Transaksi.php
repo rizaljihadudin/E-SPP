@@ -48,13 +48,19 @@ class Transaksi extends Model
     ];
 
     protected $with     = ['user', 'siswa', 'transaksiDetails'];
-    protected $append   = ['total_tagihan'];
+    protected $append   = ['total_tagihan', 'total_pembayaran'];
 
     protected function totalTagihan(): Attribute
     {
-        //dd($this->nama_biaya);
         return Attribute::make(
             get: fn ($value) => $this->transaksiDetails->sum('jumlah_biaya'),
+        );
+    }
+
+    protected function totalPembayaran(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $this->pembayaran->sum('jumlah_dibayar'),
         );
     }
 

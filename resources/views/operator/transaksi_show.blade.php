@@ -30,30 +30,7 @@
                     DATA TAGIHAN {{ strtoupper($periode) }}
                 </h5>
                 <div class="card-body">
-                    <table class="{{ config('app.table_style') }}">
-                        <thead class="{{ config('app.thead_style') }}">
-                            <tr>
-                                <th>No</th>
-                                <th>NAMA TAGIHAN</th>
-                                <th>JUMLAH TAGIHAN</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-border-bottom-0">
-                            @foreach ($models->transaksiDetails as $item)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ \Str::title($item->nama_biaya) }}</td>
-                                    <td>{{ formatRupiah($item->jumlah_biaya) }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="2" style="text-align: center">Total Pembayaran</td>
-                                <td>{{ formatRupiah($models->transaksiDetails->sum('jumlah_biaya')) }}</td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                    @include('operator.tagihan_tabletagihan')
                     <a href="{{ route('invoice.show', Crypt::encrypt($models->id)) }}" target="blank">
                         <i class="fa fa-file-pdf"></i> Download Invoice
                     </a>
@@ -67,25 +44,43 @@
                     <table class="{{ config('app.table_style') }}">
                         <thead class="{{ config('app.thead_style') }}">
                             <tr>
-                                <th width="1%">#</th>
-                                <th>TANGGAL</th>
-                                <th>JUMLAH</th>
-                                <th>METODE</th>
+                                <th width="10%">TANGGAL</th>
+                                <th width="10%">METODE</th>
+                                <th width="60%" class="text-end">JUMLAH</th>
+                                <th width="20%">#</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($models->pembayaran as $item)
                                 <tr>
-                                    <td>
-                                        <a href="{{ route('kwitansipembayaran.print', Crypt::encrypt($item->id)) }}" target="_blank"><i
-                                                class="fa fa-print"></i></a>
-                                    </td>
                                     <td>{{ $item->tanggal_bayar->translatedFormat('d/m/Y') }}</td>
-                                    <td>{{ formatRupiah($item->jumlah_dibayar) }}</td>
                                     <td>{{ $item->metode_pembayaran }}</td>
+                                    <td class="text-end">{{ formatRupiah($item->jumlah_dibayar) }}</td>
+                                    <td>
+                                        {!! Form::open([
+                                            'route' => ['pembayaran.destroy', $item->id],
+                                            'method' => 'DELETE',
+                                            'title' => 'Hapus Data',
+                                            'onsubmit' => 'return confirm("Apakah anda yakin, ingin menghapus data ini?")',
+                                        ]) !!}
+                                        <a href="{{ route('kwitansipembayaran.print', Crypt::encrypt($item->id)) }}" target="_blank">
+                                            <i class="fa fa-print"></i>
+                                        </a>
+                                        <button class="btn btn-icon btn-danger btn-xs">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                        {!! Form::close() !!}
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2" class="text-start">Total Pembayaran</td>
+                                <td class="text-end">{{ formatRupiah($models->total_pembayaran) }}</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
                     </table>
                     <h5 class="mt-2">Status Pembayaran : {{ strtoupper($models->status) }}</h5>
                 </div>
