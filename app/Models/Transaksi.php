@@ -43,11 +43,12 @@ class Transaksi extends Model
 
     protected $casts = [
         'tanggal_tagihan'       => 'date',
-        'tanggal_jatuh_tempo'   => 'date'
+        'tanggal_jatuh_tempo'   => 'date',
+        'tanggal_lunas'         => 'date'
     ];
 
-    protected $with = ['user', 'siswa', 'transaksiDetails'];
-    protected $append = ['total_tagihan'];
+    protected $with     = ['user', 'siswa', 'transaksiDetails'];
+    protected $append   = ['total_tagihan'];
 
     protected function totalTagihan(): Attribute
     {

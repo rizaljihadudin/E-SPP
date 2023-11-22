@@ -57,15 +57,14 @@ class PembayaranController extends Controller
     public function store(StorePembayaranRequest $request)
     {
         $requestData = $request->validated();
-        
-        //$requestData['status_konfirmasi']   = 'sudah';
         $requestData['tanggal_konfirmasi']  = now();
-        $requestData['metode_pembayaran']   = 'manual';         
+        $requestData['metode_pembayaran']   = 'manual';
 
-        /** cek jumlah tagihan */
+        #cek jumlah tagihan
         $tagihan = Transaksi::findOrFail($requestData['transaksi_id']);
         if ($requestData['jumlah_dibayar'] >= $tagihan->transaksiDetails->sum('jumlah_biaya')) {
             $tagihan->status = 'lunas';
+            $tagihan->tanggal_lunas = now();
         } else {
             $tagihan->status = 'angsuran';
         }
@@ -76,12 +75,9 @@ class PembayaranController extends Controller
         return  redirect()->back()->with('success', 'Data Pembayaran berhasil di simpan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Pembayaran $pembayaran)
     {
-        // untuk melakukan update notifikasi
+        # untuk melakukan update notifikasi
         auth()->user()->unreadNotifications->where('id', request('id'))->first()?->markAsRead();
         $data = [
             'model'     => $pembayaran,
@@ -93,29 +89,24 @@ class PembayaranController extends Controller
         return view('operator.pembayaran_show', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Pembayaran $pembayaran)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, Pembayaran $pembayaran)
     {
-        // untuk update data di tabel pembayarans
-
+        #untuk update data di tabel pembayarans
         $wali = $pembayaran->wali;
         $wali->notify(new PembayaranKonfirmasiNotification($pembayaran));
         $pembayaran->tanggal_konfirmasi = now();
         $pembayaran->user_id = auth()->user()->id;
         $pembayaran->save();
 
-        //update data di tabel transaksis
+        #update data di tabel transaksis
         $pembayaran->transaksi->status = 'lunas';
+        $pembayaran->transaksi->tanggal_lunas = $pembayaran->tanggal_bayar;
         $pembayaran->transaksi->save();
         return  redirect()->back()->with('success', 'Data Pembayaran berhasil di konfirmasi.');
     }

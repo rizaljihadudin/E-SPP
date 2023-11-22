@@ -91,7 +91,7 @@
                                             } elseif ($item->status == 'angsuran') {
                                                 $class = 'bg-warning';
                                             }
-                                            
+
                                         @endphp
 
                                         <td><span class="badge {{ $class }}">{{ $item->status }}</span></td>

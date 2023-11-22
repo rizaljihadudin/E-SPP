@@ -22,7 +22,7 @@ class SiswaController extends Controller
         $data['model']  = Siswa::with('jurusan', 'biaya')
                             ->where(
                                 [
-                                    'id' => $id, 
+                                    'id' => $id,
                                     'wali_id' => Auth::user()->id
                                 ])
                             ->firstOrFail();

@@ -54,8 +54,8 @@
                             </tr>
                         </tfoot>
                     </table>
-                    <a href="{{ route('invoice.show', Crypt::encrypt($models->id)) }}" target="blank"> 
-                        <i class="fa fa-file-pdf"></i> Download Invoice 
+                    <a href="{{ route('invoice.show', Crypt::encrypt($models->id)) }}" target="blank">
+                        <i class="fa fa-file-pdf"></i> Download Invoice
                     </a>
                 </div>
             </div>
@@ -118,7 +118,7 @@
                     </div>
                     <div class="form-group mb-2">
                         <label for="jumlah_dibayar">Jumlah Bayar</label>
-                        {!! Form::text('jumlah_dibayar', null, [
+                        {!! Form::text('jumlah_dibayar', $models->total_tagihan, [
                             'class' => 'form-control',
                             'autofocus',
                             'placeholder' => 'Masukkan nilai pembayaran',
@@ -126,9 +126,11 @@
                         ]) !!}
                         <span class="text-danger">{{ $errors->first('jumlah_dibayar') }}</span>
                     </div>
-                    {!! Form::submit('SIMPAN', [
-                        'class' => 'btn btn-success',
-                    ]) !!}
+                    @if ($models->status != 'lunas')
+                        {!! Form::submit('SIMPAN', [
+                            'class' => 'btn btn-success'
+                        ]) !!}
+                    @endif
                     {!! Form::close() !!}
                 </div>
             </div>

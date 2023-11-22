@@ -182,9 +182,9 @@
             const newWindow = window.open(url, title,
                 `
       scrollbars=yes,
-      width=${w / systemZoom}, 
-      height=${h / systemZoom}, 
-      top=${top}, 
+      width=${w / systemZoom},
+      height=${h / systemZoom},
+      top=${top},
       left=${left}
       `
             )

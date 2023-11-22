@@ -23,6 +23,8 @@ class KartuSppController extends Controller
         $arrayData = [];
 
         foreach(bulanSPP() as $bulan){
+
+            #kondisi jika bulan == 1, maka tahun di tambahkan 1
             ($bulan == 1) ?? $tahun += 1;
 
             $tagihan = Transaksi::where('siswa_id', $request->siswa_id)
@@ -47,7 +49,7 @@ class KartuSppController extends Controller
 
         if(request('output') == 'pdf'){
             $pdf        = Pdf::loadView('kartu_spp', [
-                'kartuSpp' => collect($arrayData), 
+                'kartuSpp' => collect($arrayData),
                 'siswa' => $siswa,
                 'title' => $title
             ]);
@@ -56,7 +58,7 @@ class KartuSppController extends Controller
         }
 
         return view('kartu_spp', [
-            'kartuSpp' => collect($arrayData), 
+            'kartuSpp' => collect($arrayData),
             'siswa' => $siswa,
             'title' => $title
         ]);

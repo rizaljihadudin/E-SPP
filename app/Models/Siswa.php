@@ -54,10 +54,11 @@ class Siswa extends Model
         return $this->belongsTo(Biaya::class, 'biaya_id');
     }
 
-    public function transaksi(): BelongsTo
+    public function transaksi()
     {
-        return $this->belongsTo(Transaksi::class, 'id');
+        return $this->hasMany(Transaksi::class);
     }
+
 
     protected static function booted(): void
     {

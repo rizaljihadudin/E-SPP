@@ -138,7 +138,7 @@ class PembayaranController extends Controller
 
         //validasi pembayaran harus lunas
         $tagihan        = Transaksi::findOrFail($request['tagihan_id']);
-        if($request->jumlah_dibayar < $tagihan->total_tagihan){
+        if($jumlahBayar <= $tagihan->total_tagihan){
             DB::beginTransaction();
             try {
                 $pembayaran     = Pembayaran::create($dataPembayaran);

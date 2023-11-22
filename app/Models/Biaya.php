@@ -26,7 +26,7 @@ class Biaya extends Model
     {
         return Attribute::make(
             get: fn ($value) => strtoupper($this->nama_biaya . ' - ' . formatRupiah($this->jumlah)),
-            #set: fn ($value) => strtolower($value), 
+            #set: fn ($value) => strtolower($value),
         );
     }
 

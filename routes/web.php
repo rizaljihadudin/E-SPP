@@ -15,6 +15,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\PanduanController;
 use App\Http\Controllers\LaporanFormController;
+use App\Http\Controllers\LaporanRekapPembayaran;
 use App\Http\Controllers\Wali\SiswaController as WaliMuridSiswaController;
 use App\Http\Controllers\Wali\TagihanController as WaliMuridTagihanController;
 use App\Http\Controllers\Wali\PembayaranController as WaliMuridPembayaranController;
@@ -79,8 +80,9 @@ Route::prefix('operator')->middleware(['auth', 'auth.operator'])->group(function
 
     //Laporan
     Route::get('laporanform/create', [LaporanFormController::class, 'create'])->name('laporanform.create');
-    Route::get('laporanform/laporan-tagihan', [LaporanFormController::class, 'showLaporanTagihan'])->name('laporanform.show.laporantagihan');
-    Route::get('laporanform/laporan-pembayaran', [LaporanFormController::class, 'showLaporanPembayaran'])->name('laporanform.show.laporanpembayaran');
+    Route::get('laporan-tagihan', [LaporanFormController::class, 'showLaporanTagihan'])->name('laporanform.show.laporantagihan');
+    Route::get('laporan-pembayaran', [LaporanFormController::class, 'showLaporanPembayaran'])->name('laporanform.show.laporanpembayaran');
+    Route::get('laporan-rekap-pembayaran', [LaporanRekapPembayaran::class, 'index'])->name('laporanrekappembayaran.index');
 });
 
 Route::prefix('wali')->middleware(['auth', 'auth.wali'])->name('wali.')->group(function () {
@@ -96,7 +98,7 @@ Route::prefix('admin')->middleware(['auth', 'auth.admin'])->group(function () {
     /** Route untuk Admin */
 });
 
-Route::get('logout', function () {
-    Auth::logout();
-    return redirect('/');
-})->name('logout');
+// Route::get('logout', function () {
+//     Auth::logout();
+//     return redirect('/');
+// })->name('logout');
