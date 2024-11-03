@@ -111,9 +111,9 @@
             .button {
                 background-color:rgb(15, 97, 230);
                 color: #fff;
-                border:none; 
+                border:none;
                 padding:8px;
-                min-height:30px; 
+                min-height:30px;
                 min-width: 120px;
                 text-decoration: none;
             }

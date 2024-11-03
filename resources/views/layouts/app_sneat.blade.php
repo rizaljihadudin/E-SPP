@@ -14,28 +14,28 @@
 
     <meta name="description" content="" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('sneat/assets/img/favicon/favicon.ico') }}" />
+      <!-- Favicon -->
+      <link rel="icon" type="image/x-icon" href="{{ asset('sneat/assets/img/favicon/favicon.ico') }}" />
 
-    <!-- Fonts -->
-    <link rel="stylesheet" href="{{ asset('font/css/all.min.css') }}">
+      <!-- Fonts -->
+      <link rel="stylesheet" href="{{ asset('font/css/all.min.css') }}">
 
 
-    <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/fonts/boxicons.css') }}" />
+      <!-- Icons. Uncomment required icon fonts -->
+      <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/fonts/boxicons.css') }}" />
 
-    <!-- Core CSS -->
-    <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/css/core.css') }}"
-        class="template-customizer-core-css" />
-    <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/css/theme-default.css') }}"
-        class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="{{ asset('sneat/assets/css/demo.css') }}" />
+      <!-- Core CSS -->
+      <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/css/core.css') }}"
+          class="template-customizer-core-css" />
+      <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/css/theme-default.css') }}"
+          class="template-customizer-theme-css" />
+      <link rel="stylesheet" href="{{ asset('sneat/assets/css/demo.css') }}" />
 
-    <!-- Vendors CSS -->
-    <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
-    <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/select2/select2.css') }}" />
+      <!-- Vendors CSS -->
+      <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+      <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/select2/select2.css') }}" />
 
-    <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/apex-charts/apex-charts.css') }}" />
+      <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/apex-charts/apex-charts.css') }}" />
 
     <style>
         .reset {
@@ -159,6 +159,9 @@
                             <div data-i18n="Analytics">Dashboard</div>
                         </a>
                     </li>
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">DATA MASTER</span>
+                    </li>
                     <!--- Setting -->
                     <li class="menu-item {{ \Route::is('setting.*') ? 'active' : '' }}">
                         <a href="{{ route('setting.create') }}" class="menu-link">
@@ -200,6 +203,10 @@
                             <i class="menu-icon tf-icons bx bx-money"></i>
                             <div data-i18n="Basic">Data Biaya</div>
                         </a>
+                    </li>
+
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">DATA TRANSAKSI</span>
                     </li>
                     <!-- Data Transaksi -->
                     <li class="menu-item {{ \Route::is('transaksi.*') ? 'active' : '' }}">
@@ -282,7 +289,7 @@
                                                 title="Mark all as read"><i class="bx fs-4 bx-envelope-open"></i></a>
                                         </div>
                                     </li>
-                                    <li class="dropdown-notifications-list scrollable-container ps">
+                                    <li class="dropdown-notifications-list scrollable-container">
                                         <ul class="list-group list-group-flush">
                                             @foreach (auth()->user()->unreadNotifications as $notification)
                                                 <li
@@ -486,15 +493,6 @@
 
     <!-- Page JS -->
     <script src="{{ asset('sneat/assets/js/dashboards-analytics.js') }}"></script>
-
-    <script>
-        const ps = new
-        PerfectScrollbar('.ps', {
-            wheelSpeed: 2,
-            wheelPropagation: true,
-            minScrollbarLength: 20
-        });
-    </script>
 
     @yield('js');
     @vite(['resources/sass/app.scss', 'resources/js/app.js']);
